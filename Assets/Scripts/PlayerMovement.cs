@@ -15,9 +15,12 @@ public class PlayerMovement : MonoBehaviour {
     //public KeyCode RotateLeftKey;
     //public KeyCode RotateRightKey;
 
+    private TriggerHandler _triggerHandler;
+
     private Vector3 _preHidingPos;
 
     private void Start () {
+        _triggerHandler = this.gameObject.GetComponent<TriggerHandler>();
 	}
 
     //private void OnTriggerEnter(Collider other)
@@ -28,6 +31,11 @@ public class PlayerMovement : MonoBehaviour {
     public void HideAt(GameObject HidingSpot){
         _preHidingPos = PlayerBody.position;
         PlayerBody.position = HidingSpot.transform.position;
+    }
+
+    public void HideAt(Vector3 HidingLocation){
+        _preHidingPos = PlayerBody.position;
+        PlayerBody.position = HidingLocation;
     }
 
     public void StopHiding(){
@@ -42,6 +50,8 @@ public class PlayerMovement : MonoBehaviour {
 
     private void GetKeyboardInput()
     {
+        //if(_triggerHandler.I)
+
         if (Input.GetKey(ForwardKey))
         {
             PlayerBody.AddRelativeForce(Vector3.forward, ForceMode.VelocityChange);

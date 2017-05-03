@@ -23,32 +23,38 @@ public class TriggerHandler : MonoBehaviour {
         _playerMovement = this.gameObject.GetComponent<PlayerMovement>();
 	}
 
-    private void OnTriggerStay(Collider other){
-        if (_isHiding) return;
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Button")){
+            _inButtonRange = true;
+        }
 
+        if (other.gameObject.CompareTag("HidingSpot")){
+            _inHidingRange = true;
+            _nearestHidingSpot = other.gameObject;
+        }
+    }
+
+    private void OnTriggerStay(Collider other){
         if (IsLightPlayer){
             _isInDarkArea = false;
         }
         else {
             _playerStats.PlayerHealth -= 0.1f;
         }
-
-        if (other.gameObject.CompareTag("Button"))
-        {
-            _inButtonRange = true;
-        }
-
-        if (other.gameObject.CompareTag("HidingSpot"))
-        {
-            _inHidingRange = true;
-            _nearestHidingSpot = other.gameObject;
-        }
-
     }
 
     private void OnTriggerExit(Collider other){
         if (IsLightPlayer){
             _isInDarkArea = true;
+        }
+
+        if (other.gameObject.CompareTag("Button")){
+            _inButtonRange = false;
+        }
+
+        if (other.gameObject.CompareTag("HidingSpot")){
+            _inHidingRange = false;
         }
     }
 
@@ -60,11 +66,11 @@ public class TriggerHandler : MonoBehaviour {
             }
         }
 
-        if (Input.GetKeyDown(InteractionKey))
-        {
+        if (Input.GetKeyDown(InteractionKey)){
             if (_isHiding){
                 _playerMovement.StopHiding();
                 _isHiding = false;
+                _inHidingRange = false;
                 return;
             }
 
@@ -74,12 +80,14 @@ public class TriggerHandler : MonoBehaviour {
 
             if (_inHidingRange)
             {
-                _playerMovement.HideAt(_nearestHidingSpot);
+                if (IsLightPlayer){
+                    _playerMovement.HideAt(_nearestHidingSpot.GetComponent<HidingAnchor>().LightLocation);
+                }
+                else{
+                    _playerMovement.HideAt(_nearestHidingSpot.GetComponent<HidingAnchor>().DarkLocation);
+                }
                 _isHiding = true;
             }
         }
-
-        _inHidingRange = false;
-        _inButtonRange = false;
     }
 }
