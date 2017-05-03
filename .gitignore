@@ -2,7 +2,7 @@ Temp/
 Library/
 Obj/
 
-*.csprof
+*.csproj
 *.unityproj
 *.sln
 *.user
