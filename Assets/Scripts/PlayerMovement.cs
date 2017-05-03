@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour {
     public KeyCode MoveLeftKey;
     public KeyCode MoveRightKey;
     public KeyCode Crouch;
+    //Should be either 1 or 2. 
+    public string controllerNumber = "1";
     //public KeyCode RotateLeftKey;
     //public KeyCode RotateRightKey;
 
@@ -33,36 +35,52 @@ public class PlayerMovement : MonoBehaviour {
     }
 	
 	private void FixedUpdate () {
-        if (Input.GetKey(ForwardKey)){
-            PlayerBody.AddRelativeForce(Vector3.forward, ForceMode.VelocityChange);           
+        GetKeyboardInput();
+        GetControllerInput();
+
+    }
+
+    private void GetKeyboardInput()
+    {
+        if (Input.GetKey(ForwardKey))
+        {
+            PlayerBody.AddRelativeForce(Vector3.forward, ForceMode.VelocityChange);
         }
 
-        if (Input.GetKey(BackwardKey)){
+        if (Input.GetKey(BackwardKey))
+        {
             PlayerBody.AddRelativeForce(Vector3.back, ForceMode.VelocityChange);
         }
 
-        if (Input.GetKey(MoveLeftKey)){
+        if (Input.GetKey(MoveLeftKey))
+        {
             PlayerBody.AddRelativeForce(Vector3.left, ForceMode.VelocityChange);
         }
 
-        if (Input.GetKey(MoveRightKey)){
+        if (Input.GetKey(MoveRightKey))
+        {
             PlayerBody.AddRelativeForce(Vector3.right, ForceMode.VelocityChange);
         }
 
-        if (Input.GetKeyDown(Crouch)){
+        if (Input.GetKeyDown(Crouch))
+        {
             PlayerBody.position = new Vector3(PlayerBody.position.x, -0.1f, PlayerBody.position.z);
         }
 
-        if (Input.GetKeyUp(Crouch)){
+        if (Input.GetKeyUp(Crouch))
+        {
             PlayerBody.position = new Vector3(PlayerBody.position.x, 1, PlayerBody.position.z);
         }
+    }
 
-        //if (Input.GetKey(RotateLeftKey)){
-        //    PlayerBody.AddRelativeForce(Vector3.forward, ForceMode.Acceleration);
-        //}
-
-        //if (Input.GetKey(RotateRightKey)){
-        //    PlayerBody.AddRelativeForce(Vector3.forward, ForceMode.Acceleration);
-        //}
+    private void GetControllerInput()
+    {
+        float leftStickX = Input.GetAxis("C" + controllerNumber + "LSX");
+        float leftStickY = Input.GetAxis("C" + controllerNumber + "LSY");
+        float rightStickX = Input.GetAxis("C" + controllerNumber + "RSX");
+        float rightStickY = Input.GetAxis("C" + controllerNumber + "RSY");
+        PlayerBody.AddRelativeForce(new Vector3(leftStickX, 0, leftStickY), ForceMode.VelocityChange);
+        gameObject.transform.Rotate(new Vector3(0, 1, 0), rightStickX);
+        
     }
 }
