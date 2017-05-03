@@ -11,8 +11,12 @@ public class TriggerHandler : MonoBehaviour {
     private PlayerMovement _playerMovement;
     private PlayerStats _playerStats;
 
+    private GameObject _nearestHidingSpot;
+
     private bool _isInDarkArea = true;
     private bool _isHiding = false;
+    private bool _inButtonRange = false;
+    private bool _inHidingRange = false;
 
 	private void Awake () {
         _playerStats = this.gameObject.GetComponent<PlayerStats>();
@@ -31,18 +35,13 @@ public class TriggerHandler : MonoBehaviour {
 
         if (other.gameObject.CompareTag("Button"))
         {
-            if (Input.GetKeyDown(InteractionKey)){
-                print(this.gameObject.name + ": Button Pressed: " + other.gameObject.tag);
-            }
+            _inButtonRange = true;
         }
 
         if (other.gameObject.CompareTag("HidingSpot"))
         {
-            if (Input.GetKeyDown(InteractionKey)){
-                print(this.gameObject.name + ": Button Pressed: " + other.gameObject.tag);
-                _playerMovement.HideAt(other.gameObject);
-                _isHiding = true;
-            }
+            _inHidingRange = true;
+            _nearestHidingSpot = other.gameObject;
         }
 
     }
@@ -61,11 +60,26 @@ public class TriggerHandler : MonoBehaviour {
             }
         }
 
-        if (_isHiding){
-            if (Input.GetKeyDown(InteractionKey)){
+        if (Input.GetKeyDown(InteractionKey))
+        {
+            if (_isHiding){
                 _playerMovement.StopHiding();
                 _isHiding = false;
+                return;
+            }
+
+            if (_inButtonRange){
+                print("Button Pressed");
+            }
+
+            if (_inHidingRange)
+            {
+                _playerMovement.HideAt(_nearestHidingSpot);
+                _isHiding = true;
             }
         }
+
+        _inHidingRange = false;
+        _inButtonRange = false;
     }
 }
