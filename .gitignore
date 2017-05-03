@@ -1,0 +1,10 @@
+$PROJDIR/Temp/
+$PROJDIR/Library/
+$PROJDIR/Obj/
+
+*.csprof
+*.unityproj
+*.sln
+*.user
+*.userprefs
+*.DS_store
