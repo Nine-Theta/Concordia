@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour {
 
-    bool gameOver = false;
+    private bool gameOver = false;
     public Scrollbar lifebar;
     //Serialize Field shows item in the inspector even if it's private
     [SerializeField]

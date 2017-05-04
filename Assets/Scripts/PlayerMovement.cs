@@ -16,18 +16,19 @@ public class PlayerMovement : MonoBehaviour {
 
     private TriggerHandler _triggerHandler;
     private Rigidbody _playerBody;
-
+    private bool _canMove = true;
     private Vector3 _preHidingPos;
+
+    public bool canMove
+    {
+        get { return _canMove; }
+        set { _canMove = value; }
+    }
 
     private void Start () {
         _triggerHandler = this.gameObject.GetComponent<TriggerHandler>();
         _playerBody = this.gameObject.GetComponent<Rigidbody>();
 	}
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-
-    //}
 
     public void HideAt(GameObject HidingSpot){
         _preHidingPos = _playerBody.position;
@@ -51,8 +52,8 @@ public class PlayerMovement : MonoBehaviour {
 
     private void GetKeyboardInput()
     {
-        //if(_triggerHandler.I)
-
+        if (!_canMove)
+            return;
         if (Input.GetKey(forwardKey))
         {
             _playerBody.AddRelativeForce(Vector3.forward, ForceMode.VelocityChange);
@@ -86,6 +87,8 @@ public class PlayerMovement : MonoBehaviour {
 
     private void GetControllerInput()
     {
+        if (!_canMove)
+            return;
         float leftStickX = Input.GetAxis("C" + controllerNumber + "LSX");
         float leftStickY = Input.GetAxis("C" + controllerNumber + "LSY");
         float rightStickX = Input.GetAxis("C" + controllerNumber + "RSX");
