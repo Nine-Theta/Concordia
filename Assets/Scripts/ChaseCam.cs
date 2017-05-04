@@ -25,12 +25,6 @@ public class ChaseCam : MonoBehaviour {
         {
             cam.transform.position = hit.point;
             cam.transform.localPosition = new Vector3(cam.transform.localPosition.x, idealPos.y, cam.transform.localPosition.z);
-            //cam.transform.rotation = idealRotation;
-            Debug.Log(idealPos);
-        }
-        else
-        {
-            cam.transform.localPosition = idealPos;
         }
     }
 }
