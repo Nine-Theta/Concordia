@@ -19,6 +19,8 @@ public class LightSwitch : MonoBehaviour {
         foreach(GameObject light in lights)
         {
             light.SetActive(!light.activeSelf);
+            //Fix attempt #1: No luck, didn't expect it to work anyway
+            //light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
         }
     }
 }

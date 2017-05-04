@@ -13,18 +13,20 @@ public class ChaseCam : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //Chase();
+        Chase();
 	}
 
     void Chase()
     {
         RaycastHit hit;
-        Ray ray = new Ray(gameObject.transform.position, new Vector3(idealPos.x, idealPos.y, idealPos.z).normalized);
+        cam.transform.localPosition = idealPos;
+        Ray ray = new Ray(gameObject.transform.position, new Vector3(cam.transform.position.x - gameObject.transform.position.x, cam.transform.position.y - gameObject.transform.position.y, cam.transform.position.z - gameObject.transform.position.z).normalized);
         if (Physics.Raycast(ray, out hit, idealPos.magnitude))
         {
             cam.transform.position = hit.point;
+            cam.transform.localPosition = new Vector3(cam.transform.localPosition.x, idealPos.y, cam.transform.localPosition.z);
             //cam.transform.rotation = idealRotation;
-            Debug.Log("Raycast hit");
+            Debug.Log(idealPos);
         }
         else
         {
