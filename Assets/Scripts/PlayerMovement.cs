@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour {
     private Vector3 _preHidingPos;
 
     private bool _canMove = true;
+    private bool _releasedConstraints = false;
 
     private void Start () {
         _triggerHandler = this.gameObject.GetComponent<TriggerHandler>();
@@ -46,10 +47,20 @@ public class PlayerMovement : MonoBehaviour {
     }
 	
 	private void FixedUpdate () {
-        if (_playerStats.GameOver) return;
+        if (_releasedConstraints) return;
+        CheckGameOver();
         GetKeyboardInput();
         GetControllerInput();
+    }
 
+    private void CheckGameOver()
+    {
+        if (_playerStats.GameOver){
+            _playerBody.freezeRotation = false;
+            _playerBody.useGravity = true;
+            _playerBody.AddRelativeTorque(0.9f, 0.75f, 0.9f, ForceMode.Impulse);
+            _releasedConstraints = true;
+        }
     }
 
     private void GetKeyboardInput()
@@ -92,7 +103,5 @@ public class PlayerMovement : MonoBehaviour {
         float leftStickX = Input.GetAxis("C" + controllerNumber + "LSX");
         float leftStickY = Input.GetAxis("C" + controllerNumber + "LSY");
         _playerBody.AddRelativeForce(new Vector3(leftStickX, 0, leftStickY), ForceMode.VelocityChange);
-        
-        
     }
 }
