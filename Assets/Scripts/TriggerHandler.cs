@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class TriggerHandler : MonoBehaviour {
 
-    public KeyCode InteractionKey;
+    public KeyCode interactionKey;
+    public KeyCode alternateInteractionKey;
 
-    public bool IsLightPlayer;
+    public bool isLightPlayer;
 
     private PlayerMovement _playerMovement;
     private PlayerStats _playerStats;
@@ -25,6 +26,11 @@ public class TriggerHandler : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.CompareTag("Light"))
+        {
+            _isInDarkArea = false;
+        }
+
         if (other.gameObject.CompareTag("Button")){
             _inButtonRange = true;
         }
@@ -36,16 +42,12 @@ public class TriggerHandler : MonoBehaviour {
     }
 
     private void OnTriggerStay(Collider other){
-        if (IsLightPlayer){
-            _isInDarkArea = false;
-        }
-        else {
-            _playerStats.PlayerHealth -= 0.1f;
-        }
+        
     }
 
     private void OnTriggerExit(Collider other){
-        if (IsLightPlayer){
+        if (other.gameObject.CompareTag("Light"))
+        {
             _isInDarkArea = true;
         }
 
@@ -58,35 +60,70 @@ public class TriggerHandler : MonoBehaviour {
         }
     }
 
+    /// For the sake of both of our sanity: Please don't fill up the Fixed Update with random lines, just put them in a function if you have to. 
+    /// You know, these things the teachers said about making it clear what you're trying to do so others don't have to spend an hour sifting through your work to see what's happening
     private void FixedUpdate () {
+        AffectPlayer();
+        GetInput();
+    }
 
-        if (IsLightPlayer){
-            if (_isInDarkArea){
-                _playerStats.PlayerHealth -= 0.1f;
-            }
-        }
-
-        if (Input.GetKeyDown(InteractionKey)){
-            if (_isHiding){
+    private void GetInput()
+    {
+        if (Input.GetKeyDown(interactionKey) || Input.GetKeyDown(alternateInteractionKey))
+        {
+            if (_isHiding)
+            {
                 _playerMovement.StopHiding();
                 _isHiding = false;
                 _inHidingRange = false;
                 return;
             }
 
-            if (_inButtonRange){
+            if (_inButtonRange)
+            {
                 print("Button Pressed");
             }
 
             if (_inHidingRange)
             {
-                if (IsLightPlayer){
+                if (isLightPlayer)
+                {
                     _playerMovement.HideAt(_nearestHidingSpot.GetComponent<HidingAnchor>().LightLocation);
                 }
-                else{
+                else
+                {
                     _playerMovement.HideAt(_nearestHidingSpot.GetComponent<HidingAnchor>().DarkLocation);
                 }
                 _isHiding = true;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Hurts the player if they're outside of their element, regenerates otherwise
+    /// </summary>
+    private void AffectPlayer()
+    {
+        if (isLightPlayer)
+        {
+            if (_isInDarkArea && _playerStats.PlayerHealth > 0)
+            {
+                _playerStats.PlayerHealth -= 0.1f;
+            }
+            else if(_playerStats.PlayerHealth > 0 && _playerStats.PlayerHealth < _playerStats.MaxHealth)
+            {
+                _playerStats.PlayerHealth += 0.05f;
+            }
+        }
+        else
+        {
+            if (!_isInDarkArea && _playerStats.PlayerHealth > 0)
+            {
+                _playerStats.PlayerHealth -= 0.1f;
+            }
+            else if (_playerStats.PlayerHealth > 0 && _playerStats.PlayerHealth < _playerStats.MaxHealth)
+            {
+                _playerStats.PlayerHealth += 0.05f;
             }
         }
     }

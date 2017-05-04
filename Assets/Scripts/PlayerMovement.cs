@@ -4,23 +4,24 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
-    public Rigidbody PlayerBody;
-    public KeyCode ForwardKey;
-    public KeyCode BackwardKey;
-    public KeyCode MoveLeftKey;
-    public KeyCode MoveRightKey;
-    public KeyCode Crouch;
+    public KeyCode forwardKey;
+    public KeyCode backwardKey;
+    public KeyCode moveLeftKey;
+    public KeyCode moveRightKey;
+    public KeyCode crouchKey;
     //Should be either 1 or 2. 
     public string controllerNumber = "1";
     //public KeyCode RotateLeftKey;
     //public KeyCode RotateRightKey;
 
     private TriggerHandler _triggerHandler;
+    private Rigidbody _playerBody;
 
     private Vector3 _preHidingPos;
 
     private void Start () {
         _triggerHandler = this.gameObject.GetComponent<TriggerHandler>();
+        _playerBody = this.gameObject.GetComponent<Rigidbody>();
 	}
 
     //private void OnTriggerEnter(Collider other)
@@ -29,17 +30,17 @@ public class PlayerMovement : MonoBehaviour {
     //}
 
     public void HideAt(GameObject HidingSpot){
-        _preHidingPos = PlayerBody.position;
-        PlayerBody.position = HidingSpot.transform.position;
+        _preHidingPos = _playerBody.position;
+        _playerBody.position = HidingSpot.transform.position;
     }
 
     public void HideAt(Vector3 HidingLocation){
-        _preHidingPos = PlayerBody.position;
-        PlayerBody.position = HidingLocation;
+        _preHidingPos = _playerBody.position;
+        _playerBody.position = HidingLocation;
     }
 
     public void StopHiding(){
-        PlayerBody.position = _preHidingPos;
+        _playerBody.position = _preHidingPos;
     }
 	
 	private void FixedUpdate () {
@@ -52,34 +53,34 @@ public class PlayerMovement : MonoBehaviour {
     {
         //if(_triggerHandler.I)
 
-        if (Input.GetKey(ForwardKey))
+        if (Input.GetKey(forwardKey))
         {
-            PlayerBody.AddRelativeForce(Vector3.forward, ForceMode.VelocityChange);
+            _playerBody.AddRelativeForce(Vector3.forward, ForceMode.VelocityChange);
         }
 
-        if (Input.GetKey(BackwardKey))
+        if (Input.GetKey(backwardKey))
         {
-            PlayerBody.AddRelativeForce(Vector3.back, ForceMode.VelocityChange);
+            _playerBody.AddRelativeForce(Vector3.back, ForceMode.VelocityChange);
         }
 
-        if (Input.GetKey(MoveLeftKey))
+        if (Input.GetKey(moveLeftKey))
         {
-            PlayerBody.AddRelativeForce(Vector3.left, ForceMode.VelocityChange);
+            _playerBody.AddRelativeForce(Vector3.left, ForceMode.VelocityChange);
         }
 
-        if (Input.GetKey(MoveRightKey))
+        if (Input.GetKey(moveRightKey))
         {
-            PlayerBody.AddRelativeForce(Vector3.right, ForceMode.VelocityChange);
+            _playerBody.AddRelativeForce(Vector3.right, ForceMode.VelocityChange);
         }
 
-        if (Input.GetKeyDown(Crouch))
+        if (Input.GetKeyDown(crouchKey))
         {
-            PlayerBody.position = new Vector3(PlayerBody.position.x, -0.1f, PlayerBody.position.z);
+            _playerBody.position = new Vector3(_playerBody.position.x, -0.1f, _playerBody.position.z);
         }
 
-        if (Input.GetKeyUp(Crouch))
+        if (Input.GetKeyUp(crouchKey))
         {
-            PlayerBody.position = new Vector3(PlayerBody.position.x, 1, PlayerBody.position.z);
+            _playerBody.position = new Vector3(_playerBody.position.x, 1, _playerBody.position.z);
         }
     }
 
@@ -89,7 +90,7 @@ public class PlayerMovement : MonoBehaviour {
         float leftStickY = Input.GetAxis("C" + controllerNumber + "LSY");
         float rightStickX = Input.GetAxis("C" + controllerNumber + "RSX");
         float rightStickY = Input.GetAxis("C" + controllerNumber + "RSY");
-        PlayerBody.AddRelativeForce(new Vector3(leftStickX, 0, leftStickY), ForceMode.VelocityChange);
+        _playerBody.AddRelativeForce(new Vector3(leftStickX, 0, leftStickY), ForceMode.VelocityChange);
         gameObject.transform.Rotate(new Vector3(0, 1, 0), rightStickX);
         
     }
