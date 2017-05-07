@@ -2,19 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChaseCam : MonoBehaviour {
+public class ChaseCam : MonoBehaviour
+{
     private Vector3 idealPos;
     private GameObject cam;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         cam = gameObject.GetComponentInChildren<Camera>().gameObject;
         idealPos = cam.gameObject.transform.localPosition;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         Chase();
-	}
+    }
 
     void Chase()
     {

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TriggerHandler : MonoBehaviour {
+public class TriggerHandler : MonoBehaviour
+{
 
     public KeyCode interactionKey;
     public KeyCode alternateInteractionKey;
@@ -19,10 +20,11 @@ public class TriggerHandler : MonoBehaviour {
     private bool _inButtonRange = false;
     private bool _inHidingRange = false;
 
-	private void Awake () {
+    private void Awake()
+    {
         _playerStats = this.gameObject.GetComponent<PlayerStats>();
         _playerMovement = this.gameObject.GetComponent<PlayerMovement>();
-	}
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -31,33 +33,39 @@ public class TriggerHandler : MonoBehaviour {
             _isInDarkArea = false;
         }
 
-        if (other.gameObject.CompareTag("Button")){
+        if (other.gameObject.CompareTag("Button"))
+        {
             _inButtonRange = true;
             _nearestInteractable = other.gameObject;
         }
 
-        if (other.gameObject.CompareTag("HidingSpot")){
+        if (other.gameObject.CompareTag("HidingSpot"))
+        {
             _inHidingRange = true;
             _nearestInteractable = other.gameObject;
         }
     }
 
-    private void OnTriggerStay(Collider other){
-        
+    private void OnTriggerStay(Collider other)
+    {
+
     }
 
-    private void OnTriggerExit(Collider other){
+    private void OnTriggerExit(Collider other)
+    {
         if (other.gameObject.CompareTag("Light"))
         {
             _isInDarkArea = true;
         }
 
-        if (other.gameObject.CompareTag("Button")){
+        if (other.gameObject.CompareTag("Button"))
+        {
             _inButtonRange = false;
             _nearestInteractable = null;
         }
 
-        if (other.gameObject.CompareTag("HidingSpot")){
+        if (other.gameObject.CompareTag("HidingSpot"))
+        {
             _inHidingRange = false;
             _nearestInteractable = null;
         }
@@ -65,7 +73,8 @@ public class TriggerHandler : MonoBehaviour {
 
     /// For the sake of both of our sanity: Please don't fill up the Fixed Update with random lines, just put them in a function if you have to. 
     /// You know, these things the teachers said about making it clear what you're trying to do so others don't have to spend an hour sifting through your work to see what's happening
-    private void FixedUpdate () {
+    private void FixedUpdate()
+    {
         AffectPlayer();
         GetInput();
     }
@@ -116,7 +125,7 @@ public class TriggerHandler : MonoBehaviour {
             {
                 _playerStats.PlayerHealth -= 0.1f;
             }
-            else if(_playerStats.PlayerHealth > 0 && _playerStats.PlayerHealth < _playerStats.MaxHealth)
+            else if (_playerStats.PlayerHealth > 0 && _playerStats.PlayerHealth < _playerStats.MaxHealth)
             {
                 _playerStats.PlayerHealth += 0.05f;
             }
