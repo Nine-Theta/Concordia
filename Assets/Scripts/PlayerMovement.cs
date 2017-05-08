@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
+    
     public KeyCode forwardKey;
     public KeyCode backwardKey;
     public KeyCode moveLeftKey;
     public KeyCode moveRightKey;
     public KeyCode crouchKey;
+    public KeyCode findOtherKey;
 
     public string controllerNumber = "1";  //Should be either 1 or 2.
+
+    public GameObject findOtherPlayer;
+    public Transform otherPlayer;
 
     private Rigidbody _playerBody;
     private PlayerStats _playerStats;
@@ -96,6 +100,12 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(crouchKey))
         {
             _playerBody.position = new Vector3(_playerBody.position.x, -0.1f, _playerBody.position.z);
+        }
+
+        if(Input.GetKeyDown(findOtherKey))
+        {
+            GameObject prefab = Instantiate(findOtherPlayer, transform.position, transform.rotation);
+            prefab.GetComponent<TrackOtherHalf>().SetTarget(otherPlayer.transform);
         }
         #region RotationForTesting
         if(Input.GetKey(KeyCode.Q))
