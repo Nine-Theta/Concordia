@@ -48,7 +48,10 @@ public class TriggerHandler : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-
+        if (other.gameObject.CompareTag("Light"))
+        {
+            _isInDarkArea = false;
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -77,6 +80,7 @@ public class TriggerHandler : MonoBehaviour
     {
         AffectPlayer();
         GetInput();
+        PostUpdate();
     }
 
     private void GetInput()
@@ -122,24 +126,21 @@ public class TriggerHandler : MonoBehaviour
         if (isLightPlayer)
         {
             if (_isInDarkArea && _playerStats.PlayerHealth > 0)
-            {
                 _playerStats.PlayerHealth -= 0.1f;
-            }
             else if (_playerStats.PlayerHealth > 0 && _playerStats.PlayerHealth < _playerStats.MaxHealth)
-            {
                 _playerStats.PlayerHealth += 0.05f;
-            }
         }
         else
         {
             if (!_isInDarkArea && _playerStats.PlayerHealth > 0)
-            {
                 _playerStats.PlayerHealth -= 0.1f;
-            }
             else if (_playerStats.PlayerHealth > 0 && _playerStats.PlayerHealth < _playerStats.MaxHealth)
-            {
                 _playerStats.PlayerHealth += 0.05f;
-            }
         }
+    }
+
+    private void PostUpdate()
+    {
+        _isInDarkArea = true;
     }
 }

@@ -22,8 +22,11 @@ public class LightSwitch : MonoBehaviour
         foreach (GameObject light in lights)
         {
             light.SetActive(!light.activeSelf);
+            //Bug: this SetActive triggers OnTriggerEnter but not OnTriggerExit
             //Fix attempt #1: No luck, didn't expect it to work anyway
             //light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
+            //Fix attempt #2: See: LightToggleHandler.cs (it's gone, which should tell you enough about the status on that one)
+            //Fix attempt #3: TriggerHandler's OnTriggerStay and PostUpdate. Works!
         }
     }
 }
