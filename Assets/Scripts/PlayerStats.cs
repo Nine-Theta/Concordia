@@ -9,7 +9,7 @@ public class PlayerStats : MonoBehaviour
     public Scrollbar lifebar;
     public Text GameOverMessage;
 
-    [SerializeField] //Serialize Field shows item in the inspector even if it's private
+    [SerializeField] //Serialize Field shows item in the inspector even if it's private. Shouldn't be accessed by other players but should be in inspector
     private float _playerHealth = 100; //When this drops below 0, the player is considered medically dead.
     private float _maxHealth;
 
