@@ -37,6 +37,6 @@ public class CarHandler : MonoBehaviour {
         else{
             _spawnCooldown -= Time.deltaTime;
         }
-        print(_spawnCooldown);
+        //print(_spawnCooldown);
 	}
 }

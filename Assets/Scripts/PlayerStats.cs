@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
-
     public Scrollbar lifebar;
     public Text GameOverMessage;
+
+    public string[] Inventory = new string[20]; //Does not include a pokernight
+    public string[] NoteData = new string[20];
 
     [SerializeField] //Serialize Field shows item in the inspector even if it's private. Shouldn't be accessed by other players but should be in inspector
     private float _playerHealth = 100; //When this drops below 0, the player is considered medically dead.

@@ -106,8 +106,15 @@ public class TriggerHandler : MonoBehaviour
 
             if (_inNoteRange)
             {
+                if(_nearestInteractable.GetComponent<NoteScript>().NoteID == 404){
+                    print("! NOTE HAS NOT BEEN ASSIGNED AN ID !");
+                    return;
+                }
+
+                _playerStats.Inventory[_nearestInteractable.GetComponent<NoteScript>().NoteID] = ("Note" + _nearestInteractable.GetComponent<NoteScript>().NoteID);
+                _playerStats.NoteData[_nearestInteractable.GetComponent<NoteScript>().NoteID] = _nearestInteractable.GetComponent<NoteScript>().NoteText;
                 Destroy(_nearestInteractable.gameObject);
-                print("Note Collected, TODO: Implement saving collected notes");
+                print("Note"+ _nearestInteractable.GetComponent<NoteScript>().NoteID + " Collected, which contained: " + _playerStats.NoteData[_nearestInteractable.GetComponent<NoteScript>().NoteID]);
             }
 
             if (_inHidingRange)
