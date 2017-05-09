@@ -31,7 +31,7 @@ public class LightSwitch : MonoBehaviour
                 }
                 break;
             case TypeOfSwitch.togglePausePattern:
-                foreach(GameObject light in lights)
+                foreach (GameObject light in lights)
                 {
                     light.GetComponent<PatternLights>().TogglePause();
                 }
@@ -40,7 +40,7 @@ public class LightSwitch : MonoBehaviour
 
                 break;
             case TypeOfSwitch.flickeringPause:
-                foreach(GameObject light in lights)
+                foreach (GameObject light in lights)
                 {
                     light.GetComponent<FlickeringLights>().TogglePause();
                 }

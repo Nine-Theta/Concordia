@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
     public KeyCode forwardKey;
     public KeyCode backwardKey;
     public KeyCode moveLeftKey;
     public KeyCode moveRightKey;
-    public KeyCode crouchKey;
+    public KeyCode rotateRightKey;
+    public KeyCode rotateLeftKey;
+    //public KeyCode crouchKey;
     public KeyCode findOtherKey;
 
     public string controllerNumber = "1";  //Should be either 1 or 2.
@@ -35,14 +36,6 @@ public class PlayerMovement : MonoBehaviour
     {
         get { return _canMove; }
         set { _canMove = value; }
-    }
-
-    public void HideAt(GameObject HidingSpot)
-    {
-        _playerBody.velocity = new Vector3(0, 0, 0);
-        gameObject.GetComponent<CapsuleCollider>().enabled = false;
-        _preHidingPos = _playerBody.position;
-        _playerBody.position = HidingSpot.transform.position;
     }
 
     public void HideAt(Vector3 HidingLocation)
@@ -80,53 +73,49 @@ public class PlayerMovement : MonoBehaviour
 
     private void GetKeyboardInput()
     {
-        if (!_canMove) return;
-
+        #region RotationForTesting
+        if (Input.GetKey(rotateLeftKey))
+        {
+            gameObject.transform.Rotate(new Vector3(0, 1, 0), -1);
+        }
+        if (Input.GetKey(rotateRightKey))
+        {
+            gameObject.transform.Rotate(new Vector3(0, 1, 0), 1);
+        }
+        #endregion
+        if (!_canMove)
+            return;
+        #region KeysAndForce
         if (Input.GetKey(forwardKey))
         {
             _playerBody.AddRelativeForce(Vector3.forward, ForceMode.VelocityChange);
         }
-
         if (Input.GetKey(backwardKey))
         {
             _playerBody.AddRelativeForce(Vector3.back, ForceMode.VelocityChange);
         }
-
         if (Input.GetKey(moveLeftKey))
         {
             _playerBody.AddRelativeForce(Vector3.left, ForceMode.VelocityChange);
         }
-
         if (Input.GetKey(moveRightKey))
         {
             _playerBody.AddRelativeForce(Vector3.right, ForceMode.VelocityChange);
         }
-
-        if (Input.GetKeyDown(crouchKey))
-        {
-            _playerBody.position = new Vector3(_playerBody.position.x, -0.1f, _playerBody.position.z);
-        }
-
+        #endregion
+        //if (Input.GetKeyDown(crouchKey))
+        //{
+        //    _playerBody.position = new Vector3(_playerBody.position.x, -0.1f, _playerBody.position.z);
+        //}
         if (Input.GetKeyDown(findOtherKey))
         {
             GameObject prefab = Instantiate(findOtherPlayer, transform.position, transform.rotation);
             prefab.GetComponent<TrackOtherHalf>().SetTarget(otherPlayer.transform);
         }
-        #region RotationForTesting
-        if (Input.GetKey(KeyCode.Q))
-        {
-            gameObject.transform.Rotate(new Vector3(0, 1, 0), -1);
-        }
-        if (Input.GetKey(KeyCode.R))
-        {
-            gameObject.transform.Rotate(new Vector3(0, 1, 0), 1);
-        }
-        #endregion
-
-        if (Input.GetKeyUp(crouchKey))
-        {
-            _playerBody.position = new Vector3(_playerBody.position.x, 1, _playerBody.position.z);
-        }
+        //if (Input.GetKeyUp(crouchKey))
+        //{
+        //    _playerBody.position = new Vector3(_playerBody.position.x, 1, _playerBody.position.z);
+        //}
     }
 
     private void GetControllerInput()
@@ -136,8 +125,8 @@ public class PlayerMovement : MonoBehaviour
         //float rightStickY = Input.GetAxis("C" + controllerNumber + "RSY");
         gameObject.transform.Rotate(new Vector3(0, 1, 0), rightStickX * 2);
 
-        if (!_canMove) return;
-
+        if (!_canMove)
+            return;
         float leftStickX = Input.GetAxis("C" + controllerNumber + "LSX");
         float leftStickY = Input.GetAxis("C" + controllerNumber + "LSY");
         _playerBody.AddRelativeForce(new Vector3(leftStickX, 0, leftStickY), ForceMode.VelocityChange);

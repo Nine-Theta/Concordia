@@ -30,7 +30,7 @@ public class PatternLights : MonoBehaviour
 
     void FollowPattern()
     {
-        if(!paused)
+        if (!paused)
         {
             lights[currentLight].duration -= Time.deltaTime;
             if (lights[currentLight].duration <= 0)
@@ -51,7 +51,7 @@ public class PatternLights : MonoBehaviour
             }
         }
     }
-    
+
     public void TogglePause()
     {
         paused = !paused;

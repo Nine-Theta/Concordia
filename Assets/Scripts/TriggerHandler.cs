@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TriggerHandler : MonoBehaviour
 {
-
     public KeyCode interactionKey;
     public KeyCode alternateInteractionKey;
 
@@ -34,19 +33,16 @@ public class TriggerHandler : MonoBehaviour
         {
             _isInDarkArea = false;
         }
-
         if (other.gameObject.CompareTag("Button"))
         {
             _inButtonRange = true;
             _nearestInteractable = other.gameObject;
         }
-
         if (other.gameObject.CompareTag("HidingSpot"))
         {
             _inHidingRange = true;
             _nearestInteractable = other.gameObject;
         }
-
         if (other.gameObject.CompareTag("Note"))
         {
             if (other.gameObject.GetComponent<NoteScript>().instantCollect)
@@ -68,7 +64,7 @@ public class TriggerHandler : MonoBehaviour
         {
             _isInDarkArea = false;
         }
-        if(other.gameObject.CompareTag("CarShadow"))
+        if (other.gameObject.CompareTag("CarShadow"))
         {
             _inCarShadow = true;
         }
@@ -80,19 +76,16 @@ public class TriggerHandler : MonoBehaviour
         {
             _isInDarkArea = true;
         }
-
         if (other.gameObject.CompareTag("Button"))
         {
             _inButtonRange = false;
             _nearestInteractable = null;
         }
-
         if (other.gameObject.CompareTag("HidingSpot"))
         {
             _inHidingRange = false;
             _nearestInteractable = null;
         }
-
         if (other.gameObject.CompareTag("Note"))
         {
             _inNoteRange = false;
@@ -120,17 +113,14 @@ public class TriggerHandler : MonoBehaviour
                 _playerMovement.canMove = true;
                 return;
             }
-
             if (_inButtonRange)
             {
                 _nearestInteractable.GetComponent<LightSwitch>().Toggle();
             }
-
             if (_inNoteRange)
             {
                 CollectNote();
             }
-
             if (_inHidingRange)
             {
                 if (isLightPlayer)
@@ -156,14 +146,14 @@ public class TriggerHandler : MonoBehaviour
             return;
         if (isLightPlayer)
         {
-            if ((_isInDarkArea || _inCarShadow ) && _playerStats.PlayerHealth > 0)
+            if ((_isInDarkArea || _inCarShadow) && _playerStats.PlayerHealth > 0)
                 _playerStats.PlayerHealth -= 0.1f;
             else if (_playerStats.PlayerHealth > 0 && _playerStats.PlayerHealth < _playerStats.MaxHealth)
                 _playerStats.PlayerHealth += 0.05f;
         }
         else
         {
-            if ((!_isInDarkArea && !_inCarShadow ) && _playerStats.PlayerHealth > 0)
+            if ((!_isInDarkArea && !_inCarShadow) && _playerStats.PlayerHealth > 0)
                 _playerStats.PlayerHealth -= 0.1f;
             else if (_playerStats.PlayerHealth > 0 && _playerStats.PlayerHealth < _playerStats.MaxHealth)
                 _playerStats.PlayerHealth += 0.05f;

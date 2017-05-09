@@ -2,20 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CarHandler : MonoBehaviour {
+public class CarHandler : MonoBehaviour
+{
 
-    public Vector3 StartPosition1;
-    public Vector3 StartPosition2;
+    public Vector3 startPosition1;
+    public Vector3 startPosition2;
 
     public GameObject Car;
 
     private float _spawnCooldown;
 
-	private void Start () {
-		
-	}
-	
-	private void FixedUpdate () {
+    private void Start()
+    {
+
+    }
+
+    private void FixedUpdate()
+    {
 
         if (_spawnCooldown <= 0)
         {
@@ -23,20 +26,22 @@ public class CarHandler : MonoBehaviour {
             GameObject car = Instantiate(Car);
             CarMovement carControl = car.GetComponent<CarMovement>();
 
-            carControl.CarSpeed = Random.Range(0.05f, 0.25f);
+            carControl.carSpeed = Random.Range(0.05f, 0.25f);
 
-            if (Random.Range(0, 2) == 0){
-                carControl.StartPos = gameObject.transform.position + StartPosition1;
-                carControl.EndPos = gameObject.transform.position + StartPosition2;
+            if (Random.Range(0, 2) == 0)
+            {
+                carControl.startPos = gameObject.transform.position + startPosition1;
+                carControl.endPos = gameObject.transform.position + startPosition2;
             }
-            else{
-                carControl.StartPos = gameObject.transform.position + StartPosition2;
-                carControl.EndPos = gameObject.transform.position + StartPosition1;
+            else
+            {
+                carControl.startPos = gameObject.transform.position + startPosition2;
+                carControl.endPos = gameObject.transform.position + startPosition1;
             }
         }
-        else{
+        else
+        {
             _spawnCooldown -= Time.deltaTime;
         }
-        //print(_spawnCooldown);
-	}
+    }
 }

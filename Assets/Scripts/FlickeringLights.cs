@@ -28,7 +28,6 @@ public class FlickeringLights : MonoBehaviour
     private void FixedUpdate()
     {
         Flicker();
-
     }
 
     private void Flicker()
@@ -86,5 +85,4 @@ public enum FlickerType
 {
     RandomizedFlicker = 0,
     ControlledTimerIntervals,
-
 }

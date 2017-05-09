@@ -2,26 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CarMovement : MonoBehaviour {
-    
-    public Vector3 StartPos;
-    public Vector3 EndPos;
-    
-    public float CarSpeed = 0.1f;
+public class CarMovement : MonoBehaviour
+{
 
-    private void Start () {
-        gameObject.transform.position = StartPos;
+    public Vector3 startPos;
+    public Vector3 endPos;
 
+    public float carSpeed = 0.1f;
+
+    private void Start()
+    {
+        gameObject.transform.position = startPos;
     }
-	
-	private void FixedUpdate () {
 
-        if (EndPos == Vector3.zero) return;
+    private void FixedUpdate()
+    {
+        DriveBy();
+    }
 
-        if ((EndPos - gameObject.transform.position).magnitude <= 0.5f) Destroy(this.gameObject);
-
-        gameObject.transform.position += Vector3.Scale(Vector3.Normalize(EndPos - StartPos), new Vector3(CarSpeed, CarSpeed, CarSpeed));
-
-        //print("Endpos: " + EndPos + " pos: " + gameObject.transform.position + " length: " + (EndPos - gameObject.transform.position).magnitude);
+    private void DriveBy()
+    {
+        if (endPos == Vector3.zero)
+            return;
+        if ((endPos - gameObject.transform.position).magnitude <= 0.5f)
+            Destroy(this.gameObject);
+        gameObject.transform.position += Vector3.Scale(Vector3.Normalize(endPos - startPos), new Vector3(carSpeed, carSpeed, carSpeed));
     }
 }
