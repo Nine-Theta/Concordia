@@ -63,11 +63,11 @@ public class PlayerStats : MonoBehaviour
                 Body.AddComponent<MeshCollider>().convex = true;
                 ArmLeft.AddComponent<MeshCollider>().convex = true;
                 ArmRight.AddComponent<MeshCollider>().convex = true;
-                Rigidbody headRigid = Head.AddComponent<Rigidbody>();//.AddExplosionForce(0, gameObject.transform.position, 0);
+                Head.AddComponent<Rigidbody>().AddExplosionForce(300, gameObject.transform.position, 1000);
                 Rigidbody bodyRigid = Body.AddComponent<Rigidbody>();//.AddExplosionForce(1, gameObject.transform.position, 1);
                 bodyRigid.constraints = RigidbodyConstraints.FreezePositionZ;
-                ArmLeft.AddComponent<Rigidbody>().AddExplosionForce(500, gameObject.transform.position, 1000);
-                ArmRight.AddComponent<Rigidbody>().AddExplosionForce(500, gameObject.transform.position, 1000);
+                ArmLeft.AddComponent<Rigidbody>().AddExplosionForce(300, gameObject.transform.position, 1000);
+                ArmRight.AddComponent<Rigidbody>().AddExplosionForce(300, gameObject.transform.position, 1000);
                 /**/
                 #endregion
             }
