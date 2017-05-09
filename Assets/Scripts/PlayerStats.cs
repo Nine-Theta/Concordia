@@ -8,7 +8,16 @@ public class PlayerStats : MonoBehaviour
     public Scrollbar lifebar;
     public Text GameOverMessage;
 
-    public string[] Inventory = new string[20]; //Does not include a pokernight
+    #region PlayerPartsTest
+    /**/
+    public GameObject Head;
+    public GameObject Body;
+    public GameObject ArmLeft;
+    public GameObject ArmRight;
+    /**/
+    #endregion
+
+    //public string[] Inventory = new string[20]; //Does not include a pokernight
     public string[] NoteData = new string[20];
 
     [SerializeField] //Serialize Field shows item in the inspector even if it's private. Shouldn't be accessed by other players but should be in inspector
@@ -48,6 +57,19 @@ public class PlayerStats : MonoBehaviour
                 _gameOver = true;
                 GameOverMessage.text = "GAME OVER";
                 //Game Over man, Game Over.
+                #region PlayerPartsTest
+                /**/
+                Head.AddComponent<MeshCollider>().convex = true;
+                Body.AddComponent<MeshCollider>().convex = true;
+                ArmLeft.AddComponent<MeshCollider>().convex = true;
+                ArmRight.AddComponent<MeshCollider>().convex = true;
+                Rigidbody headRigid = Head.AddComponent<Rigidbody>();//.AddExplosionForce(0, gameObject.transform.position, 0);
+                Rigidbody bodyRigid = Body.AddComponent<Rigidbody>();//.AddExplosionForce(1, gameObject.transform.position, 1);
+                bodyRigid.constraints = RigidbodyConstraints.FreezePositionZ;
+                ArmLeft.AddComponent<Rigidbody>().AddExplosionForce(500, gameObject.transform.position, 1000);
+                ArmRight.AddComponent<Rigidbody>().AddExplosionForce(500, gameObject.transform.position, 1000);
+                /**/
+                #endregion
             }
         }
     }
