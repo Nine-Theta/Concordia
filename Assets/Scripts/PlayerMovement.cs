@@ -68,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _playerBody.freezeRotation = false;
             _playerBody.useGravity = true;
-            _playerBody.AddRelativeTorque(0.9f, 0.75f, 0.9f, ForceMode.Impulse);
+            //_playerBody.AddRelativeTorque(0.9f, 0.75f, 0.9f, ForceMode.Impulse);
             _releasedConstraints = true;
         }
     }

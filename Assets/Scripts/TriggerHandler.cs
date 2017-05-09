@@ -126,7 +126,7 @@ public class TriggerHandler : MonoBehaviour
                     return;
                 }
 
-                _playerStats.Inventory[_nearestInteractable.GetComponent<NoteScript>().NoteID] = ("Note" + _nearestInteractable.GetComponent<NoteScript>().NoteID);
+                //_playerStats.Inventory[_nearestInteractable.GetComponent<NoteScript>().NoteID] = ("Note" + _nearestInteractable.GetComponent<NoteScript>().NoteID);
                 _playerStats.NoteData[_nearestInteractable.GetComponent<NoteScript>().NoteID] = _nearestInteractable.GetComponent<NoteScript>().NoteText;
                 Destroy(_nearestInteractable.gameObject);
                 print("Note" + _nearestInteractable.GetComponent<NoteScript>().NoteID + " Collected, which contained: " + _playerStats.NoteData[_nearestInteractable.GetComponent<NoteScript>().NoteID]);
