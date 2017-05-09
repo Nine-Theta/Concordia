@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlickeringLights : MonoBehaviour {
+public class FlickeringLights : MonoBehaviour
+{
     public bool paused = false;
     public FlickerType flickerType = FlickerType.RandomizedFlicker;
     public float randMin = 0.1f;
@@ -18,15 +19,17 @@ public class FlickeringLights : MonoBehaviour {
     private int _currentTimer;
 
     // Use this for initialization
-    private void Start () {
+    private void Start()
+    {
         _thisLight = gameObject.GetComponent<Light>();
         _thisBody = gameObject.GetComponent<CapsuleCollider>();
     }
 
-    private void FixedUpdate () {
+    private void FixedUpdate()
+    {
         Flicker();
-        
-	}
+
+    }
 
     private void Flicker()
     {

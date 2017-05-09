@@ -20,6 +20,7 @@ public class TriggerHandler : MonoBehaviour
     private bool _inButtonRange = false;
     private bool _inHidingRange = false;
     private bool _inNoteRange = false;
+    private bool _inCarShadow = false;
 
     private void Awake()
     {
@@ -29,21 +30,25 @@ public class TriggerHandler : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Light")){
+        if (other.gameObject.CompareTag("Light"))
+        {
             _isInDarkArea = false;
         }
 
-        if (other.gameObject.CompareTag("Button")){
+        if (other.gameObject.CompareTag("Button"))
+        {
             _inButtonRange = true;
             _nearestInteractable = other.gameObject;
         }
 
-        if (other.gameObject.CompareTag("HidingSpot")){
+        if (other.gameObject.CompareTag("HidingSpot"))
+        {
             _inHidingRange = true;
             _nearestInteractable = other.gameObject;
         }
 
-        if (other.gameObject.CompareTag("Note")){
+        if (other.gameObject.CompareTag("Note"))
+        {
             _inNoteRange = true;
             _nearestInteractable = other.gameObject;
         }
@@ -51,28 +56,37 @@ public class TriggerHandler : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Light")){
+        if (other.gameObject.CompareTag("Light"))
+        {
             _isInDarkArea = false;
+        }
+        if(other.gameObject.CompareTag("CarShadow"))
+        {
+            _inCarShadow = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Light")){
+        if (other.gameObject.CompareTag("Light"))
+        {
             _isInDarkArea = true;
         }
 
-        if (other.gameObject.CompareTag("Button")){
+        if (other.gameObject.CompareTag("Button"))
+        {
             _inButtonRange = false;
             _nearestInteractable = null;
         }
 
-        if (other.gameObject.CompareTag("HidingSpot")){
+        if (other.gameObject.CompareTag("HidingSpot"))
+        {
             _inHidingRange = false;
             _nearestInteractable = null;
         }
 
-        if (other.gameObject.CompareTag("Note")){
+        if (other.gameObject.CompareTag("Note"))
+        {
             _inNoteRange = false;
             _nearestInteractable = null;
         }
@@ -106,7 +120,8 @@ public class TriggerHandler : MonoBehaviour
 
             if (_inNoteRange)
             {
-                if(_nearestInteractable.GetComponent<NoteScript>().NoteID == 404){
+                if (_nearestInteractable.GetComponent<NoteScript>().NoteID == 404)
+                {
                     print("! NOTE HAS NOT BEEN ASSIGNED AN ID !");
                     return;
                 }
@@ -114,7 +129,7 @@ public class TriggerHandler : MonoBehaviour
                 _playerStats.Inventory[_nearestInteractable.GetComponent<NoteScript>().NoteID] = ("Note" + _nearestInteractable.GetComponent<NoteScript>().NoteID);
                 _playerStats.NoteData[_nearestInteractable.GetComponent<NoteScript>().NoteID] = _nearestInteractable.GetComponent<NoteScript>().NoteText;
                 Destroy(_nearestInteractable.gameObject);
-                print("Note"+ _nearestInteractable.GetComponent<NoteScript>().NoteID + " Collected, which contained: " + _playerStats.NoteData[_nearestInteractable.GetComponent<NoteScript>().NoteID]);
+                print("Note" + _nearestInteractable.GetComponent<NoteScript>().NoteID + " Collected, which contained: " + _playerStats.NoteData[_nearestInteractable.GetComponent<NoteScript>().NoteID]);
             }
 
             if (_inHidingRange)
@@ -142,14 +157,14 @@ public class TriggerHandler : MonoBehaviour
             return;
         if (isLightPlayer)
         {
-            if (_isInDarkArea && _playerStats.PlayerHealth > 0)
+            if ((_isInDarkArea || _inCarShadow ) && _playerStats.PlayerHealth > 0)
                 _playerStats.PlayerHealth -= 0.1f;
             else if (_playerStats.PlayerHealth > 0 && _playerStats.PlayerHealth < _playerStats.MaxHealth)
                 _playerStats.PlayerHealth += 0.05f;
         }
         else
         {
-            if (!_isInDarkArea && _playerStats.PlayerHealth > 0)
+            if ((!_isInDarkArea && !_inCarShadow ) && _playerStats.PlayerHealth > 0)
                 _playerStats.PlayerHealth -= 0.1f;
             else if (_playerStats.PlayerHealth > 0 && _playerStats.PlayerHealth < _playerStats.MaxHealth)
                 _playerStats.PlayerHealth += 0.05f;
@@ -159,5 +174,6 @@ public class TriggerHandler : MonoBehaviour
     private void PostUpdate()
     {
         _isInDarkArea = true;
+        _inCarShadow = false;
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    
+
     public KeyCode forwardKey;
     public KeyCode backwardKey;
     public KeyCode moveLeftKey;
@@ -102,13 +102,13 @@ public class PlayerMovement : MonoBehaviour
             _playerBody.position = new Vector3(_playerBody.position.x, -0.1f, _playerBody.position.z);
         }
 
-        if(Input.GetKeyDown(findOtherKey))
+        if (Input.GetKeyDown(findOtherKey))
         {
             GameObject prefab = Instantiate(findOtherPlayer, transform.position, transform.rotation);
             prefab.GetComponent<TrackOtherHalf>().SetTarget(otherPlayer.transform);
         }
         #region RotationForTesting
-        if(Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.Q))
         {
             gameObject.transform.Rotate(new Vector3(0, 1, 0), -1);
         }
