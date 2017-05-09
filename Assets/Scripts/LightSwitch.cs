@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LightSwitch : MonoBehaviour
 {
+    public TypeOfSwitch switchType = TypeOfSwitch.simpleToggle;
     public List<GameObject> lights;
     // Use this for initialization
     void Start()
@@ -26,9 +27,11 @@ public class LightSwitch : MonoBehaviour
     }
 }
 
+[System.Serializable]
 public enum TypeOfSwitch
 {
     simpleToggle = 0,
     unpausePattern,
-    hold,
+    holdToggle,
+    flickeringToggle,
 }
