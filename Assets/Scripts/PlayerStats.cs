@@ -9,15 +9,12 @@ public class PlayerStats : MonoBehaviour
     public Text GameOverMessage;
 
     #region PlayerPartsTest
-    /**/
-    public GameObject Head;
-    public GameObject Body;
-    public GameObject ArmLeft;
-    public GameObject ArmRight;
-    /**/
+    private GameObject _head;
+    private GameObject _body;
+    private GameObject _armLeft;
+    private GameObject _armRight;
     #endregion
 
-    //public string[] Inventory = new string[20]; //Does not include a pokernight
     public string[] NoteData = new string[20];
 
     [SerializeField] //Serialize Field shows item in the inspector even if it's private. Shouldn't be accessed by other players but should be in inspector
@@ -25,6 +22,11 @@ public class PlayerStats : MonoBehaviour
     private float _maxHealth;
 
     private bool _gameOver = false;
+
+    private void Start()
+    {
+        AssignBodyParts();
+    }
 
     private void Awake()
     {
@@ -58,17 +60,15 @@ public class PlayerStats : MonoBehaviour
                 GameOverMessage.text = "GAME OVER";
                 //Game Over man, Game Over.
                 #region PlayerPartsTest
-                /**/
-                Head.AddComponent<MeshCollider>().convex = true;
-                Body.AddComponent<MeshCollider>().convex = true;
-                ArmLeft.AddComponent<MeshCollider>().convex = true;
-                ArmRight.AddComponent<MeshCollider>().convex = true;
-                Head.AddComponent<Rigidbody>().AddExplosionForce(300, gameObject.transform.position, 1000);
-                Rigidbody bodyRigid = Body.AddComponent<Rigidbody>();//.AddExplosionForce(1, gameObject.transform.position, 1);
+                _head.AddComponent<MeshCollider>().convex = true;
+                _body.AddComponent<MeshCollider>().convex = true;
+                _armLeft.AddComponent<MeshCollider>().convex = true;
+                _armRight.AddComponent<MeshCollider>().convex = true;
+                _head.AddComponent<Rigidbody>().AddExplosionForce(300, gameObject.transform.position, 0);
+                Rigidbody bodyRigid = _body.AddComponent<Rigidbody>();//.AddExplosionForce(1, gameObject.transform.position, 1);
                 bodyRigid.constraints = RigidbodyConstraints.FreezePositionZ;
-                ArmLeft.AddComponent<Rigidbody>().AddExplosionForce(300, gameObject.transform.position, 1000);
-                ArmRight.AddComponent<Rigidbody>().AddExplosionForce(300, gameObject.transform.position, 1000);
-                /**/
+                _armLeft.AddComponent<Rigidbody>().AddExplosionForce(300, gameObject.transform.position, 1000);
+                _armRight.AddComponent<Rigidbody>().AddExplosionForce(300, gameObject.transform.position, 1000);
                 #endregion
             }
         }
@@ -77,5 +77,31 @@ public class PlayerStats : MonoBehaviour
     public bool GameOver
     {
         get { return _gameOver; }
+    }
+
+    /// <summary>
+    /// Assigns variables to their respective body parts
+    /// </summary>
+    private void AssignBodyParts()
+    {
+        foreach (MeshFilter child in gameObject.GetComponentsInChildren<MeshFilter>())
+        {
+            string[] splitName = child.gameObject.name.Split('_');
+            switch(splitName[1])
+            {
+                case "Head":
+                    _head = child.gameObject;
+                    break;
+                case "Body":
+                    _body = child.gameObject;
+                    break;
+                case "HandL":
+                    _armLeft = child.gameObject;
+                    break;
+                case "HandR":
+                    _armRight = child.gameObject;
+                    break;
+            }
+        }
     }
 }

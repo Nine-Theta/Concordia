@@ -49,8 +49,16 @@ public class TriggerHandler : MonoBehaviour
 
         if (other.gameObject.CompareTag("Note"))
         {
-            _inNoteRange = true;
-            _nearestInteractable = other.gameObject;
+            if (other.gameObject.GetComponent<NoteScript>().instantCollect)
+            {
+                _nearestInteractable = other.gameObject;
+                CollectNote();
+            }
+            else
+            {
+                _inNoteRange = true;
+                _nearestInteractable = other.gameObject;
+            }
         }
     }
 
@@ -120,16 +128,7 @@ public class TriggerHandler : MonoBehaviour
 
             if (_inNoteRange)
             {
-                if (_nearestInteractable.GetComponent<NoteScript>().NoteID == 404)
-                {
-                    print("! NOTE HAS NOT BEEN ASSIGNED AN ID !");
-                    return;
-                }
-
-                //_playerStats.Inventory[_nearestInteractable.GetComponent<NoteScript>().NoteID] = ("Note" + _nearestInteractable.GetComponent<NoteScript>().NoteID);
-                _playerStats.NoteData[_nearestInteractable.GetComponent<NoteScript>().NoteID] = _nearestInteractable.GetComponent<NoteScript>().NoteText;
-                Destroy(_nearestInteractable.gameObject);
-                print("Note" + _nearestInteractable.GetComponent<NoteScript>().NoteID + " Collected, which contained: " + _playerStats.NoteData[_nearestInteractable.GetComponent<NoteScript>().NoteID]);
+                CollectNote();
             }
 
             if (_inHidingRange)
@@ -175,5 +174,21 @@ public class TriggerHandler : MonoBehaviour
     {
         _isInDarkArea = true;
         _inCarShadow = false;
+    }
+
+    /// <summary>
+    /// Collects _nearestInteractable. Will give errors if _nearestInteractable does not have a NoteScript, so ensure it's used
+    /// </summary>
+    private void CollectNote()
+    {
+        if (_nearestInteractable.GetComponent<NoteScript>().NoteID == 404)
+        {
+            print("! NOTE HAS NOT BEEN ASSIGNED AN ID !");
+            return;
+        }
+        _playerStats.NoteData[_nearestInteractable.GetComponent<NoteScript>().NoteID] = _nearestInteractable.GetComponent<NoteScript>().NoteText;
+        Destroy(_nearestInteractable.gameObject);
+        //print("Note" + _nearestInteractable.GetComponent<NoteScript>().NoteID + " Collected, which contained: " + _playerStats.NoteData[_nearestInteractable.GetComponent<NoteScript>().NoteID]);
+        _nearestInteractable = null;
     }
 }
