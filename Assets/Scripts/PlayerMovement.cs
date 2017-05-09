@@ -128,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
     {
         float rightStickX = Input.GetAxis("C" + controllerNumber + "RSX");
         //This one is set up properly, but not necessary so to surpress the warning it's commented out
-        //float rightStickY = Input.GetAxis("C" + controllerNumber + "RSY");
+        float rightStickY = Input.GetAxis("C" + controllerNumber + "RSY");
         gameObject.transform.Rotate(new Vector3(0, 1, 0), rightStickX * 2);
 
         if (!_canMove) return;
