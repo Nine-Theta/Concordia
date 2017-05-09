@@ -6,6 +6,8 @@ public class LightSwitch : MonoBehaviour
 {
     public TypeOfSwitch switchType = TypeOfSwitch.simpleToggle;
     public List<GameObject> lights;
+
+    private bool turnOn = false;
     // Use this for initialization
     void Start()
     {
@@ -44,9 +46,19 @@ public class LightSwitch : MonoBehaviour
                 }
                 break;
             case TypeOfSwitch.flickeringToggle:
-                foreach (GameObject light in lights)
+                if (turnOn)
                 {
-                    light.GetComponent<FlickeringLights>().TogglePause();
+                    foreach (GameObject light in lights)
+                    {
+                        light.GetComponent<FlickeringLights>().TurnOn();
+                    }
+                }
+                else
+                {
+                    foreach (GameObject light in lights)
+                    {
+                        light.GetComponent<FlickeringLights>().TurnOff();
+                    }
                 }
                 break;
         }

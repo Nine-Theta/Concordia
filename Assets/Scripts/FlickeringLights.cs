@@ -11,7 +11,6 @@ public class FlickeringLights : MonoBehaviour {
     /// The durations it takes in between toggling (cycles through after the last one ended)
     /// </summary>
     public float[] timerCycle;
-    
 
     private float _flickerTimer;
     private Light _thisLight;
@@ -69,6 +68,14 @@ public class FlickeringLights : MonoBehaviour {
     {
         _thisLight.enabled = false;
         _thisBody.enabled = false;
+        paused = true;
+    }
+
+    public void TurnOn()
+    {
+        _thisLight.enabled = true;
+        _thisBody.enabled = true;
+        paused = false;
     }
 }
 
