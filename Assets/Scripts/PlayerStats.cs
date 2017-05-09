@@ -54,22 +54,7 @@ public class PlayerStats : MonoBehaviour
             }
             else if (!_gameOver)
             {
-                _playerHealth = 0;
-                lifebar.GetComponentInChildren<Image>().gameObject.SetActive(false);
-                _gameOver = true;
-                GameOverMessage.text = "GAME OVER";
-                //Game Over man, Game Over.
-                #region PlayerPartsTest
-                _head.AddComponent<MeshCollider>().convex = true;
-                _body.AddComponent<MeshCollider>().convex = true;
-                _armLeft.AddComponent<MeshCollider>().convex = true;
-                _armRight.AddComponent<MeshCollider>().convex = true;
-                _head.AddComponent<Rigidbody>().AddExplosionForce(300, gameObject.transform.position, 0);
-                Rigidbody bodyRigid = _body.AddComponent<Rigidbody>();//.AddExplosionForce(1, gameObject.transform.position, 1);
-                bodyRigid.constraints = RigidbodyConstraints.FreezePositionZ;
-                _armLeft.AddComponent<Rigidbody>().AddExplosionForce(300, gameObject.transform.position, 1000);
-                _armRight.AddComponent<Rigidbody>().AddExplosionForce(300, gameObject.transform.position, 1000);
-                #endregion
+                Die();
             }
         }
     }
@@ -87,7 +72,7 @@ public class PlayerStats : MonoBehaviour
         foreach (MeshFilter child in gameObject.GetComponentsInChildren<MeshFilter>())
         {
             string[] splitName = child.gameObject.name.Split('_');
-            switch(splitName[1])
+            switch (splitName[1])
             {
                 case "Head":
                     _head = child.gameObject;
@@ -103,5 +88,29 @@ public class PlayerStats : MonoBehaviour
                     break;
             }
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void Die()
+    {
+        _playerHealth = 0;
+        lifebar.GetComponentInChildren<Image>().gameObject.SetActive(false);
+        _gameOver = true;
+        GameOverMessage.text = "GAME OVER";
+        //Game Over man, Game Over.
+
+        #region PlayerPartsTest
+        _head.AddComponent<MeshCollider>().convex = true;
+        _body.AddComponent<MeshCollider>().convex = true;
+        _armLeft.AddComponent<MeshCollider>().convex = true;
+        _armRight.AddComponent<MeshCollider>().convex = true;
+        _head.AddComponent<Rigidbody>().AddExplosionForce(300, gameObject.transform.position, 0);
+        Rigidbody bodyRigid = _body.AddComponent<Rigidbody>();//.AddExplosionForce(1, gameObject.transform.position, 1);
+        bodyRigid.constraints = RigidbodyConstraints.FreezePositionZ;
+        _armLeft.AddComponent<Rigidbody>().AddExplosionForce(300, gameObject.transform.position, 1000);
+        _armRight.AddComponent<Rigidbody>().AddExplosionForce(300, gameObject.transform.position, 1000);
+        #endregion
     }
 }

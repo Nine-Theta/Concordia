@@ -39,18 +39,23 @@ public class PlayerMovement : MonoBehaviour
 
     public void HideAt(GameObject HidingSpot)
     {
+        _playerBody.velocity = new Vector3(0, 0, 0);
+        gameObject.GetComponent<CapsuleCollider>().enabled = false;
         _preHidingPos = _playerBody.position;
         _playerBody.position = HidingSpot.transform.position;
     }
 
     public void HideAt(Vector3 HidingLocation)
     {
+        _playerBody.velocity = new Vector3(0, 0, 0);
+        gameObject.GetComponent<CapsuleCollider>().enabled = false;
         _preHidingPos = _playerBody.position;
         _playerBody.position = HidingLocation;
     }
 
     public void StopHiding()
     {
+        gameObject.GetComponent<CapsuleCollider>().enabled = true;
         _playerBody.position = _preHidingPos;
     }
 
