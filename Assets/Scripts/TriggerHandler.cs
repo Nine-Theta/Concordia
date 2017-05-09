@@ -19,6 +19,7 @@ public class TriggerHandler : MonoBehaviour
     private bool _isHiding = false;
     private bool _inButtonRange = false;
     private bool _inHidingRange = false;
+    private bool _inNoteRange = false;
 
     private void Awake()
     {
@@ -28,48 +29,51 @@ public class TriggerHandler : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Light"))
-        {
+        if (other.gameObject.CompareTag("Light")){
             _isInDarkArea = false;
         }
 
-        if (other.gameObject.CompareTag("Button"))
-        {
+        if (other.gameObject.CompareTag("Button")){
             _inButtonRange = true;
             _nearestInteractable = other.gameObject;
         }
 
-        if (other.gameObject.CompareTag("HidingSpot"))
-        {
+        if (other.gameObject.CompareTag("HidingSpot")){
             _inHidingRange = true;
+            _nearestInteractable = other.gameObject;
+        }
+
+        if (other.gameObject.CompareTag("Note")){
+            _inNoteRange = true;
             _nearestInteractable = other.gameObject;
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Light"))
-        {
+        if (other.gameObject.CompareTag("Light")){
             _isInDarkArea = false;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Light"))
-        {
+        if (other.gameObject.CompareTag("Light")){
             _isInDarkArea = true;
         }
 
-        if (other.gameObject.CompareTag("Button"))
-        {
+        if (other.gameObject.CompareTag("Button")){
             _inButtonRange = false;
             _nearestInteractable = null;
         }
 
-        if (other.gameObject.CompareTag("HidingSpot"))
-        {
+        if (other.gameObject.CompareTag("HidingSpot")){
             _inHidingRange = false;
+            _nearestInteractable = null;
+        }
+
+        if (other.gameObject.CompareTag("Note")){
+            _inNoteRange = false;
             _nearestInteractable = null;
         }
     }
@@ -98,6 +102,12 @@ public class TriggerHandler : MonoBehaviour
             if (_inButtonRange)
             {
                 _nearestInteractable.GetComponent<LightSwitch>().Toggle();
+            }
+
+            if (_inNoteRange)
+            {
+                Destroy(_nearestInteractable.gameObject);
+                print("Note Collected, TODO: Implement saving collected notes");
             }
 
             if (_inHidingRange)
