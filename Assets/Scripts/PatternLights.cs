@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The Monobehaviour applied to the parent object of the lights it controls
+/// </summary>
 public class PatternLights : MonoBehaviour
 {
     //Returns the light to the previous state if true, else leaves in the current state
@@ -47,6 +50,11 @@ public class PatternLights : MonoBehaviour
                 lights[currentLight].Toggle();
             }
         }
+    }
+    
+    public void TogglePause()
+    {
+        paused = !paused;
     }
 }
 

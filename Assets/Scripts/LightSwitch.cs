@@ -20,9 +20,35 @@ public class LightSwitch : MonoBehaviour
 
     public void Toggle()
     {
-        foreach (GameObject light in lights)
+        switch (switchType)
         {
-            light.SetActive(!light.activeSelf);
+            case TypeOfSwitch.simpleToggle:
+                foreach (GameObject light in lights)
+                {
+                    light.SetActive(!light.activeSelf);
+                }
+                break;
+            case TypeOfSwitch.togglePausePattern:
+                foreach(GameObject light in lights)
+                {
+                    light.GetComponent<PatternLights>().TogglePause();
+                }
+                break;
+            case TypeOfSwitch.holdToggle:
+
+                break;
+            case TypeOfSwitch.flickeringPause:
+                foreach(GameObject light in lights)
+                {
+                    light.GetComponent<FlickeringLights>().TogglePause();
+                }
+                break;
+            case TypeOfSwitch.flickeringToggle:
+                foreach (GameObject light in lights)
+                {
+                    light.GetComponent<FlickeringLights>().TogglePause();
+                }
+                break;
         }
     }
 }
@@ -31,7 +57,8 @@ public class LightSwitch : MonoBehaviour
 public enum TypeOfSwitch
 {
     simpleToggle = 0,
-    unpausePattern,
+    togglePausePattern,
     holdToggle,
-    flickeringToggle,
+    flickeringPause,
+    flickeringToggle
 }
