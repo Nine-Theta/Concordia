@@ -75,6 +75,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void Reset()
+    {
+        _playerBody.useGravity = false;
+        _releasedConstraints = false;
+        _canMove = true;
+    }
+
     private void GetKeyboardInput()
     {
         if (Input.GetKeyDown(pauseKey))

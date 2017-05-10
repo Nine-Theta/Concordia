@@ -124,7 +124,9 @@ public class TriggerHandler : MonoBehaviour
         {
             if(_playerStats.GameOver)
             {
-                _playerStats.Respawn();
+                _playerStats.Respawn(mostRecentCheckpointPos);
+                _playerMovement.Reset();
+                return;
             }
             if (_isHiding)
             {

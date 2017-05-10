@@ -13,6 +13,10 @@ public class PlayerStats : MonoBehaviour
     private GameObject _body;
     private GameObject _armLeft;
     private GameObject _armRight;
+    private Vector3 _headLocalPos;
+    private Vector3 _bodyLocalPos;
+    private Vector3 _armLeftLocalPos;
+    private Vector3 _armRightLocalPos;
     #endregion
 
     public string[] NoteData = new string[20];
@@ -64,9 +68,36 @@ public class PlayerStats : MonoBehaviour
         get { return _gameOver; }
     }
 
-    public void Respawn()
+    public void Respawn(Vector3 position)
     {
+        gameObject.transform.position = position;
+        _gameOver = false;
+        _playerHealth = _maxHealth;
+        lifebar.GetComponentInChildren<Image>().gameObject.SetActive(true);
+        lifebar.size = 1;
+        GameOverMessage.text = "";
 
+        #region destruction
+        Destroy(_head.GetComponent<MeshCollider>());
+        Destroy(_body.GetComponent<MeshCollider>());
+        Destroy(_armLeft.GetComponent<MeshCollider>());
+        Destroy(_armRight.GetComponent<MeshCollider>());
+        Destroy(_head.GetComponent<Rigidbody>());
+        Destroy(_body.GetComponent<Rigidbody>());
+        Destroy(_armLeft.GetComponent<Rigidbody>());
+        Destroy(_armRight.GetComponent<Rigidbody>());
+        #endregion
+        #region positioning
+        _head.transform.position = gameObject.transform.position + _headLocalPos;
+        _body.transform.position = gameObject.transform.position + _bodyLocalPos;
+        _armLeft.transform.position = gameObject.transform.position + _armLeftLocalPos;
+        _armRight.transform.position = gameObject.transform.position + _armRightLocalPos;
+        _head.transform.localRotation = Quaternion.Euler(0, 90, 0);
+        _body.transform.localRotation = Quaternion.Euler(0, 90, 0);
+        _armLeft.transform.localRotation = Quaternion.Euler(0, 90, 0);
+        _armRight.transform.localRotation = Quaternion.Euler(0, 90, 0);
+        #endregion
+        gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
     }
 
     /// <summary>
@@ -81,15 +112,23 @@ public class PlayerStats : MonoBehaviour
             {
                 case "Head":
                     _head = child.gameObject;
+                    _headLocalPos = child.transform.localPosition;
+                    //Debug.Log(_headLocalPos);
                     break;
                 case "Body":
                     _body = child.gameObject;
+                    _bodyLocalPos = child.transform.localPosition;
+                    //Debug.Log(_bodyLocalPos);
                     break;
                 case "HandL":
                     _armLeft = child.gameObject;
+                    _armLeftLocalPos = child.transform.localPosition;
+                    //Debug.Log(_armLeftLocalPos);
                     break;
                 case "HandR":
                     _armRight = child.gameObject;
+                    _armRightLocalPos = child.transform.localPosition;
+                    //Debug.Log(_armRightLocalPos);
                     break;
             }
         }
