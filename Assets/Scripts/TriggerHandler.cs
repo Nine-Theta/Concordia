@@ -135,6 +135,10 @@ public class TriggerHandler : MonoBehaviour
                 _playerMovement.canMove = false;
             }
         }
+        if (_inButtonRange && _nearestInteractable.GetComponent<LightSwitch>().switchType == TypeOfSwitch.holdToggle && (Input.GetKey(interactionKey) || Input.GetKey(alternateInteractionKey)))
+        {
+            _nearestInteractable.GetComponent<LightSwitch>().Toggle();
+        }
     }
 
     /// <summary>

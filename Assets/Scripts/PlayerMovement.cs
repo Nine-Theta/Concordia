@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject findOtherPlayer;
     public Transform otherPlayer;
+    public float movementSpeed = 1.0f;
 
     private Rigidbody _playerBody;
     private PlayerStats _playerStats;
@@ -88,19 +89,19 @@ public class PlayerMovement : MonoBehaviour
         #region KeysAndForce
         if (Input.GetKey(forwardKey))
         {
-            _playerBody.AddRelativeForce(Vector3.forward, ForceMode.VelocityChange);
+            _playerBody.AddRelativeForce(Vector3.forward * movementSpeed, ForceMode.VelocityChange);
         }
         if (Input.GetKey(backwardKey))
         {
-            _playerBody.AddRelativeForce(Vector3.back, ForceMode.VelocityChange);
+            _playerBody.AddRelativeForce(Vector3.back * movementSpeed, ForceMode.VelocityChange);
         }
         if (Input.GetKey(moveLeftKey))
         {
-            _playerBody.AddRelativeForce(Vector3.left, ForceMode.VelocityChange);
+            _playerBody.AddRelativeForce(Vector3.left * movementSpeed, ForceMode.VelocityChange);
         }
         if (Input.GetKey(moveRightKey))
         {
-            _playerBody.AddRelativeForce(Vector3.right, ForceMode.VelocityChange);
+            _playerBody.AddRelativeForce(Vector3.right * movementSpeed, ForceMode.VelocityChange);
         }
         #endregion
         //if (Input.GetKeyDown(crouchKey))
@@ -127,8 +128,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (!_canMove)
             return;
-        float leftStickX = Input.GetAxis("C" + controllerNumber + "LSX");
-        float leftStickY = Input.GetAxis("C" + controllerNumber + "LSY");
+        float leftStickX = Input.GetAxis("C" + controllerNumber + "LSX") * movementSpeed;
+        float leftStickY = Input.GetAxis("C" + controllerNumber + "LSY") * movementSpeed;
         _playerBody.AddRelativeForce(new Vector3(leftStickX, 0, leftStickY), ForceMode.VelocityChange);
     }
 }
