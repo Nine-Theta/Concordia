@@ -26,6 +26,6 @@ public class CarMovement : MonoBehaviour
             return;
         if ((endPos - gameObject.transform.position).magnitude <= 0.5f)
             Destroy(this.gameObject);
-        gameObject.transform.position += Vector3.Scale(Vector3.Normalize(endPos - startPos), new Vector3(carSpeed, carSpeed, carSpeed));
+        gameObject.transform.position += Vector3.Normalize(endPos - startPos) * carSpeed;
     }
 }

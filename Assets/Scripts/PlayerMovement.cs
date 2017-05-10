@@ -12,11 +12,14 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode rotateLeftKey;
     //public KeyCode crouchKey;
     public KeyCode findOtherKey;
-
-    public string controllerNumber = "1";  //Should be either 1 or 2.
+    public KeyCode pauseKey;
 
     public GameObject findOtherPlayer;
     public Transform otherPlayer;
+    public Canvas PauseScreen;
+
+    public string controllerNumber = "1";  //Should be either 1 or 2.
+
     public float movementSpeed = 1.0f;
 
     private Rigidbody _playerBody;
@@ -74,6 +77,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void GetKeyboardInput()
     {
+        if (Input.GetKeyDown(pauseKey))
+        {
+
+            print("gets called: PlayerMovement GetKeyDown(pauseKey)");
+            PauseScreen.gameObject.SetActive(true);
+            PauseScreen.GetComponent<PauseMenu>().PauseKey = pauseKey;
+            return;
+        }
+
         #region RotationForTesting
         if (Input.GetKey(rotateLeftKey))
         {
