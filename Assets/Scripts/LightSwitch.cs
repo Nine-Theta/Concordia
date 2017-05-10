@@ -37,7 +37,10 @@ public class LightSwitch : MonoBehaviour
                 }
                 break;
             case TypeOfSwitch.holdToggle:
-
+                foreach (GameObject light in lights)
+                {
+                    light.GetComponent<HoldLight>().Hold();
+                }
                 break;
             case TypeOfSwitch.flickeringPause:
                 foreach (GameObject light in lights)

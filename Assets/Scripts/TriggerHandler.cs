@@ -143,7 +143,10 @@ public class TriggerHandler : MonoBehaviour
     private void AffectPlayer()
     {
         if (_isHiding)
+        {
+            _playerStats.PlayerHealth += 0.05f;
             return;
+        }
         if (isLightPlayer)
         {
             if ((_isInDarkArea || _inCarShadow) && _playerStats.PlayerHealth > 0)
