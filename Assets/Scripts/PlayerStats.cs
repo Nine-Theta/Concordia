@@ -64,6 +64,11 @@ public class PlayerStats : MonoBehaviour
         get { return _gameOver; }
     }
 
+    public void Respawn()
+    {
+
+    }
+
     /// <summary>
     /// Assigns variables to their respective body parts
     /// </summary>

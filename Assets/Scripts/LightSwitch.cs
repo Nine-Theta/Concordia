@@ -64,6 +64,16 @@ public class LightSwitch : MonoBehaviour
                     }
                 }
                 break;
+            case TypeOfSwitch.searchInChildrenToggle:
+                foreach(GameObject parent in lights)
+                {
+                    foreach(Light light in parent.GetComponentsInChildren<Light>())
+                    {
+                        light.enabled = !light.enabled;
+                        light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
+                    }
+                }
+                break;
         }
     }
 }
@@ -75,5 +85,6 @@ public enum TypeOfSwitch
     togglePausePattern,
     holdToggle,
     flickeringPause,
-    flickeringToggle
+    flickeringToggle,
+    searchInChildrenToggle,
 }

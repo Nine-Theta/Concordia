@@ -13,6 +13,8 @@ public class TriggerHandler : MonoBehaviour
     private PlayerStats _playerStats;
 
     private GameObject _nearestInteractable;
+    public int mostRecentCheckpoint;
+    private Vector3 mostRecentCheckpointPos;
 
     private bool _isInDarkArea = true;
     private bool _isHiding = false;
@@ -25,6 +27,7 @@ public class TriggerHandler : MonoBehaviour
     {
         _playerStats = this.gameObject.GetComponent<PlayerStats>();
         _playerMovement = this.gameObject.GetComponent<PlayerMovement>();
+        mostRecentCheckpointPos = transform.position;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -54,6 +57,19 @@ public class TriggerHandler : MonoBehaviour
             {
                 _inNoteRange = true;
                 _nearestInteractable = other.gameObject;
+            }
+        }
+        if(other.gameObject.CompareTag("CheckPoint"))
+        {
+            CheckPoint checkpoint = other.gameObject.GetComponent<CheckPoint>();
+            if (mostRecentCheckpoint < checkpoint.index || checkpoint.returnAble)
+            {
+                mostRecentCheckpoint = checkpoint.index;
+                _playerMovement.otherPlayer.GetComponent<TriggerHandler>().mostRecentCheckpoint = checkpoint.index;
+                if(isLightPlayer)
+                    mostRecentCheckpointPos = checkpoint.LightLocation;
+                else
+                    mostRecentCheckpointPos = checkpoint.DarkLocation;
             }
         }
     }
@@ -106,6 +122,10 @@ public class TriggerHandler : MonoBehaviour
     {
         if (Input.GetKeyDown(interactionKey) || Input.GetKeyDown(alternateInteractionKey))
         {
+            if(_playerStats.GameOver)
+            {
+                _playerStats.Respawn();
+            }
             if (_isHiding)
             {
                 _playerMovement.StopHiding();
@@ -113,13 +133,15 @@ public class TriggerHandler : MonoBehaviour
                 _playerMovement.canMove = true;
                 return;
             }
-            if (_inButtonRange)
+            if (_inButtonRange && _nearestInteractable.GetComponent<LightSwitch>().switchType != TypeOfSwitch.holdToggle)
             {
                 _nearestInteractable.GetComponent<LightSwitch>().Toggle();
+                return;
             }
             if (_inNoteRange)
             {
                 CollectNote();
+                return;
             }
             if (_inHidingRange)
             {
@@ -133,6 +155,7 @@ public class TriggerHandler : MonoBehaviour
                 }
                 _isHiding = true;
                 _playerMovement.canMove = false;
+                return;
             }
         }
         if (_inButtonRange && _nearestInteractable.GetComponent<LightSwitch>().switchType == TypeOfSwitch.holdToggle && (Input.GetKey(interactionKey) || Input.GetKey(alternateInteractionKey)))
