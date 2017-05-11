@@ -6,16 +6,17 @@ public class TriggerHandler : MonoBehaviour
 {
     public KeyCode interactionKey;
     public KeyCode alternateInteractionKey;
-
-    public bool isLightPlayer;
+    
     public float damageSpeed = 0.1f;
+    public int mostRecentCheckpoint;
+    public bool isLightPlayer;
 
     private PlayerMovement _playerMovement;
     private PlayerStats _playerStats;
 
     private GameObject _nearestInteractable;
-    public int mostRecentCheckpoint;
-    private Vector3 mostRecentCheckpointPos;
+
+    private Vector3 _mostRecentCheckpointPos;
 
     private bool _isInDarkArea = true;
     private bool _isHiding = false;
@@ -29,7 +30,12 @@ public class TriggerHandler : MonoBehaviour
     {
         _playerStats = this.gameObject.GetComponent<PlayerStats>();
         _playerMovement = this.gameObject.GetComponent<PlayerMovement>();
-        mostRecentCheckpointPos = transform.position;
+        _mostRecentCheckpointPos = transform.position;
+    }
+
+    public Vector3 mostRecentCheckpointPos
+    {
+        get { return _mostRecentCheckpointPos; }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -73,12 +79,18 @@ public class TriggerHandler : MonoBehaviour
             {
                 mostRecentCheckpoint = checkpoint.index;
                 _playerMovement.otherPlayer.GetComponent<TriggerHandler>().mostRecentCheckpoint = checkpoint.index;
-                if(isLightPlayer)
-                    mostRecentCheckpointPos = checkpoint.LightLocation;
-                else
-                    mostRecentCheckpointPos = checkpoint.DarkLocation;
+                UpdateCheckpoint(checkpoint);
+                _playerMovement.otherPlayer.GetComponent<TriggerHandler>().UpdateCheckpoint(checkpoint);
             }
         }
+    }
+
+    public void UpdateCheckpoint(CheckPoint checkpoint)
+    {
+        if (isLightPlayer)
+            _mostRecentCheckpointPos = checkpoint.LightLocation;
+        else
+            _mostRecentCheckpointPos = checkpoint.DarkLocation;
     }
 
     private void OnTriggerStay(Collider other)
@@ -136,8 +148,13 @@ public class TriggerHandler : MonoBehaviour
         {
             if(_playerStats.GameOver)
             {
-                _playerStats.Respawn(mostRecentCheckpointPos);
+                _playerStats.Respawn(_mostRecentCheckpointPos);
                 _playerMovement.Reset();
+
+                GameObject OtherPlayer = _playerMovement.otherPlayer.gameObject;
+                OtherPlayer.GetComponent<PlayerStats>().Respawn(OtherPlayer.GetComponent<TriggerHandler>().mostRecentCheckpointPos);
+                OtherPlayer.GetComponent<PlayerMovement>().Reset();
+
                 return;
             }
             if (_isHiding)

@@ -86,8 +86,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(pauseKey))
         {
-
-            print("gets called: PlayerMovement GetKeyDown(pauseKey)");
             PauseScreen.gameObject.SetActive(true);
             PauseScreen.GetComponent<PauseMenu>().PauseKey = pauseKey;
             return;

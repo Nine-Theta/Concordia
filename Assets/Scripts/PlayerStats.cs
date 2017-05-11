@@ -79,21 +79,9 @@ public class PlayerStats : MonoBehaviour
         {
             if(child.CompareTag("Body"))
             {
-                GameObject.Destroy(child.gameObject);
+                Destroy(child.gameObject);
             }
         }
-        #endregion
-        #region oldDestruction
-        /**/
-        Destroy(_head.GetComponent<MeshCollider>());
-        Destroy(_body.GetComponent<MeshCollider>());
-        Destroy(_armLeft.GetComponent<MeshCollider>());
-        Destroy(_armRight.GetComponent<MeshCollider>());
-        Destroy(_head.GetComponent<Rigidbody>());
-        Destroy(_body.GetComponent<Rigidbody>());
-        Destroy(_armLeft.GetComponent<Rigidbody>());
-        Destroy(_armRight.GetComponent<Rigidbody>());
-        /**/
         #endregion
         GameObject newBody = GameObject.Instantiate<GameObject>(bodyPrefab, gameObject.transform);
         newBody.transform.localPosition = new Vector3(0, 0, 0);
