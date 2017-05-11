@@ -8,6 +8,7 @@ public class TriggerHandler : MonoBehaviour
     public KeyCode alternateInteractionKey;
 
     public bool isLightPlayer;
+    public float damageSpeed = 0.1f;
 
     private PlayerMovement _playerMovement;
     private PlayerStats _playerStats;
@@ -22,6 +23,7 @@ public class TriggerHandler : MonoBehaviour
     private bool _inHidingRange = false;
     private bool _inNoteRange = false;
     private bool _inCarShadow = false;
+    private bool _inDoorRange = false;
 
     private void Awake()
     {
@@ -44,6 +46,11 @@ public class TriggerHandler : MonoBehaviour
         if (other.gameObject.CompareTag("HidingSpot"))
         {
             _inHidingRange = true;
+            _nearestInteractable = other.gameObject;
+        }
+        if(other.gameObject.CompareTag("Door"))
+        {
+            _inDoorRange = true;
             _nearestInteractable = other.gameObject;
         }
         if (other.gameObject.CompareTag("Note"))
@@ -107,6 +114,11 @@ public class TriggerHandler : MonoBehaviour
             _inNoteRange = false;
             _nearestInteractable = null;
         }
+        if(other.gameObject.CompareTag("Door"))
+        {
+            _inDoorRange = false;
+            _nearestInteractable = null;
+        }
     }
 
     /// For the sake of both of our sanity: Please don't fill up the Fixed Update with random lines, just put them in a function if you have to. 
@@ -159,6 +171,10 @@ public class TriggerHandler : MonoBehaviour
                 _playerMovement.canMove = false;
                 return;
             }
+            if(_inDoorRange)
+            {
+                _nearestInteractable.GetComponent<Animator>().SetBool("ShouldOpen", true);
+            }
         }
         if (_inButtonRange && _nearestInteractable.GetComponent<LightSwitch>().switchType == TypeOfSwitch.holdToggle && (Input.GetKey(interactionKey) || Input.GetKey(alternateInteractionKey)))
         {
@@ -179,16 +195,16 @@ public class TriggerHandler : MonoBehaviour
         if (isLightPlayer)
         {
             if ((_isInDarkArea || _inCarShadow) && _playerStats.PlayerHealth > 0)
-                _playerStats.PlayerHealth -= 0.1f;
+                _playerStats.PlayerHealth -= damageSpeed;
             else if (_playerStats.PlayerHealth > 0 && _playerStats.PlayerHealth < _playerStats.MaxHealth)
-                _playerStats.PlayerHealth += 0.05f;
+                _playerStats.PlayerHealth += damageSpeed / 2;
         }
         else
         {
             if ((!_isInDarkArea && !_inCarShadow) && _playerStats.PlayerHealth > 0)
-                _playerStats.PlayerHealth -= 0.1f;
+                _playerStats.PlayerHealth -= damageSpeed;
             else if (_playerStats.PlayerHealth > 0 && _playerStats.PlayerHealth < _playerStats.MaxHealth)
-                _playerStats.PlayerHealth += 0.05f;
+                _playerStats.PlayerHealth += damageSpeed / 2;
         }
     }
 
