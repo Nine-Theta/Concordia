@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TriggerHandler : MonoBehaviour
 {
     public KeyCode interactionKey;
     public KeyCode alternateInteractionKey;
-    
+
+    public Text interactPopUp;
+
     public float damageSpeed = 0.1f;
     public int mostRecentCheckpoint;
     public bool isLightPlayer;
@@ -48,16 +51,19 @@ public class TriggerHandler : MonoBehaviour
         {
             _inButtonRange = true;
             _nearestInteractable = other.gameObject;
+            interactPopUp.gameObject.SetActive(true);
         }
         if (other.gameObject.CompareTag("HidingSpot"))
         {
             _inHidingRange = true;
             _nearestInteractable = other.gameObject;
+            interactPopUp.gameObject.SetActive(true);
         }
         if(other.gameObject.CompareTag("Door"))
         {
             _inDoorRange = true;
             _nearestInteractable = other.gameObject;
+            interactPopUp.gameObject.SetActive(true);
         }
         if (other.gameObject.CompareTag("Note"))
         {
@@ -70,6 +76,7 @@ public class TriggerHandler : MonoBehaviour
             {
                 _inNoteRange = true;
                 _nearestInteractable = other.gameObject;
+                interactPopUp.gameObject.SetActive(true);
             }
         }
         if(other.gameObject.CompareTag("CheckPoint"))
@@ -115,21 +122,25 @@ public class TriggerHandler : MonoBehaviour
         {
             _inButtonRange = false;
             _nearestInteractable = null;
+            interactPopUp.gameObject.SetActive(false);
         }
         if (other.gameObject.CompareTag("HidingSpot"))
         {
             _inHidingRange = false;
             _nearestInteractable = null;
+            interactPopUp.gameObject.SetActive(false);
         }
         if (other.gameObject.CompareTag("Note"))
         {
             _inNoteRange = false;
             _nearestInteractable = null;
+            interactPopUp.gameObject.SetActive(false);
         }
         if(other.gameObject.CompareTag("Door"))
         {
             _inDoorRange = false;
             _nearestInteractable = null;
+            interactPopUp.gameObject.SetActive(false);
         }
     }
 
@@ -154,6 +165,7 @@ public class TriggerHandler : MonoBehaviour
                 GameObject OtherPlayer = _playerMovement.otherPlayer.gameObject;
                 OtherPlayer.GetComponent<PlayerStats>().Respawn(OtherPlayer.GetComponent<TriggerHandler>().mostRecentCheckpointPos);
                 OtherPlayer.GetComponent<PlayerMovement>().Reset();
+                interactPopUp.gameObject.SetActive(false);
 
                 return;
             }
@@ -204,6 +216,13 @@ public class TriggerHandler : MonoBehaviour
     /// </summary>
     private void AffectPlayer()
     {
+
+        if (_playerStats.GameOver)
+        {
+            interactPopUp.gameObject.SetActive(true);
+            return;
+        }
+
         if (_isHiding)
         {
             _playerStats.PlayerHealth += 0.05f;

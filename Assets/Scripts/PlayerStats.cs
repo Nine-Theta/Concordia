@@ -15,7 +15,6 @@ public class PlayerStats : MonoBehaviour
     private GameObject _armRight;
     #endregion
 
-
     public GameObject bodyPrefab;
     public string[] NoteData = new string[20];
 
