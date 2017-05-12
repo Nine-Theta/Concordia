@@ -7,9 +7,12 @@ public class LightSwitch : MonoBehaviour
     public TypeOfSwitch switchType = TypeOfSwitch.simpleToggle;
     public List<GameObject> lights;
     public float duration = 0.0f;
+    public float cooldownTimer = 0.0f;
 
-    private float currentTimer = 0.0f;
-    private bool turnOn = false;
+    private float _currentTimer = 0.0f;
+    private float _currentCooldownTimer = 0.0f;
+    private bool _turnOn = false;
+    private bool _usable = true;
     // Use this for initialization
     void Start()
     {
@@ -23,10 +26,10 @@ public class LightSwitch : MonoBehaviour
 
     private void CheckTime()
     {
-        if (switchType == TypeOfSwitch.timedSwitch && currentTimer > 0.0f)
+        if (switchType == TypeOfSwitch.timedSwitch && _currentTimer > 0.0f)
         {
-            currentTimer -= Time.deltaTime;
-            if (currentTimer <= 0.0f)
+            _currentTimer -= Time.deltaTime;
+            if (_currentTimer <= 0.0f)
             {
                 foreach (GameObject parent in lights)
                 {
@@ -34,9 +37,14 @@ public class LightSwitch : MonoBehaviour
                     {
                         light.GetComponent<Light>().enabled = !light.GetComponent<Light>().enabled;
                         light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
+                        _currentCooldownTimer = cooldownTimer;
                     }
                 }
             }
+        }
+        if(_currentCooldownTimer > 0.0f)
+        {
+            _currentCooldownTimer -= Time.deltaTime;
         }
     }
 
@@ -72,7 +80,7 @@ public class LightSwitch : MonoBehaviour
                 }
                 break;
             case TypeOfSwitch.flickeringToggle:
-                if (turnOn)
+                if (_turnOn)
                 {
                     foreach (GameObject parent in lights)
                     {
@@ -110,7 +118,7 @@ public class LightSwitch : MonoBehaviour
                 }
                 break;
             case TypeOfSwitch.timedSwitch:
-                if (currentTimer <= 0.0f)
+                if (_currentTimer <= 0.0f && _currentCooldownTimer <= 0.0f)
                 {
                     foreach (GameObject parent in lights)
                     {
@@ -118,7 +126,7 @@ public class LightSwitch : MonoBehaviour
                         {
                             light.GetComponent<Light>().enabled = !light.GetComponent<Light>().enabled;
                             light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
-                            currentTimer = duration;
+                            _currentTimer = duration;
                         }
                     }
                 }
