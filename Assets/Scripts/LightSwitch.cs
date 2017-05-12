@@ -6,7 +6,9 @@ public class LightSwitch : MonoBehaviour
 {
     public TypeOfSwitch switchType = TypeOfSwitch.simpleToggle;
     public List<GameObject> lights;
+    public float duration = 0.0f;
 
+    private float currentTimer = 0.0f;
     private bool turnOn = false;
     // Use this for initialization
     void Start()
@@ -14,10 +16,25 @@ public class LightSwitch : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        CheckTime();
+    }
 
+    private void CheckTime()
+    {
+        if (switchType == TypeOfSwitch.timedSwitch && currentTimer > 0.0f)
+        {
+            currentTimer -= Time.deltaTime;
+            if (currentTimer >= 0.0f)
+            {
+                foreach (GameObject light in lights)
+                {
+                    light.GetComponent<Light>().enabled = !light.GetComponent<Light>().enabled;
+                    light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
+                }
+            }
+        }
     }
 
     public void Toggle()
@@ -51,16 +68,22 @@ public class LightSwitch : MonoBehaviour
             case TypeOfSwitch.flickeringToggle:
                 if (turnOn)
                 {
-                    foreach (GameObject light in lights)
+                    foreach (GameObject parent in lights)
                     {
-                        light.GetComponent<FlickeringLights>().TurnOn();
+                        foreach (Light light in parent.GetComponentsInChildren<Light>())
+                        {
+                            light.GetComponent<FlickeringLights>().TurnOn();
+                        }
                     }
                 }
                 else
                 {
-                    foreach (GameObject light in lights)
+                    foreach (GameObject parent in lights)
                     {
-                        light.GetComponent<FlickeringLights>().TurnOff();
+                        foreach (Light light in parent.GetComponentsInChildren<Light>())
+                        {
+                            light.GetComponent<FlickeringLights>().TurnOff();
+                        }
                     }
                 }
                 break;
@@ -71,6 +94,17 @@ public class LightSwitch : MonoBehaviour
                     {
                         light.enabled = !light.enabled;
                         light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
+                    }
+                }
+                break;
+            case TypeOfSwitch.timedSwitch:
+                if (currentTimer <= 0.0f)
+                {
+                    foreach (GameObject light in lights)
+                    {
+                        light.GetComponent<Light>().enabled = !light.GetComponent<Light>().enabled;
+                        light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
+                        currentTimer = duration;
                     }
                 }
                 break;
@@ -87,4 +121,5 @@ public enum TypeOfSwitch
     flickeringPause,
     flickeringToggle,
     searchInChildrenToggle,
+    timedSwitch
 }
