@@ -8,12 +8,13 @@ using UnityEngine;
 public class PatternLights : MonoBehaviour
 {
     //Returns the light to the previous state if true, else leaves in the current state
-    public bool returnState = true;
+    public bool returnState = false;
     public bool pauseWhenDone = false;
+    public bool startPaused = false;
     public List<PatternLight> lights;
 
-    private bool paused = false;
-    private int currentLight = 0;
+    private bool _paused = false;
+    private int _currentLight = 0;
     // Use this for initialization
     void Start()
     {
@@ -21,6 +22,7 @@ public class PatternLights : MonoBehaviour
         {
             light.maxDuration = light.duration;
         }
+        _paused = startPaused;
     }
 
     void FixedUpdate()
@@ -30,31 +32,31 @@ public class PatternLights : MonoBehaviour
 
     void FollowPattern()
     {
-        if (!paused)
+        if (_paused)
+            return;
+        lights[_currentLight].duration -= Time.deltaTime;
+        if (lights[_currentLight].duration <= 0)
         {
-            lights[currentLight].duration -= Time.deltaTime;
-            if (lights[currentLight].duration <= 0)
+            //reset the light duration for the next time it is called
+            lights[_currentLight].duration = lights[_currentLight].maxDuration;
+            //turn off this light and turn on the next
+            if (returnState)
+                lights[_currentLight].Toggle();
+            _currentLight++;
+            if (_currentLight >= lights.Count)
             {
-                //reset the light duration for the next time it is called
-                lights[currentLight].duration = lights[currentLight].maxDuration;
-                //turn off this light and turn on the next
-                if (returnState)
-                    lights[currentLight].Toggle();
-                currentLight++;
-                if (currentLight >= lights.Count)
-                {
-                    currentLight = 0;
-                    if (pauseWhenDone)
-                        paused = true;
-                }
-                lights[currentLight].Toggle();
+                _currentLight = 0;
+                if (pauseWhenDone)
+                    _paused = true;
             }
+            lights[_currentLight].Toggle();
         }
+        
     }
 
     public void TogglePause()
     {
-        paused = !paused;
+        _paused = !_paused;
     }
 }
 
@@ -84,7 +86,10 @@ public class PatternLight
     /// </summary>
     public void Toggle()
     {
-        lightObject.GetComponent<Light>().enabled = !lightObject.GetComponent<Light>().enabled;
-        lightObject.GetComponent<CapsuleCollider>().enabled = !lightObject.GetComponent<CapsuleCollider>().enabled;
+        foreach (Light light in lightObject.GetComponentsInChildren<Light>())
+        {
+            light.enabled = !light.enabled;
+            light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
+        }
     }
 }

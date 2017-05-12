@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class LightSwitch : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class LightSwitch : MonoBehaviour
     public List<GameObject> lights;
     public float duration = 0.0f;
     public float cooldownTimer = 0.0f;
+    public AudioClip toggleOnSound;
+    public AudioClip toggleOffSound;
+    public AudioClip brokenSound;
 
     private float _currentTimer = 0.0f;
     private float _currentCooldownTimer = 0.0f;
@@ -65,9 +69,12 @@ public class LightSwitch : MonoBehaviour
                 }
                 break;
             case TypeOfSwitch.holdToggle:
-                foreach (GameObject light in lights)
+                foreach (GameObject parent in lights)
                 {
-                    light.GetComponent<HoldLight>().Hold();
+                    foreach (Light light in parent.GetComponentsInChildren<Light>())
+                    {
+                        light.GetComponent<HoldLight>().Hold();
+                    }
                 }
                 break;
             case TypeOfSwitch.flickeringPause:
@@ -82,6 +89,8 @@ public class LightSwitch : MonoBehaviour
             case TypeOfSwitch.flickeringToggle:
                 if (_turnOn)
                 {
+                    if (toggleOnSound != null)
+                        GetComponent<AudioSource>().PlayOneShot(toggleOnSound);
                     foreach (GameObject parent in lights)
                     {
                         foreach (Light light in parent.GetComponentsInChildren<Light>())
@@ -95,6 +104,8 @@ public class LightSwitch : MonoBehaviour
                 }
                 else
                 {
+                    if (toggleOffSound != null)
+                        GetComponent<AudioSource>().PlayOneShot(toggleOffSound);
                     foreach (GameObject parent in lights)
                     {
                         foreach (Light light in parent.GetComponentsInChildren<Light>())
