@@ -6,18 +6,46 @@ public class LightSwitch : MonoBehaviour
 {
     public TypeOfSwitch switchType = TypeOfSwitch.simpleToggle;
     public List<GameObject> lights;
+    public float duration = 0.0f;
+    public float cooldownTimer = 0.0f;
 
-    private bool turnOn = false;
+    private float _currentTimer = 0.0f;
+    private float _currentCooldownTimer = 0.0f;
+    private bool _turnOn = false;
+    private bool _usable = true;
     // Use this for initialization
     void Start()
     {
 
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        CheckTime();
+    }
 
+    private void CheckTime()
+    {
+        if (switchType == TypeOfSwitch.timedSwitch && _currentTimer > 0.0f)
+        {
+            _currentTimer -= Time.deltaTime;
+            if (_currentTimer <= 0.0f)
+            {
+                foreach (GameObject parent in lights)
+                {
+                    foreach (Light light in parent.GetComponentsInChildren<Light>())
+                    {
+                        light.GetComponent<Light>().enabled = !light.GetComponent<Light>().enabled;
+                        light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
+                        _currentCooldownTimer = cooldownTimer;
+                    }
+                }
+            }
+        }
+        if(_currentCooldownTimer > 0.0f)
+        {
+            _currentCooldownTimer -= Time.deltaTime;
+        }
     }
 
     public void Toggle()
@@ -43,24 +71,39 @@ public class LightSwitch : MonoBehaviour
                 }
                 break;
             case TypeOfSwitch.flickeringPause:
-                foreach (GameObject light in lights)
+                foreach (GameObject parent in lights)
                 {
-                    light.GetComponent<FlickeringLights>().TogglePause();
+                    foreach (Light light in parent.GetComponentsInChildren<Light>())
+                    {
+                        light.GetComponent<FlickeringLights>().TogglePause();
+                    }
                 }
                 break;
             case TypeOfSwitch.flickeringToggle:
-                if (turnOn)
+                if (_turnOn)
                 {
-                    foreach (GameObject light in lights)
+                    foreach (GameObject parent in lights)
                     {
-                        light.GetComponent<FlickeringLights>().TurnOn();
+                        foreach (Light light in parent.GetComponentsInChildren<Light>())
+                        {
+                            if (light.GetComponent<FlickeringLights>() != null)
+                                light.GetComponent<FlickeringLights>().TurnOn();
+                            else
+                                light.gameObject.AddComponent<FlickeringLights>().TurnOn();
+                        }
                     }
                 }
                 else
                 {
-                    foreach (GameObject light in lights)
+                    foreach (GameObject parent in lights)
                     {
-                        light.GetComponent<FlickeringLights>().TurnOff();
+                        foreach (Light light in parent.GetComponentsInChildren<Light>())
+                        {
+                            if (light.GetComponent<FlickeringLights>() != null)
+                                light.GetComponent<FlickeringLights>().TurnOff();
+                            else
+                                light.gameObject.AddComponent<FlickeringLights>().TurnOn();
+                        }
                     }
                 }
                 break;
@@ -71,6 +114,20 @@ public class LightSwitch : MonoBehaviour
                     {
                         light.enabled = !light.enabled;
                         light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
+                    }
+                }
+                break;
+            case TypeOfSwitch.timedSwitch:
+                if (_currentTimer <= 0.0f && _currentCooldownTimer <= 0.0f)
+                {
+                    foreach (GameObject parent in lights)
+                    {
+                        foreach (Light light in parent.GetComponentsInChildren<Light>())
+                        {
+                            light.GetComponent<Light>().enabled = !light.GetComponent<Light>().enabled;
+                            light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
+                            _currentTimer = duration;
+                        }
                     }
                 }
                 break;
@@ -87,4 +144,5 @@ public enum TypeOfSwitch
     flickeringPause,
     flickeringToggle,
     searchInChildrenToggle,
+    timedSwitch
 }

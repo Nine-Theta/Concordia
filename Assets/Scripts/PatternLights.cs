@@ -84,6 +84,7 @@ public class PatternLight
     /// </summary>
     public void Toggle()
     {
-        lightObject.SetActive(!lightObject.activeSelf);
+        lightObject.GetComponent<Light>().enabled = !lightObject.GetComponent<Light>().enabled;
+        lightObject.GetComponent<CapsuleCollider>().enabled = !lightObject.GetComponent<CapsuleCollider>().enabled;
     }
 }
