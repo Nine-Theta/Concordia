@@ -94,11 +94,6 @@ public class TriggerHandler : MonoBehaviour
         }
     }
 
-    public void UpdateCheckpoint(CheckPoint checkpoint)
-    {
-        
-    }
-
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Light"))
