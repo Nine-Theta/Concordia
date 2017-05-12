@@ -85,19 +85,18 @@ public class TriggerHandler : MonoBehaviour
             if (mostRecentCheckpoint < checkpoint.index || checkpoint.returnAble)
             {
                 mostRecentCheckpoint = checkpoint.index;
-                _playerMovement.otherPlayer.GetComponent<TriggerHandler>().mostRecentCheckpoint = checkpoint.index;
-                UpdateCheckpoint(checkpoint);
-                _playerMovement.otherPlayer.GetComponent<TriggerHandler>().UpdateCheckpoint(checkpoint);
+
+                if (isLightPlayer)
+                    _mostRecentCheckpointPos = checkpoint.LightLocation;
+                else
+                    _mostRecentCheckpointPos = checkpoint.DarkLocation;
             }
         }
     }
 
     public void UpdateCheckpoint(CheckPoint checkpoint)
     {
-        if (isLightPlayer)
-            _mostRecentCheckpointPos = checkpoint.LightLocation;
-        else
-            _mostRecentCheckpointPos = checkpoint.DarkLocation;
+        
     }
 
     private void OnTriggerStay(Collider other)
@@ -162,9 +161,6 @@ public class TriggerHandler : MonoBehaviour
                 _playerStats.Respawn(_mostRecentCheckpointPos);
                 _playerMovement.Reset();
 
-                GameObject OtherPlayer = _playerMovement.otherPlayer.gameObject;
-                OtherPlayer.GetComponent<PlayerStats>().Respawn(OtherPlayer.GetComponent<TriggerHandler>().mostRecentCheckpointPos);
-                OtherPlayer.GetComponent<PlayerMovement>().Reset();
                 interactPopUp.gameObject.SetActive(false);
 
                 return;
