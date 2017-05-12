@@ -68,13 +68,13 @@ public class PauseMenu : MonoBehaviour {
 
     private void MenuNavigation()
     {
-        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetAxis("CADPY") < 0)
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetAxis("CADPY") > 0)
         {
             _resume.gameObject.GetComponent<ButtonSelect>().Selected = false;
             _quit.gameObject.GetComponent<ButtonSelect>().Selected = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetAxis("CADPY") > 0)
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetAxis("CADPY") < 0)
         {
             _resume.gameObject.GetComponent<ButtonSelect>().Selected = true;
             _quit.gameObject.GetComponent<ButtonSelect>().Selected = false;

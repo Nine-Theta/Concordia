@@ -85,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void GetKeyboardInput()
     {
-        if (Input.GetKeyDown(pauseKey))
+        if (Input.GetKeyDown(pauseKey) || Input.GetKeyDown(KeyCode.JoystickButton9))
         {
             PauseScreen.gameObject.SetActive(true);
             PauseScreen.GetComponent<PauseMenu>().PauseKey = pauseKey;
