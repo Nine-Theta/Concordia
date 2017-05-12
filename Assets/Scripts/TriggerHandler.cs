@@ -205,7 +205,7 @@ public class TriggerHandler : MonoBehaviour
                 _nearestInteractable.GetComponent<Animator>().SetBool("ShouldOpen", true);
             }
         }
-        if (_inButtonRange && _nearestInteractable.GetComponent<LightSwitch>().switchType == TypeOfSwitch.holdToggle && (Input.GetKey(interactionKey) || Input.GetKey(alternateInteractionKey)))
+        if (_inButtonRange && _nearestInteractable.GetComponent<LightSwitch>() != null && _nearestInteractable.GetComponent<LightSwitch>().switchType == TypeOfSwitch.holdToggle && (Input.GetKey(interactionKey) || Input.GetKey(alternateInteractionKey)))
         {
             _nearestInteractable.GetComponent<LightSwitch>().Toggle();
         }
@@ -219,7 +219,7 @@ public class TriggerHandler : MonoBehaviour
 
         if (_playerStats.GameOver)
         {
-            interactPopUp.gameObject.SetActive(true);
+            //interactPopUp.gameObject.SetActive(true);
             return;
         }
 
