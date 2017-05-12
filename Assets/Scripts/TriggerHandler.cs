@@ -174,6 +174,7 @@ public class TriggerHandler : MonoBehaviour
                 _playerMovement.StopHiding();
                 _isHiding = false;
                 _playerMovement.canMove = true;
+                gameObject.GetComponent<Rigidbody>().useGravity = true;
                 return;
             }
             if (_inButtonRange && _nearestInteractable.GetComponent<LightSwitch>().switchType != TypeOfSwitch.holdToggle)
@@ -198,6 +199,7 @@ public class TriggerHandler : MonoBehaviour
                 }
                 _isHiding = true;
                 _playerMovement.canMove = false;
+                gameObject.GetComponent<Rigidbody>().useGravity = false;
                 return;
             }
             if(_inDoorRange)
@@ -219,7 +221,7 @@ public class TriggerHandler : MonoBehaviour
 
         if (_playerStats.GameOver)
         {
-            //interactPopUp.gameObject.SetActive(true);
+            interactPopUp.gameObject.SetActive(true);
             return;
         }
 
