@@ -72,7 +72,10 @@ public class LightSwitch : MonoBehaviour
                     {
                         foreach (Light light in parent.GetComponentsInChildren<Light>())
                         {
-                            light.GetComponent<FlickeringLights>().TurnOn();
+                            if (light.GetComponent<FlickeringLights>() != null)
+                                light.GetComponent<FlickeringLights>().TurnOn();
+                            else
+                                light.gameObject.AddComponent<FlickeringLights>().TurnOn();
                         }
                     }
                 }
@@ -82,7 +85,10 @@ public class LightSwitch : MonoBehaviour
                     {
                         foreach (Light light in parent.GetComponentsInChildren<Light>())
                         {
-                            light.GetComponent<FlickeringLights>().TurnOff();
+                            if (light.GetComponent<FlickeringLights>() != null)
+                                light.GetComponent<FlickeringLights>().TurnOff();
+                            else
+                                light.gameObject.AddComponent<FlickeringLights>().TurnOn();
                         }
                     }
                 }
