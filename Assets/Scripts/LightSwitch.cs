@@ -106,11 +106,14 @@ public class LightSwitch : MonoBehaviour
             case TypeOfSwitch.timedSwitch:
                 if (currentTimer <= 0.0f)
                 {
-                    foreach (GameObject light in lights)
+                    foreach (GameObject parent in lights)
                     {
-                        light.GetComponent<Light>().enabled = !light.GetComponent<Light>().enabled;
-                        light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
-                        currentTimer = duration;
+                        foreach (Light light in parent.GetComponentsInChildren<Light>())
+                        {
+                            light.GetComponent<Light>().enabled = !light.GetComponent<Light>().enabled;
+                            light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
+                            currentTimer = duration;
+                        }
                     }
                 }
                 break;
