@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     //public KeyCode crouchKey;
     public KeyCode findOtherKey;
     public KeyCode pauseKey;
+    public KeyCode jumpKey;
 
     public GameObject findOtherPlayer;
     public Transform otherPlayer;
@@ -129,6 +130,11 @@ public class PlayerMovement : MonoBehaviour
         {
             GameObject prefab = Instantiate(findOtherPlayer, transform.position, transform.rotation);
             prefab.GetComponent<TrackOtherHalf>().SetTarget(otherPlayer.transform);
+        }
+        if (Input.GetKeyDown(jumpKey))
+        {
+            _playerBody.AddRelativeForce(Vector3.up * movementSpeed * 10, ForceMode.VelocityChange);
+            Debug.Log(_playerBody.velocity);
         }
         //if (Input.GetKeyUp(crouchKey))
         //{
