@@ -88,6 +88,8 @@ public class PatternLight
     {
         foreach (Light light in lightObject.GetComponentsInChildren<Light>())
         {
+            if (light == null)
+                Debug.Log("It's name" + light.name + " Parent: " +  light.GetComponentInParent<Transform>().name);
             light.enabled = !light.enabled;
             light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
         }

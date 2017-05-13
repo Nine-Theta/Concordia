@@ -73,7 +73,7 @@ public class PlayerStats : MonoBehaviour
         lifebar.GetComponentInChildren<Image>().gameObject.SetActive(true);
         lifebar.size = 1;
         GameOverMessage.text = "";
-        #region newDestruction
+        #region Destruction
         foreach(Transform child in gameObject.GetComponentInChildren<Transform>())
         {
             if(child.CompareTag("Body"))
@@ -97,34 +97,29 @@ public class PlayerStats : MonoBehaviour
         foreach (MeshFilter child in gameObject.GetComponentsInChildren<MeshFilter>())
         {
             string[] splitName = child.gameObject.name.Split('_');
-            switch (splitName[1])
+            if (splitName.Length > 1)
             {
-                case "Head":
-                    _head = child.gameObject;
-                    //_headLocalPos = child.transform.localPosition;
-                    //Debug.Log(_headLocalPos);
-                    break;
-                case "Body":
-                    _body = child.gameObject;
-                    //_bodyLocalPos = child.transform.localPosition;
-                    //Debug.Log(_bodyLocalPos);
-                    break;
-                case "HandL":
-                    _armLeft = child.gameObject;
-                    //_armLeftLocalPos = child.transform.localPosition;
-                    //Debug.Log(_armLeftLocalPos);
-                    break;
-                case "HandR":
-                    _armRight = child.gameObject;
-                    //_armRightLocalPos = child.transform.localPosition;
-                    //Debug.Log(_armRightLocalPos);
-                    break;
+                switch (splitName[1])
+                {
+                    case "Head":
+                        _head = child.gameObject;
+                        break;
+                    case "Body":
+                        _body = child.gameObject;
+                        break;
+                    case "HandL":
+                        _armLeft = child.gameObject;
+                        break;
+                    case "HandR":
+                        _armRight = child.gameObject;
+                        break;
+                }
             }
         }
     }
 
     /// <summary>
-    /// 
+    /// u ded lel
     /// </summary>
     private void Die()
     {
@@ -134,7 +129,7 @@ public class PlayerStats : MonoBehaviour
         GameOverMessage.text = "GAME OVER";
         //Game Over man, Game Over.
 
-        #region PlayerPartsTest
+        #region BestFeature
         _head.AddComponent<MeshCollider>().convex = true;
         _body.AddComponent<MeshCollider>().convex = true;
         _armLeft.AddComponent<MeshCollider>().convex = true;

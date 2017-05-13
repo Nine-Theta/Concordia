@@ -16,7 +16,7 @@ public class LightSwitch : MonoBehaviour
     private float _currentTimer = 0.0f;
     private float _currentCooldownTimer = 0.0f;
     private bool _turnOn = false;
-    private bool _usable = true;
+    //private bool _usable = true;
     // Use this for initialization
     void Start()
     {
