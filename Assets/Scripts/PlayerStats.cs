@@ -13,6 +13,7 @@ public class PlayerStats : MonoBehaviour
     private GameObject _body;
     private GameObject _armLeft;
     private GameObject _armRight;
+    private GameObject _hpPlane;
     #endregion
 
     public GameObject bodyPrefab;
@@ -52,6 +53,8 @@ public class PlayerStats : MonoBehaviour
             {
                 _playerHealth = value;
                 lifebar.size = _playerHealth / _maxHealth;
+                if(_hpPlane != null)
+                    _hpPlane.GetComponent<MeshRenderer>().material.SetTextureOffset("_MainTex", new Vector2(1 - (_playerHealth / _maxHealth) , - 1 ));
             }
             else if (!_gameOver)
             {
@@ -115,6 +118,10 @@ public class PlayerStats : MonoBehaviour
                         _armRight = child.gameObject;
                         break;
                 }
+            }
+            if(splitName[0] == "Plane")
+            {
+                _hpPlane = child.gameObject;
             }
         }
     }
