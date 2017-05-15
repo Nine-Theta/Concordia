@@ -71,6 +71,7 @@ public class PlayerStats : MonoBehaviour
         _gameOver = false;
         _playerHealth = _maxHealth;
         lifebar.GetComponentInChildren<Image>().gameObject.SetActive(true);
+        gameObject.GetComponent<Animator>().enabled = false;
         lifebar.size = 1;
         GameOverMessage.text = "";
         #region Destruction
@@ -127,6 +128,7 @@ public class PlayerStats : MonoBehaviour
         lifebar.GetComponentInChildren<Image>().gameObject.SetActive(false);
         _gameOver = true;
         GameOverMessage.text = "GAME OVER";
+        gameObject.GetComponent<Animator>().enabled = false;
         //Game Over man, Game Over.
 
         #region BestFeature

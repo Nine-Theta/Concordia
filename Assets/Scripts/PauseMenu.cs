@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour {
 
-    private KeyCode _pauseKey = KeyCode.P; //Default KeyCode, should be changed to the correct one by PlayerMovement.
-    private KeyCode _interactKeyLP = KeyCode.E; //Default Interaction KeyCode for the Light Player.
-    private KeyCode _interactKeyDP = KeyCode.Backslash; //Default Interaction KeyCode for the Dark Player.
+    public KeyCode _pauseKey = KeyCode.P; //Default KeyCode, should be changed to the correct one by PlayerMovement.
+    public KeyCode _interactKeyLP = KeyCode.E; //Default Interaction KeyCode for the Light Player.
+    public KeyCode _interactKeyDP = KeyCode.Backslash; //Default Interaction KeyCode for the Dark Player.
     private KeyCode _ctrlPauseKey = KeyCode.JoystickButton9; //Options Button on the PS4 controller, won't be changed.
     private KeyCode _ctrlInteractKey = KeyCode.JoystickButton1; //X Button on the PS4 controller, might be changed, but probably not due to unofficial button mapping standardization;
 

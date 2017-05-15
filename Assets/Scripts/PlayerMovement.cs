@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody _playerBody;
     private PlayerStats _playerStats;
+    private Animator _animator;
 
     private Vector3 _preHidingPos;
 
@@ -35,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _playerBody = this.gameObject.GetComponent<Rigidbody>();
         _playerStats = this.gameObject.GetComponent<PlayerStats>();
+        _animator = this.gameObject.GetComponent<Animator>();
     }
 
     public bool canMove
@@ -91,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
             PauseScreen.GetComponent<PauseMenu>().PauseKey = pauseKey;
             return;
         }
-
+        _animator.SetBool("IsWalking", false);
         #region RotationForTesting
         if (Input.GetKey(rotateLeftKey))
         {
@@ -108,18 +110,22 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(forwardKey))
         {
             _playerBody.AddRelativeForce(Vector3.forward * movementSpeed, ForceMode.VelocityChange);
+            _animator.SetBool("IsWalking", true);
         }
         if (Input.GetKey(backwardKey))
         {
             _playerBody.AddRelativeForce(Vector3.back * movementSpeed, ForceMode.VelocityChange);
+            _animator.SetBool("IsWalking", true);
         }
         if (Input.GetKey(moveLeftKey))
         {
             _playerBody.AddRelativeForce(Vector3.left * movementSpeed, ForceMode.VelocityChange);
+            _animator.SetBool("IsWalking", true);
         }
         if (Input.GetKey(moveRightKey))
         {
             _playerBody.AddRelativeForce(Vector3.right * movementSpeed, ForceMode.VelocityChange);
+            _animator.SetBool("IsWalking", true);
         }
         #endregion
         //if (Input.GetKeyDown(crouchKey))
@@ -134,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(jumpKey))
         {
             _playerBody.AddRelativeForce(Vector3.up * movementSpeed * 10, ForceMode.VelocityChange);
-            Debug.Log(_playerBody.velocity);
+            //Debug.Log(_playerBody.velocity);
         }
         //if (Input.GetKeyUp(crouchKey))
         //{
@@ -154,5 +160,7 @@ public class PlayerMovement : MonoBehaviour
         float leftStickX = Input.GetAxis("C" + controllerNumber + "LSX") * movementSpeed;
         float leftStickY = Input.GetAxis("C" + controllerNumber + "LSY") * movementSpeed;
         _playerBody.AddRelativeForce(new Vector3(leftStickX, 0, leftStickY), ForceMode.VelocityChange);
+        if(leftStickX != 0.0f || leftStickY != 0.0f)
+            _animator.SetBool("IsWalking", true);
     }
 }
