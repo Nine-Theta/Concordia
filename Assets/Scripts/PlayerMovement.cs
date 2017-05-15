@@ -140,7 +140,6 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(jumpKey))
         {
             _playerBody.AddRelativeForce(Vector3.up * movementSpeed * 10, ForceMode.VelocityChange);
-            //Debug.Log(_playerBody.velocity);
         }
         //if (Input.GetKeyUp(crouchKey))
         //{

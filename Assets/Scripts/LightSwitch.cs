@@ -5,6 +5,8 @@ using UnityEngine.Audio;
 
 public class LightSwitch : MonoBehaviour
 {
+
+    public Light lightswitchLight;
     public TypeOfSwitch switchType = TypeOfSwitch.simpleToggle;
     public List<GameObject> lights;
     public float duration = 0.0f;
@@ -61,12 +63,14 @@ public class LightSwitch : MonoBehaviour
                 {
                     light.SetActive(!light.activeSelf);
                 }
+                lightswitchLight.enabled = !lightswitchLight.enabled;
                 break;
             case TypeOfSwitch.togglePausePattern:
                 foreach (GameObject light in lights)
                 {
                     light.GetComponent<PatternLights>().TogglePause();
                 }
+                lightswitchLight.enabled = !lightswitchLight.enabled;
                 break;
             case TypeOfSwitch.holdToggle:
                 foreach (GameObject parent in lights)
@@ -85,6 +89,7 @@ public class LightSwitch : MonoBehaviour
                         light.GetComponent<FlickeringLights>().TogglePause();
                     }
                 }
+                lightswitchLight.enabled = !lightswitchLight.enabled;
                 break;
             case TypeOfSwitch.flickeringToggle:
                 if (_turnOn)
@@ -101,6 +106,7 @@ public class LightSwitch : MonoBehaviour
                                 light.gameObject.AddComponent<FlickeringLights>().TurnOn();
                         }
                     }
+                    lightswitchLight.enabled = true;
                 }
                 else
                 {
@@ -116,6 +122,7 @@ public class LightSwitch : MonoBehaviour
                                 light.gameObject.AddComponent<FlickeringLights>().TurnOn();
                         }
                     }
+                    lightswitchLight.enabled = false;
                 }
                 break;
             case TypeOfSwitch.searchInChildrenToggle:
@@ -127,6 +134,7 @@ public class LightSwitch : MonoBehaviour
                         light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
                     }
                 }
+                lightswitchLight.enabled = !lightswitchLight.enabled;
                 break;
             case TypeOfSwitch.timedSwitch:
                 if (_currentTimer <= 0.0f && _currentCooldownTimer <= 0.0f)
@@ -141,6 +149,7 @@ public class LightSwitch : MonoBehaviour
                         }
                     }
                 }
+                lightswitchLight.enabled = !lightswitchLight.enabled;
                 break;
         }
     }
