@@ -77,7 +77,10 @@ public class LightSwitch : MonoBehaviour
                 {
                     foreach (Light light in parent.GetComponentsInChildren<Light>())
                     {
-                        light.GetComponent<HoldLight>().Hold();
+                        if (light.GetComponent<HoldLight>() != null)
+                            light.GetComponent<HoldLight>().Hold();
+                        else
+                            light.gameObject.AddComponent<HoldLight>().Hold();
                     }
                 }
                 break;
