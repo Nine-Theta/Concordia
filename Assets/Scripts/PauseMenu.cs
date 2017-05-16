@@ -82,26 +82,26 @@ public class PauseMenu : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetAxis("CADPY") > 0)
         {
-            _buttons[_currentSelected].gameObject.GetComponent<ButtonSelect>().Selected = false;
+            _buttons[_currentSelected].gameObject.GetComponent<ButtonSelect>().State = ButtonSelect.ButtonStates.Normal;
 
             if (_currentSelected == 3)
                 _currentSelected = 0;
             else
                 _currentSelected += 1;
 
-            _buttons[_currentSelected].gameObject.GetComponent<ButtonSelect>().Selected = true;
+            _buttons[_currentSelected].gameObject.GetComponent<ButtonSelect>().State = ButtonSelect.ButtonStates.Selected;
         }
 
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetAxis("CADPY") < 0)
         {
-            _buttons[_currentSelected].gameObject.GetComponent<ButtonSelect>().Selected = false;
+            _buttons[_currentSelected].gameObject.GetComponent<ButtonSelect>().State = ButtonSelect.ButtonStates.Normal;
 
             if (_currentSelected == 0)
                 _currentSelected = 3;
             else
                 _currentSelected -= 1;
 
-            _buttons[_currentSelected].gameObject.GetComponent<ButtonSelect>().Selected = true;
+            _buttons[_currentSelected].gameObject.GetComponent<ButtonSelect>().State = ButtonSelect.ButtonStates.Selected;
         }
     }
 
@@ -110,27 +110,28 @@ public class PauseMenu : MonoBehaviour {
         if (Input.GetKeyDown(_pauseKey) || Input.GetKeyDown(_ctrlPauseKey))
             ResumeGame();
 
-        if (Input.GetKeyDown(_interactKeyLP) || Input.GetKeyDown(_interactKeyDP) || Input.GetKeyDown(_ctrlInteractKey))
+        if (Input.GetKey(_interactKeyLP) || Input.GetKey(_interactKeyDP) || Input.GetKey(_ctrlInteractKey))
+            _buttons[_currentSelected].gameObject.GetComponent<ButtonSelect>().State = ButtonSelect.ButtonStates.Pressed;
+
+        if (Input.GetKeyUp(_interactKeyLP) || Input.GetKeyUp(_interactKeyDP) || Input.GetKeyUp(_ctrlInteractKey))
         {
+            _buttons[_currentSelected].gameObject.GetComponent<ButtonSelect>().State = ButtonSelect.ButtonStates.Normal;
+
             switch (_currentSelected)
             {
                 case 1: //Continue
                     ResumeGame();
                     break;
-
                 case 2: //Controls
                     print("TODO: IMPLEMENT MUSIC MENU"); //TODO
                     break;
-
                 case 3: //Music
                     print("TODO: IMPLEMENT MUSIC MENU"); //TODO
                     break;
-
                 case 4: //Exit
                     QuitGame();
                     break;
             }
-
         }
     }
 	

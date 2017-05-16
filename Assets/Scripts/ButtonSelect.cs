@@ -5,6 +5,12 @@ using UnityEngine.UI;
 
 public class ButtonSelect : MonoBehaviour {
 
+    public ColorBlock buttonColour;
+
+    public enum ButtonStates { Normal, Selected, Pressed, Disabled }
+
+    public ButtonStates State;
+
     private bool _selected = false;
 
     public bool Selected
@@ -13,21 +19,30 @@ public class ButtonSelect : MonoBehaviour {
         get { return _selected; }
     }
 
-    private void CheckSelected()
+    private void CheckState()
     {
-        if (_selected)
+        switch (State)
         {
-            gameObject.GetComponent<Image>().color = Color.grey;
-        }
-
-        if (!_selected)
-        {
-            gameObject.GetComponent<Image>().color = Color.white;
+            case ButtonStates.Disabled:
+                gameObject.GetComponent<Image>().color = buttonColour.disabledColor;
+                break;
+            case ButtonStates.Normal:
+                gameObject.GetComponent<Image>().color = buttonColour.normalColor;
+                break;
+            case ButtonStates.Selected:
+                gameObject.GetComponent<Image>().color = buttonColour.highlightedColor;
+                break;
+            case ButtonStates.Pressed:
+                gameObject.GetComponent<Image>().color = buttonColour.pressedColor;
+                break;
+            default:
+                gameObject.GetComponent<Image>().color = Color.magenta;
+                break;
         }
     }
 
     private void Update()
     {
-        CheckSelected();
+        CheckState();
     }
 }
