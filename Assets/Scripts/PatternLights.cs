@@ -51,12 +51,24 @@ public class PatternLights : MonoBehaviour
             }
             lights[_currentLight].Toggle();
         }
-        
     }
 
     public void TogglePause()
     {
         _paused = !_paused;
+    }
+    
+    /// <summary>
+    /// Sets duration of all lights so the pattern lasts "duration" amount of seconds
+    /// </summary>
+    /// <param name="duration">Float duration in seconds</param>
+    public void SetDuration(float duration)
+    {
+        foreach(PatternLight light in lights)
+        {
+            light.duration = duration / lights.Count;
+            light.maxDuration = light.duration;
+        }
     }
 }
 
@@ -89,7 +101,7 @@ public class PatternLight
         foreach (Light light in lightObject.GetComponentsInChildren<Light>())
         {
             if (light == null)
-                Debug.Log("It's name" + light.name + " Parent: " +  light.GetComponentInParent<Transform>().name);
+                Debug.Log("Its name" + light.name + " Parent: " +  light.GetComponentInParent<Transform>().name);
             light.enabled = !light.enabled;
             if(light.GetComponent<CapsuleCollider>() != null)
                 light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;

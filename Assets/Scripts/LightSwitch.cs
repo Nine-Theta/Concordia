@@ -19,6 +19,7 @@ public class LightSwitch : MonoBehaviour
     private float _currentCooldownTimer = 0.0f;
     private bool _turnOn = false;
     private bool _usable = true;
+    private bool _patternAssigned = false;
     // Use this for initialization
     private void Start()
     {
@@ -85,6 +86,14 @@ public class LightSwitch : MonoBehaviour
                         GetComponent<AudioSource>().PlayOneShot(toggleOnSound);
                     else
                         GetComponent<AudioSource>().PlayOneShot(toggleOffSound);
+                }
+                if(_patternAssigned == false && cooldownTimer > 0.0f)
+                {
+                    foreach(GameObject light in lights)
+                    {
+                        light.GetComponent<PatternLights>().SetDuration(duration);
+                    }
+                    _patternAssigned = true;
                 }
                 foreach (GameObject light in lights)
                 {
@@ -204,6 +213,7 @@ public class LightSwitch : MonoBehaviour
                             _currentTimer = duration;
                         }
                     }
+                    _usable = false;
                     lightswitchLight.enabled = !lightswitchLight.enabled;
                 }
                 break;
