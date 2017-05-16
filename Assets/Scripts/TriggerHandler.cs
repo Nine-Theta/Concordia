@@ -99,10 +99,15 @@ public class TriggerHandler : MonoBehaviour
         if (other.gameObject.CompareTag("Light"))
         {
             _isInDarkArea = false;
+            //Debug.Log("Burning in the light");
         }
         if (other.gameObject.CompareTag("CarShadow"))
         {
             _inCarShadow = true;
+        }
+        if(other.gameObject.CompareTag("HidingSpot"))
+        {
+            //Debug.Log();
         }
     }
 
@@ -166,6 +171,7 @@ public class TriggerHandler : MonoBehaviour
                 _isHiding = false;
                 _playerMovement.canMove = true;
                 gameObject.GetComponent<Rigidbody>().useGravity = true;
+                AffectPlayer();
                 return;
             }
             if (_inButtonRange && _nearestInteractable.GetComponent<LightSwitch>().switchType != TypeOfSwitch.holdToggle)
