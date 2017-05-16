@@ -84,7 +84,7 @@ public class PauseMenu : MonoBehaviour {
         {
             _buttons[_currentSelected].gameObject.GetComponent<ButtonSelect>().Selected = false;
 
-            if (_currentSelected == 4)
+            if (_currentSelected == 3)
                 _currentSelected = 0;
             else
                 _currentSelected += 1;
@@ -97,7 +97,7 @@ public class PauseMenu : MonoBehaviour {
             _buttons[_currentSelected].gameObject.GetComponent<ButtonSelect>().Selected = false;
 
             if (_currentSelected == 0)
-                _currentSelected = 4;
+                _currentSelected = 3;
             else
                 _currentSelected -= 1;
 
