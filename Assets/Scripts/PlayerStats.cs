@@ -24,6 +24,7 @@ public class PlayerStats : MonoBehaviour
     private float _maxHealth;
 
     private bool _gameOver = false;
+    private bool _shouldSetRootMotionToTrue = false;
 
     private void Start()
     {
@@ -33,6 +34,14 @@ public class PlayerStats : MonoBehaviour
     private void Awake()
     {
         _maxHealth = _playerHealth;
+    }
+
+    private void FixedUpdate()
+    {
+        if(_shouldSetRootMotionToTrue)
+            gameObject.GetComponent<Animator>().applyRootMotion = true;
+        if (gameObject.GetComponent<Animator>().applyRootMotion == true)
+            gameObject.GetComponent<Animator>().applyRootMotion = false;
     }
 
     public float MaxHealth
@@ -53,8 +62,10 @@ public class PlayerStats : MonoBehaviour
             {
                 _playerHealth = value;
                 lifebar.size = _playerHealth / _maxHealth;
-                if(_hpPlane != null)
-                    _hpPlane.GetComponent<MeshRenderer>().material.SetTextureOffset("_MainTex", new Vector2( - 1 , 1 - (_playerHealth / _maxHealth)));
+                if (_hpPlane != null)
+                    _hpPlane.GetComponent<Image>().fillAmount = _playerHealth / _maxHealth;
+                //if(_hpPlane != null)
+                    //_hpPlane.GetComponent<MeshRenderer>().material.SetTextureOffset("_MainTex", new Vector2( - 1 , 1 - (_playerHealth / _maxHealth)));
             }
             else if (!_gameOver)
             {
@@ -87,11 +98,16 @@ public class PlayerStats : MonoBehaviour
         }
         #endregion
         GameObject newBody = GameObject.Instantiate<GameObject>(bodyPrefab, gameObject.transform);
+        newBody.name = "Body";
         newBody.transform.localPosition = new Vector3(0, 0, 0);
         newBody.transform.localEulerAngles = new Vector3(0, 0, 0);
         AssignBodyParts();
         gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-        gameObject.GetComponent<Rigidbody>().useGravity = true;
+        gameObject.GetComponent<Rigidbody>().useGravity = true;       
+        gameObject.GetComponent<Animator>().enabled = true;
+        gameObject.GetComponent<Animator>().Rebind();
+        _shouldSetRootMotionToTrue = true;
+        
     }
 
     /// <summary>
@@ -99,6 +115,13 @@ public class PlayerStats : MonoBehaviour
     /// </summary>
     private void AssignBodyParts()
     {
+        foreach(Image image in gameObject.GetComponentsInChildren<Image>())
+        {
+            if (_hpPlane == null && image.CompareTag("HealthBar"))
+                _hpPlane = image.gameObject;
+            //else
+                //Debug.Log("HP plane is attempting to reassign, did you just respawn or do you have multiple images tagged as HealthBar in the Player?");
+        }
         foreach (MeshFilter child in gameObject.GetComponentsInChildren<MeshFilter>())
         {
             string[] splitName = child.gameObject.name.Split('_');
@@ -120,10 +143,10 @@ public class PlayerStats : MonoBehaviour
                         break;
                 }
             }
-            if(splitName[0] == "Plane")
-            {
-                _hpPlane = child.gameObject;
-            }
+            //if(splitName[0] == "Plane")
+            //{
+            //    _hpPlane = child.gameObject;
+            //}
         }
     }
 
