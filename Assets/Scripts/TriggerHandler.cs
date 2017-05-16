@@ -228,7 +228,8 @@ public class TriggerHandler : MonoBehaviour
 
         if (_isHiding)
         {
-            _playerStats.PlayerHealth += 0.05f;
+            if(_playerStats.PlayerHealth < _playerStats.MaxHealth)
+            _playerStats.PlayerHealth += damageSpeed / 2;
             return;
         }
         if (isLightPlayer)

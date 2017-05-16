@@ -18,7 +18,7 @@ public class LightSwitch : MonoBehaviour
     private float _currentTimer = 0.0f;
     private float _currentCooldownTimer = 0.0f;
     private bool _turnOn = false;
-    //private bool _usable = true;
+    private bool _usable = true;
     // Use this for initialization
     private void Start()
     {
@@ -51,11 +51,15 @@ public class LightSwitch : MonoBehaviour
         if(_currentCooldownTimer > 0.0f)
         {
             _currentCooldownTimer -= Time.deltaTime;
+            if (_currentCooldownTimer <= 0.0f)
+                _usable = true;
         }
     }
 
     public void Toggle()
     {
+        if (!_usable)
+            return;
         switch (switchType)
         {
             case TypeOfSwitch.simpleToggle:
@@ -87,6 +91,11 @@ public class LightSwitch : MonoBehaviour
                     light.GetComponent<PatternLights>().TogglePause();
                 }
                 lightswitchLight.enabled = !lightswitchLight.enabled;
+                if(cooldownTimer > 0.0f)
+                {
+                    _currentCooldownTimer = cooldownTimer;
+                    _usable = false;
+                }
                 break;
 
             case TypeOfSwitch.holdToggle:

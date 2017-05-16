@@ -38,10 +38,11 @@ public class PlayerStats : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(_shouldSetRootMotionToTrue)
-            gameObject.GetComponent<Animator>().applyRootMotion = true;
-        if (gameObject.GetComponent<Animator>().applyRootMotion == true)
-            gameObject.GetComponent<Animator>().applyRootMotion = false;
+        if (_shouldSetRootMotionToTrue)
+        {
+            gameObject.GetComponent<Animator>().Rebind();
+            _shouldSetRootMotionToTrue = false;
+        }
     }
 
     public float MaxHealth
