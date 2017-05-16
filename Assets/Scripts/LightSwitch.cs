@@ -91,7 +91,7 @@ public class LightSwitch : MonoBehaviour
                 {
                     foreach(GameObject light in lights)
                     {
-                        light.GetComponent<PatternLights>().SetDuration(cooldownTimer);
+                        light.GetComponent<PatternLights>().SetDuration(duration);
                     }
                     _patternAssigned = true;
                 }
