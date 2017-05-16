@@ -54,7 +54,7 @@ public class PlayerStats : MonoBehaviour
                 _playerHealth = value;
                 lifebar.size = _playerHealth / _maxHealth;
                 if(_hpPlane != null)
-                    _hpPlane.GetComponent<MeshRenderer>().material.SetTextureOffset("_MainTex", new Vector2(1 - (_playerHealth / _maxHealth) , - 1 ));
+                    _hpPlane.GetComponent<MeshRenderer>().material.SetTextureOffset("_MainTex", new Vector2( - 1 , 1 - (_playerHealth / _maxHealth)));
             }
             else if (!_gameOver)
             {
@@ -91,6 +91,7 @@ public class PlayerStats : MonoBehaviour
         newBody.transform.localEulerAngles = new Vector3(0, 0, 0);
         AssignBodyParts();
         gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+        gameObject.GetComponent<Rigidbody>().useGravity = true;
     }
 
     /// <summary>

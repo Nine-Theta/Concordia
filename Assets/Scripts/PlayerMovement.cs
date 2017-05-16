@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Reset()
     {
-        _playerBody.useGravity = false;
+        _playerBody.useGravity = true;
         _releasedConstraints = false;
         _canMove = true;
     }

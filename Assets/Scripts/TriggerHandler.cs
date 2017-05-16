@@ -197,6 +197,9 @@ public class TriggerHandler : MonoBehaviour
             {
                 _nearestInteractable.GetComponent<Animator>().SetBool("ShouldOpen", true);
                 _nearestInteractable.GetComponent<BoxCollider>().enabled = false;
+                _inDoorRange = false;
+                _nearestInteractable = null;
+                return;
             }
         }
         if (_inButtonRange && _nearestInteractable.GetComponent<LightSwitch>() != null && _nearestInteractable.GetComponent<LightSwitch>().switchType == TypeOfSwitch.holdToggle && (Input.GetKey(interactionKey) || Input.GetKey(alternateInteractionKey)))

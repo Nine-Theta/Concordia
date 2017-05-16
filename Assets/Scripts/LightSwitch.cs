@@ -134,7 +134,8 @@ public class LightSwitch : MonoBehaviour
                     foreach(Light light in parent.GetComponentsInChildren<Light>())
                     {
                         light.enabled = !light.enabled;
-                        light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
+                        if (light.GetComponent<CapsuleCollider>() != null)
+                            light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
                     }
                 }
                 lightswitchLight.enabled = !lightswitchLight.enabled;
@@ -147,7 +148,8 @@ public class LightSwitch : MonoBehaviour
                         foreach (Light light in parent.GetComponentsInChildren<Light>())
                         {
                             light.GetComponent<Light>().enabled = !light.GetComponent<Light>().enabled;
-                            light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
+                            if(light.GetComponent<CapsuleCollider>() != null)
+                                light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
                             _currentTimer = duration;
                         }
                     }

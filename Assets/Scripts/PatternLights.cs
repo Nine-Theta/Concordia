@@ -91,7 +91,8 @@ public class PatternLight
             if (light == null)
                 Debug.Log("It's name" + light.name + " Parent: " +  light.GetComponentInParent<Transform>().name);
             light.enabled = !light.enabled;
-            light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
+            if(light.GetComponent<CapsuleCollider>() != null)
+                light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
         }
     }
 }
