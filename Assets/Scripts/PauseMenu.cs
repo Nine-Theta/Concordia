@@ -5,16 +5,22 @@ using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour {
 
-    private KeyCode _pauseKey = KeyCode.P; //Default KeyCode, should be changed to the correct one by PlayerMovement.
-    private KeyCode _interactKeyLP = KeyCode.E; //Default Interaction KeyCode for the Light Player.
-    private KeyCode _interactKeyDP = KeyCode.Backslash; //Default Interaction KeyCode for the Dark Player.
+    public KeyCode _pauseKey = KeyCode.P; //Default KeyCode, should be changed to the correct one by PlayerMovement.
+    public KeyCode _interactKeyLP = KeyCode.E; //Default Interaction KeyCode for the Light Player.
+    public KeyCode _interactKeyDP = KeyCode.Backslash; //Default Interaction KeyCode for the Dark Player.
     private KeyCode _ctrlPauseKey = KeyCode.JoystickButton9; //Options Button on the PS4 controller, won't be changed.
     private KeyCode _ctrlInteractKey = KeyCode.JoystickButton1; //X Button on the PS4 controller, might be changed, but probably not due to unofficial button mapping standardization;
 
-    private Image _resume;
-    private Image _quit;
+    private Image[] _buttons = new Image[4];
+
+    //private Image _continue;
+    //private Image _controls;
+    //private Image _music;
+    //private Image _quit;
 
     private float _pauseCooldown;
+
+    private int _currentSelected;
 
 	private void OnEnable ()
     {
@@ -23,16 +29,25 @@ public class PauseMenu : MonoBehaviour {
             string[] splitName = buttonImage.gameObject.name.Split(' ');
             switch (splitName[0])
             {
-                case "Resume":
-                    _resume = buttonImage;
+                case "Continue":
+                    _buttons[0] = buttonImage;
                     break;
-                case "Quit":
-                    _quit = buttonImage;
+                case "Controls":
+                    _buttons[1] = buttonImage;
+                    break;
+                case "Music":
+                    _buttons[2] = buttonImage;
+                    break;
+                case "Exit":
+                    _buttons[3] = buttonImage;
+                    break;
+                default:
                     break;
             }
         }
 
-        _resume.gameObject.GetComponent<ButtonSelect>().Selected = true;
+        _buttons[0].gameObject.GetComponent<ButtonSelect>().Selected = true;
+        _currentSelected = 0;
 
         Time.timeScale = 0;
         _pauseCooldown = Time.realtimeSinceStartup + 0.1f;
@@ -51,9 +66,6 @@ public class PauseMenu : MonoBehaviour {
 
     private void ResumeGame()
     {
-        print("pressed");
-        _resume.gameObject.GetComponent<ButtonSelect>().Selected = false;
-        _quit.gameObject.GetComponent<ButtonSelect>().Selected = false;
         gameObject.SetActive(false);
     }
 
@@ -70,35 +82,56 @@ public class PauseMenu : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetAxis("CADPY") > 0)
         {
-            _resume.gameObject.GetComponent<ButtonSelect>().Selected = false;
-            _quit.gameObject.GetComponent<ButtonSelect>().Selected = true;
+            _buttons[_currentSelected].gameObject.GetComponent<ButtonSelect>().State = ButtonSelect.ButtonStates.Normal;
+
+            if (_currentSelected == 3)
+                _currentSelected = 0;
+            else
+                _currentSelected += 1;
+
+            _buttons[_currentSelected].gameObject.GetComponent<ButtonSelect>().State = ButtonSelect.ButtonStates.Selected;
         }
 
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetAxis("CADPY") < 0)
         {
-            _resume.gameObject.GetComponent<ButtonSelect>().Selected = true;
-            _quit.gameObject.GetComponent<ButtonSelect>().Selected = false;
+            _buttons[_currentSelected].gameObject.GetComponent<ButtonSelect>().State = ButtonSelect.ButtonStates.Normal;
+
+            if (_currentSelected == 0)
+                _currentSelected = 3;
+            else
+                _currentSelected -= 1;
+
+            _buttons[_currentSelected].gameObject.GetComponent<ButtonSelect>().State = ButtonSelect.ButtonStates.Selected;
         }
     }
 
     private void OptionSelection()
     {
-        if (Input.GetKeyDown(_interactKeyLP) || Input.GetKeyDown(_interactKeyDP) || Input.GetKeyDown(_ctrlInteractKey))
-        {
-            if(_resume.gameObject.GetComponent<ButtonSelect>().Selected)
-            {
-                ResumeGame();
-            }
-
-            if(_quit.gameObject.GetComponent<ButtonSelect>().Selected)
-            {
-                QuitGame();
-            }
-        }
-
         if (Input.GetKeyDown(_pauseKey) || Input.GetKeyDown(_ctrlPauseKey))
-        {
             ResumeGame();
+
+        if (Input.GetKey(_interactKeyLP) || Input.GetKey(_interactKeyDP) || Input.GetKey(_ctrlInteractKey))
+            _buttons[_currentSelected].gameObject.GetComponent<ButtonSelect>().State = ButtonSelect.ButtonStates.Pressed;
+
+        if (Input.GetKeyUp(_interactKeyLP) || Input.GetKeyUp(_interactKeyDP) || Input.GetKeyUp(_ctrlInteractKey))
+        {
+            _buttons[_currentSelected].gameObject.GetComponent<ButtonSelect>().State = ButtonSelect.ButtonStates.Normal;
+
+            switch (_currentSelected)
+            {
+                case 1: //Continue
+                    ResumeGame();
+                    break;
+                case 2: //Controls
+                    print("TODO: IMPLEMENT MUSIC MENU"); //TODO
+                    break;
+                case 3: //Music
+                    print("TODO: IMPLEMENT MUSIC MENU"); //TODO
+                    break;
+                case 4: //Exit
+                    QuitGame();
+                    break;
+            }
         }
     }
 	

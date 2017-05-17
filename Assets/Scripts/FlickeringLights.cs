@@ -21,8 +21,8 @@ public class FlickeringLights : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-        _thisLight = gameObject.GetComponent<Light>();
-        _thisBody = gameObject.GetComponent<CapsuleCollider>();
+        _thisLight = gameObject.GetComponentInChildren<Light>();
+        _thisBody = gameObject.GetComponentInChildren<CapsuleCollider>();
     }
 
     private void FixedUpdate()

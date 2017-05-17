@@ -5,6 +5,8 @@ using UnityEngine.Audio;
 
 public class LightSwitch : MonoBehaviour
 {
+
+    public Light lightswitchLight;
     public TypeOfSwitch switchType = TypeOfSwitch.simpleToggle;
     public List<GameObject> lights;
     public float duration = 0.0f;
@@ -17,13 +19,14 @@ public class LightSwitch : MonoBehaviour
     private float _currentCooldownTimer = 0.0f;
     private bool _turnOn = false;
     private bool _usable = true;
+    private bool _patternAssigned = false;
     // Use this for initialization
-    void Start()
+    private void Start()
     {
 
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         CheckTime();
     }
@@ -49,35 +52,82 @@ public class LightSwitch : MonoBehaviour
         if(_currentCooldownTimer > 0.0f)
         {
             _currentCooldownTimer -= Time.deltaTime;
+            if (_currentCooldownTimer <= 0.0f)
+                _usable = true;
         }
     }
 
     public void Toggle()
     {
+        if (!_usable)
+            return;
         switch (switchType)
         {
             case TypeOfSwitch.simpleToggle:
+                if (toggleOnSound != null)
+                {
+                    if (lightswitchLight.enabled)
+                        GetComponent<AudioSource>().PlayOneShot(toggleOnSound);
+                    else
+                        GetComponent<AudioSource>().PlayOneShot(toggleOffSound);
+                }
+
                 foreach (GameObject light in lights)
                 {
                     light.SetActive(!light.activeSelf);
                 }
+                lightswitchLight.enabled = !lightswitchLight.enabled;
                 break;
+
             case TypeOfSwitch.togglePausePattern:
+                if (toggleOnSound != null)
+                {
+                    if (lightswitchLight.enabled)
+                        GetComponent<AudioSource>().PlayOneShot(toggleOnSound);
+                    else
+                        GetComponent<AudioSource>().PlayOneShot(toggleOffSound);
+                }
+                if(_patternAssigned == false && cooldownTimer > 0.0f)
+                {
+                    foreach(GameObject light in lights)
+                    {
+                        light.GetComponent<PatternLights>().SetDuration(duration);
+                    }
+                    _patternAssigned = true;
+                }
                 foreach (GameObject light in lights)
                 {
                     light.GetComponent<PatternLights>().TogglePause();
                 }
+                lightswitchLight.enabled = !lightswitchLight.enabled;
+                if(cooldownTimer > 0.0f)
+                {
+                    _currentCooldownTimer = cooldownTimer;
+                    _usable = false;
+                }
                 break;
+
             case TypeOfSwitch.holdToggle:
                 foreach (GameObject parent in lights)
                 {
                     foreach (Light light in parent.GetComponentsInChildren<Light>())
                     {
-                        light.GetComponent<HoldLight>().Hold();
+                        if (light.GetComponent<HoldLight>() != null)
+                            light.GetComponent<HoldLight>().Hold();
+                        else
+                            light.gameObject.AddComponent<HoldLight>().Hold();
                     }
                 }
                 break;
+
             case TypeOfSwitch.flickeringPause:
+                if (toggleOnSound != null)
+                {
+                    if (lightswitchLight.enabled)
+                        GetComponent<AudioSource>().PlayOneShot(toggleOnSound);
+                    else
+                        GetComponent<AudioSource>().PlayOneShot(toggleOffSound);
+                }
                 foreach (GameObject parent in lights)
                 {
                     foreach (Light light in parent.GetComponentsInChildren<Light>())
@@ -85,7 +135,9 @@ public class LightSwitch : MonoBehaviour
                         light.GetComponent<FlickeringLights>().TogglePause();
                     }
                 }
+                lightswitchLight.enabled = !lightswitchLight.enabled;
                 break;
+
             case TypeOfSwitch.flickeringToggle:
                 if (_turnOn)
                 {
@@ -101,6 +153,7 @@ public class LightSwitch : MonoBehaviour
                                 light.gameObject.AddComponent<FlickeringLights>().TurnOn();
                         }
                     }
+                    lightswitchLight.enabled = true;
                 }
                 else
                 {
@@ -116,30 +169,52 @@ public class LightSwitch : MonoBehaviour
                                 light.gameObject.AddComponent<FlickeringLights>().TurnOn();
                         }
                     }
+                    lightswitchLight.enabled = false;
                 }
                 break;
+
             case TypeOfSwitch.searchInChildrenToggle:
-                foreach(GameObject parent in lights)
+                if (toggleOnSound != null)
+                {
+                    if (lightswitchLight.enabled)
+                        GetComponent<AudioSource>().PlayOneShot(toggleOnSound);
+                    else
+                        GetComponent<AudioSource>().PlayOneShot(toggleOffSound);
+                }
+                foreach (GameObject parent in lights)
                 {
                     foreach(Light light in parent.GetComponentsInChildren<Light>())
                     {
                         light.enabled = !light.enabled;
-                        light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
+                        if (light.GetComponent<CapsuleCollider>() != null)
+                            light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
                     }
                 }
+                lightswitchLight.enabled = !lightswitchLight.enabled;
                 break;
+
             case TypeOfSwitch.timedSwitch:
                 if (_currentTimer <= 0.0f && _currentCooldownTimer <= 0.0f)
                 {
+                    if (toggleOnSound != null)
+                    {
+                        if (lightswitchLight.enabled)
+                            GetComponent<AudioSource>().PlayOneShot(toggleOnSound);
+                        else
+                            GetComponent<AudioSource>().PlayOneShot(toggleOffSound);
+                    }
                     foreach (GameObject parent in lights)
                     {
                         foreach (Light light in parent.GetComponentsInChildren<Light>())
                         {
                             light.GetComponent<Light>().enabled = !light.GetComponent<Light>().enabled;
-                            light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
+                            if (light.GetComponent<CapsuleCollider>() != null)
+                                light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
                             _currentTimer = duration;
                         }
                     }
+                    _usable = false;
+                    lightswitchLight.enabled = !lightswitchLight.enabled;
                 }
                 break;
         }

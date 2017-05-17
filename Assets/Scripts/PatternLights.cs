@@ -14,6 +14,8 @@ public class PatternLights : MonoBehaviour
     public List<PatternLight> lights;
 
     private bool _paused = false;
+    //It's the first time, be gentle. 
+    private bool _firstTime = true;
     private int _currentLight = 0;
     // Use this for initialization
     void Start()
@@ -40,8 +42,11 @@ public class PatternLights : MonoBehaviour
             //reset the light duration for the next time it is called
             lights[_currentLight].duration = lights[_currentLight].maxDuration;
             //turn off this light and turn on the next
-            if (returnState)
-                lights[_currentLight].Toggle();
+            if (returnState && !_firstTime)
+                lights[_currentLight - 1].Toggle();
+            if (_firstTime)
+                _firstTime = false;
+            lights[_currentLight].Toggle();
             _currentLight++;
             if (_currentLight >= lights.Count)
             {
@@ -49,14 +54,26 @@ public class PatternLights : MonoBehaviour
                 if (pauseWhenDone)
                     _paused = true;
             }
-            lights[_currentLight].Toggle();
+            //
         }
-        
     }
 
     public void TogglePause()
     {
         _paused = !_paused;
+    }
+    
+    /// <summary>
+    /// Sets duration of all lights so the pattern lasts "duration" amount of seconds
+    /// </summary>
+    /// <param name="duration">Float duration in seconds</param>
+    public void SetDuration(float duration)
+    {
+        foreach(PatternLight light in lights)
+        {
+            light.duration = duration / lights.Count;
+            light.maxDuration = light.duration;
+        }
     }
 }
 
@@ -88,8 +105,11 @@ public class PatternLight
     {
         foreach (Light light in lightObject.GetComponentsInChildren<Light>())
         {
+            if (light == null)
+                Debug.Log("Its name" + light.name + " Parent: " +  light.GetComponentInParent<Transform>().name);
             light.enabled = !light.enabled;
-            light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
+            if(light.GetComponent<CapsuleCollider>() != null)
+                light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
         }
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections;
 
+#pragma warning disable
 public class ReplaceSelection : ScriptableWizard
 {
 	static GameObject replacement = null;
@@ -75,3 +76,4 @@ public class ReplaceSelection : ScriptableWizard
 		}
 	}
 }
+#pragma warning restore

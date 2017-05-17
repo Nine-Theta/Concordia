@@ -10,12 +10,8 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode moveRightKey;
     public KeyCode rotateRightKey;
     public KeyCode rotateLeftKey;
-    //public KeyCode crouchKey;
-    public KeyCode findOtherKey;
     public KeyCode pauseKey;
-    public KeyCode jumpKey;
 
-    public GameObject findOtherPlayer;
     public Transform otherPlayer;
     public Canvas PauseScreen;
 
@@ -25,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody _playerBody;
     private PlayerStats _playerStats;
+    private Animator _animator;
 
     private Vector3 _preHidingPos;
 
@@ -35,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _playerBody = this.gameObject.GetComponent<Rigidbody>();
         _playerStats = this.gameObject.GetComponent<PlayerStats>();
+        _animator = this.gameObject.GetComponent<Animator>();
     }
 
     public bool canMove
@@ -59,7 +57,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_releasedConstraints) return;
+        if (_releasedConstraints)
+            return;
         CheckGameOver();
         GetKeyboardInput();
         GetControllerInput();
@@ -78,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Reset()
     {
-        _playerBody.useGravity = false;
+        _playerBody.useGravity = true;
         _releasedConstraints = false;
         _canMove = true;
     }
@@ -91,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
             PauseScreen.GetComponent<PauseMenu>().PauseKey = pauseKey;
             return;
         }
-
+        _animator.SetBool("IsWalking", false);
         #region RotationForTesting
         if (Input.GetKey(rotateLeftKey))
         {
@@ -108,38 +107,24 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(forwardKey))
         {
             _playerBody.AddRelativeForce(Vector3.forward * movementSpeed, ForceMode.VelocityChange);
+            _animator.SetBool("IsWalking", true);
         }
         if (Input.GetKey(backwardKey))
         {
             _playerBody.AddRelativeForce(Vector3.back * movementSpeed, ForceMode.VelocityChange);
+            _animator.SetBool("IsWalking", true);
         }
         if (Input.GetKey(moveLeftKey))
         {
             _playerBody.AddRelativeForce(Vector3.left * movementSpeed, ForceMode.VelocityChange);
+            _animator.SetBool("IsWalking", true);
         }
         if (Input.GetKey(moveRightKey))
         {
             _playerBody.AddRelativeForce(Vector3.right * movementSpeed, ForceMode.VelocityChange);
+            _animator.SetBool("IsWalking", true);
         }
         #endregion
-        //if (Input.GetKeyDown(crouchKey))
-        //{
-        //    _playerBody.position = new Vector3(_playerBody.position.x, -0.1f, _playerBody.position.z);
-        //}
-        if (Input.GetKeyDown(findOtherKey))
-        {
-            GameObject prefab = Instantiate(findOtherPlayer, transform.position, transform.rotation);
-            prefab.GetComponent<TrackOtherHalf>().SetTarget(otherPlayer.transform);
-        }
-        if (Input.GetKeyDown(jumpKey))
-        {
-            _playerBody.AddRelativeForce(Vector3.up * movementSpeed * 10, ForceMode.VelocityChange);
-            Debug.Log(_playerBody.velocity);
-        }
-        //if (Input.GetKeyUp(crouchKey))
-        //{
-        //    _playerBody.position = new Vector3(_playerBody.position.x, 1, _playerBody.position.z);
-        //}
     }
 
     private void GetControllerInput()
@@ -154,5 +139,7 @@ public class PlayerMovement : MonoBehaviour
         float leftStickX = Input.GetAxis("C" + controllerNumber + "LSX") * movementSpeed;
         float leftStickY = Input.GetAxis("C" + controllerNumber + "LSY") * movementSpeed;
         _playerBody.AddRelativeForce(new Vector3(leftStickX, 0, leftStickY), ForceMode.VelocityChange);
+        if(leftStickX != 0.0f || leftStickY != 0.0f)
+            _animator.SetBool("IsWalking", true);
     }
 }

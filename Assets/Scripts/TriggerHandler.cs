@@ -20,6 +20,7 @@ public class TriggerHandler : MonoBehaviour
     private GameObject _nearestInteractable;
 
     private Vector3 _mostRecentCheckpointPos;
+    private Vector3 _mostRecentCheckpointRot;
 
     private bool _isInDarkArea = true;
     private bool _isHiding = false;
@@ -87,9 +88,15 @@ public class TriggerHandler : MonoBehaviour
                 mostRecentCheckpoint = checkpoint.index;
 
                 if (isLightPlayer)
+                {
                     _mostRecentCheckpointPos = checkpoint.LightLocation;
+                    _mostRecentCheckpointRot = checkpoint.LightRotation;
+                }
                 else
+                {
                     _mostRecentCheckpointPos = checkpoint.DarkLocation;
+                    _mostRecentCheckpointRot = checkpoint.DarkRotation;
+                }
             }
         }
     }
@@ -99,10 +106,15 @@ public class TriggerHandler : MonoBehaviour
         if (other.gameObject.CompareTag("Light"))
         {
             _isInDarkArea = false;
+            //Debug.Log("Burning in the light");
         }
         if (other.gameObject.CompareTag("CarShadow"))
         {
             _inCarShadow = true;
+        }
+        if(other.gameObject.CompareTag("HidingSpot"))
+        {
+            //Debug.Log();
         }
     }
 
@@ -153,7 +165,7 @@ public class TriggerHandler : MonoBehaviour
         {
             if(_playerStats.GameOver)
             {
-                _playerStats.Respawn(_mostRecentCheckpointPos);
+                _playerStats.Respawn(_mostRecentCheckpointPos, _mostRecentCheckpointRot);
                 _playerMovement.Reset();
 
                 interactPopUp.gameObject.SetActive(false);
@@ -166,6 +178,7 @@ public class TriggerHandler : MonoBehaviour
                 _isHiding = false;
                 _playerMovement.canMove = true;
                 gameObject.GetComponent<Rigidbody>().useGravity = true;
+                AffectPlayer();
                 return;
             }
             if (_inButtonRange && _nearestInteractable.GetComponent<LightSwitch>().switchType != TypeOfSwitch.holdToggle)
@@ -196,6 +209,10 @@ public class TriggerHandler : MonoBehaviour
             if(_inDoorRange)
             {
                 _nearestInteractable.GetComponent<Animator>().SetBool("ShouldOpen", true);
+                _nearestInteractable.GetComponent<BoxCollider>().enabled = false;
+                _inDoorRange = false;
+                _nearestInteractable = null;
+                return;
             }
         }
         if (_inButtonRange && _nearestInteractable.GetComponent<LightSwitch>() != null && _nearestInteractable.GetComponent<LightSwitch>().switchType == TypeOfSwitch.holdToggle && (Input.GetKey(interactionKey) || Input.GetKey(alternateInteractionKey)))
@@ -218,7 +235,8 @@ public class TriggerHandler : MonoBehaviour
 
         if (_isHiding)
         {
-            _playerStats.PlayerHealth += 0.05f;
+            if(_playerStats.PlayerHealth < _playerStats.MaxHealth)
+            _playerStats.PlayerHealth += damageSpeed / 2;
             return;
         }
         if (isLightPlayer)

@@ -10,6 +10,8 @@ public class CheckPoint : MonoBehaviour {
 
     public Vector3 LightOffset;
     public Vector3 DarkOffset;
+    public Vector3 LightRotation;
+    public Vector3 DarkRotation;
 
     public Vector3 LightLocation
     {
