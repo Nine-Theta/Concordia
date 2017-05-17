@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
-    public Scrollbar lifebar;
+    //public Scrollbar lifebar;
     public Text GameOverMessage;
 
     #region PlayerPartsTest
@@ -57,7 +57,7 @@ public class PlayerStats : MonoBehaviour
             if (value > 0)
             {
                 _playerHealth = value;
-                lifebar.size = _playerHealth / _maxHealth;
+                //lifebar.size = _playerHealth / _maxHealth;
                 if (_hpPlane != null)
                     _hpPlane.GetComponent<Image>().fillAmount = _playerHealth / _maxHealth;
                 //if(_hpPlane != null)
@@ -81,8 +81,7 @@ public class PlayerStats : MonoBehaviour
         gameObject.transform.eulerAngles = rotation;
         _gameOver = false;
         _playerHealth = _maxHealth;
-        lifebar.GetComponentInChildren<Image>().gameObject.SetActive(true);
-        lifebar.size = 1;
+        _hpPlane.GetComponent<Image>().fillAmount = 1;
         GameOverMessage.text = "";
         #region Destruction
         foreach(Transform child in gameObject.GetComponentInChildren<Transform>())
@@ -150,7 +149,6 @@ public class PlayerStats : MonoBehaviour
     private void Die()
     {
         _playerHealth = 0;
-        lifebar.GetComponentInChildren<Image>().gameObject.SetActive(false);
         _gameOver = true;
         GameOverMessage.text = "GAME OVER";
         gameObject.GetComponent<Animator>().SetBool("GlobalDisable", true);
