@@ -45,6 +45,10 @@ public class TriggerHandler : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(other.gameObject.CompareTag("AudioSource"))
+        {
+            other.GetComponent<AudioBoxScript>().shouldIncreaseVolume = true;
+        }
         if (other.gameObject.CompareTag("Light"))
         {
             _isInDarkArea = false;
@@ -149,6 +153,10 @@ public class TriggerHandler : MonoBehaviour
             _nearestInteractable = null;
             interactPopUp.gameObject.SetActive(false);
         }
+        if (other.gameObject.CompareTag("AudioSource"))
+        {
+            other.GetComponent<AudioBoxScript>().shouldIncreaseVolume = false;
+        }
     }
 
     /// For the sake of both of our sanity: Please don't fill up the Fixed Update with random lines, just put them in a function if you have to. 
@@ -211,6 +219,7 @@ public class TriggerHandler : MonoBehaviour
             {
                 _nearestInteractable.GetComponent<Animator>().SetBool("ShouldOpen", true);
                 _nearestInteractable.GetComponent<BoxCollider>().enabled = false;
+                interactPopUp.gameObject.SetActive(false);
                 _inDoorRange = false;
                 _nearestInteractable = null;
                 return;

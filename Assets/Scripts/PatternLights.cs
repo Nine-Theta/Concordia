@@ -11,6 +11,7 @@ public class PatternLights : MonoBehaviour
     public bool returnState = false;
     public bool pauseWhenDone = false;
     public bool startPaused = false;
+    public bool toggleFirstWhenSwitched = true;
     public List<PatternLight> lights;
 
     private bool _paused = false;
@@ -36,30 +37,31 @@ public class PatternLights : MonoBehaviour
     {
         if (_paused)
             return;
+        if(_firstTime && toggleFirstWhenSwitched)
+        {
+            lights[_currentLight].duration = 0.0f;
+        }
         lights[_currentLight].duration -= Time.deltaTime;
         if (lights[_currentLight].duration <= 0)
         {
             //reset the light duration for the next time it is called
             lights[_currentLight].duration = lights[_currentLight].maxDuration;
             //turn off this light and turn on the next
-            if (returnState && !_firstTime)
+            lights[_currentLight].Toggle();
+            _currentLight++;
+
+            if (_currentLight >= lights.Count)
+                _currentLight = 0;
+
+            if(returnState && !_firstTime)
             {
                 if (_currentLight > 0)
                     lights[_currentLight - 1].Toggle();
                 else
                     lights[lights.Count].Toggle();
             }
-            if (_firstTime)
-                _firstTime = false;
-            lights[_currentLight].Toggle();
-            _currentLight++;
-            if (_currentLight >= lights.Count)
-            {
-                _currentLight = 0;
-                if (pauseWhenDone)
-                    _paused = true;
-            }
-            //
+
+            _firstTime = false;
         }
     }
 
