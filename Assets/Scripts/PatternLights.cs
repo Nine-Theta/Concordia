@@ -8,12 +8,14 @@ using UnityEngine;
 public class PatternLights : MonoBehaviour
 {
     //Returns the light to the previous state if true, else leaves in the current state
-    //public bool returnState = false;
+    public bool returnState = false;
     public bool pauseWhenDone = false;
     public bool startPaused = false;
     public List<PatternLight> lights;
 
     private bool _paused = false;
+    //It's the first time, be gentle. 
+    private bool _firstTime = true;
     private int _currentLight = 0;
     // Use this for initialization
     void Start()
@@ -40,8 +42,11 @@ public class PatternLights : MonoBehaviour
             //reset the light duration for the next time it is called
             lights[_currentLight].duration = lights[_currentLight].maxDuration;
             //turn off this light and turn on the next
-            //if (returnState)
-                lights[_currentLight].Toggle();
+            if (returnState && !_firstTime)
+                lights[_currentLight - 1].Toggle();
+            if (_firstTime)
+                _firstTime = false;
+            lights[_currentLight].Toggle();
             _currentLight++;
             if (_currentLight >= lights.Count)
             {
@@ -49,7 +54,7 @@ public class PatternLights : MonoBehaviour
                 if (pauseWhenDone)
                     _paused = true;
             }
-            //lights[_currentLight].Toggle();
+            //
         }
     }
 
