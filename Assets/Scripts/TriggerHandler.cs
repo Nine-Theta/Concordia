@@ -20,6 +20,7 @@ public class TriggerHandler : MonoBehaviour
     private GameObject _nearestInteractable;
 
     private Vector3 _mostRecentCheckpointPos;
+    private Vector3 _mostRecentCheckpointRot;
 
     private bool _isInDarkArea = true;
     private bool _isHiding = false;
@@ -87,9 +88,15 @@ public class TriggerHandler : MonoBehaviour
                 mostRecentCheckpoint = checkpoint.index;
 
                 if (isLightPlayer)
+                {
                     _mostRecentCheckpointPos = checkpoint.LightLocation;
+                    _mostRecentCheckpointRot = checkpoint.LightRotation;
+                }
                 else
+                {
                     _mostRecentCheckpointPos = checkpoint.DarkLocation;
+                    _mostRecentCheckpointRot = checkpoint.DarkRotation;
+                }
             }
         }
     }
@@ -158,7 +165,7 @@ public class TriggerHandler : MonoBehaviour
         {
             if(_playerStats.GameOver)
             {
-                _playerStats.Respawn(_mostRecentCheckpointPos);
+                _playerStats.Respawn(_mostRecentCheckpointPos, _mostRecentCheckpointRot);
                 _playerMovement.Reset();
 
                 interactPopUp.gameObject.SetActive(false);

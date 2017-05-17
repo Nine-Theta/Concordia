@@ -10,12 +10,8 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode moveRightKey;
     public KeyCode rotateRightKey;
     public KeyCode rotateLeftKey;
-    //public KeyCode crouchKey;
-    public KeyCode findOtherKey;
     public KeyCode pauseKey;
-    public KeyCode jumpKey;
 
-    public GameObject findOtherPlayer;
     public Transform otherPlayer;
     public Canvas PauseScreen;
 
@@ -61,7 +57,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_releasedConstraints) return;
+        if (_releasedConstraints)
+            return;
         CheckGameOver();
         GetKeyboardInput();
         GetControllerInput();
@@ -128,23 +125,6 @@ public class PlayerMovement : MonoBehaviour
             _animator.SetBool("IsWalking", true);
         }
         #endregion
-        //if (Input.GetKeyDown(crouchKey))
-        //{
-        //    _playerBody.position = new Vector3(_playerBody.position.x, -0.1f, _playerBody.position.z);
-        //}
-        if (Input.GetKeyDown(findOtherKey))
-        {
-            GameObject prefab = Instantiate(findOtherPlayer, transform.position, transform.rotation);
-            prefab.GetComponent<TrackOtherHalf>().SetTarget(otherPlayer.transform);
-        }
-        if (Input.GetKeyDown(jumpKey))
-        {
-            _playerBody.AddRelativeForce(Vector3.up * movementSpeed * 10, ForceMode.VelocityChange);
-        }
-        //if (Input.GetKeyUp(crouchKey))
-        //{
-        //    _playerBody.position = new Vector3(_playerBody.position.x, 1, _playerBody.position.z);
-        //}
     }
 
     private void GetControllerInput()

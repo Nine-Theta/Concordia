@@ -24,7 +24,6 @@ public class PlayerStats : MonoBehaviour
     private float _maxHealth;
 
     private bool _gameOver = false;
-    private bool _shouldSetRootMotionToTrue = false;
 
     private void Start()
     {
@@ -38,11 +37,7 @@ public class PlayerStats : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_shouldSetRootMotionToTrue)
-        {
-            gameObject.GetComponent<Animator>().Rebind();
-            _shouldSetRootMotionToTrue = false;
-        }
+        //Debug.Log(gameObject.GetComponent<Animator>().isMatchingTarget);
     }
 
     public float MaxHealth
@@ -80,13 +75,13 @@ public class PlayerStats : MonoBehaviour
         get { return _gameOver; }
     }
 
-    public void Respawn(Vector3 position)
+    public void Respawn(Vector3 position, Vector3 rotation)
     {
         gameObject.transform.position = position;
+        gameObject.transform.eulerAngles = rotation;
         _gameOver = false;
         _playerHealth = _maxHealth;
         lifebar.GetComponentInChildren<Image>().gameObject.SetActive(true);
-        gameObject.GetComponent<Animator>().enabled = false;
         lifebar.size = 1;
         GameOverMessage.text = "";
         #region Destruction
@@ -104,11 +99,9 @@ public class PlayerStats : MonoBehaviour
         newBody.transform.localEulerAngles = new Vector3(0, 0, 0);
         AssignBodyParts();
         gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-        gameObject.GetComponent<Rigidbody>().useGravity = true;       
-        gameObject.GetComponent<Animator>().enabled = true;
+        gameObject.GetComponent<Rigidbody>().useGravity = true;
         gameObject.GetComponent<Animator>().Rebind();
-        _shouldSetRootMotionToTrue = true;
-        
+        gameObject.GetComponent<Animator>().SetBool("GlobalDisable", false);
     }
 
     /// <summary>
@@ -160,10 +153,14 @@ public class PlayerStats : MonoBehaviour
         lifebar.GetComponentInChildren<Image>().gameObject.SetActive(false);
         _gameOver = true;
         GameOverMessage.text = "GAME OVER";
-        gameObject.GetComponent<Animator>().enabled = false;
+        gameObject.GetComponent<Animator>().SetBool("GlobalDisable", true);
         //Game Over man, Game Over.
 
         #region BestFeature
+        _head.name = "head";
+        _armLeft.name = "ArmL";
+        _armRight.name = "ArmR";
+        _body.name = "body";
         _head.AddComponent<MeshCollider>().convex = true;
         _body.AddComponent<MeshCollider>().convex = true;
         _armLeft.AddComponent<MeshCollider>().convex = true;
@@ -174,5 +171,6 @@ public class PlayerStats : MonoBehaviour
         _armLeft.AddComponent<Rigidbody>().AddExplosionForce(300, gameObject.transform.position, 1000);
         _armRight.AddComponent<Rigidbody>().AddExplosionForce(300, gameObject.transform.position, 1000);
         #endregion
+        gameObject.GetComponent<Animator>().Rebind();
     }
 }
