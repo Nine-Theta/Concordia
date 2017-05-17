@@ -43,7 +43,12 @@ public class PatternLights : MonoBehaviour
             lights[_currentLight].duration = lights[_currentLight].maxDuration;
             //turn off this light and turn on the next
             if (returnState && !_firstTime)
-                lights[_currentLight - 1].Toggle();
+            {
+                if (_currentLight > 0)
+                    lights[_currentLight - 1].Toggle();
+                else
+                    lights[lights.Count].Toggle();
+            }
             if (_firstTime)
                 _firstTime = false;
             lights[_currentLight].Toggle();
