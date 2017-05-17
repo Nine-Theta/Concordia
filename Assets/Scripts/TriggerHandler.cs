@@ -9,6 +9,7 @@ public class TriggerHandler : MonoBehaviour
     public KeyCode alternateInteractionKey;
 
     public Text interactPopUp;
+    public Image hidePopUp;
 
     public float damageSpeed = 0.1f;
     public int mostRecentCheckpoint;
@@ -58,7 +59,7 @@ public class TriggerHandler : MonoBehaviour
         {
             _inHidingRange = true;
             _nearestInteractable = other.gameObject;
-            interactPopUp.gameObject.SetActive(true);
+            hidePopUp.gameObject.SetActive(true);
         }
         if(other.gameObject.CompareTag("Door"))
         {
@@ -134,7 +135,7 @@ public class TriggerHandler : MonoBehaviour
         {
             _inHidingRange = false;
             _nearestInteractable = null;
-            interactPopUp.gameObject.SetActive(false);
+            hidePopUp.gameObject.SetActive(false);
         }
         if (other.gameObject.CompareTag("Note"))
         {

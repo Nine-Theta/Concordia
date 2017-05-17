@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerStats : MonoBehaviour
 {
     //public Scrollbar lifebar;
-    public Text GameOverMessage;
+    public Image GameOverMessage;
 
     #region PlayerPartsTest
     private GameObject _head;
@@ -82,7 +82,7 @@ public class PlayerStats : MonoBehaviour
         _gameOver = false;
         _playerHealth = _maxHealth;
         _hpPlane.GetComponent<Image>().fillAmount = 1;
-        GameOverMessage.text = "";
+        GameOverMessage.gameObject.SetActive(false);
         #region Destruction
         foreach(Transform child in gameObject.GetComponentInChildren<Transform>())
         {
@@ -150,7 +150,7 @@ public class PlayerStats : MonoBehaviour
     {
         _playerHealth = 0;
         _gameOver = true;
-        GameOverMessage.text = "GAME OVER";
+        GameOverMessage.gameObject.SetActive(true);
         gameObject.GetComponent<Animator>().SetBool("GlobalDisable", true);
         //Game Over man, Game Over.
 
