@@ -12,7 +12,7 @@ public class CameraDelay : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
         delayInSeconds -= Time.deltaTime;
-        if(delayInSeconds >= 0.0f)
+		if(delayInSeconds <= 0.0f)
         {
             gameObject.GetComponent<Camera>().enabled = false;
             this.enabled = false;
