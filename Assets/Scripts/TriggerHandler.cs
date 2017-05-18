@@ -175,10 +175,10 @@ public class TriggerHandler : MonoBehaviour
 
     private void Win()
     {
-        //if (isLightPlayer)
-        //    SceneManager.LoadScene(0123456789);
-        //else
-        //    SceneManager.LoadScene(9876543210);
+        if (isLightPlayer)
+            SceneManager.LoadScene(2);
+        else
+            SceneManager.LoadScene(3);
     }
 
     private void GetInput()
