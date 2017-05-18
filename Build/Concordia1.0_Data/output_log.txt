@@ -1,0 +1,48 @@
+Initialize engine version: 5.5.2f1 (3829d7f588f3)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 950M (ID=0x139a)
+    Vendor:   NVIDIA
+    VRAM:     2018 MB
+    Driver:   21.21.13.7270
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
+Loading D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
+- Completed reload, in  0.046 seconds
+Platform assembly: D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 3.674467 ms
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 2c38 -> priority: 1 
+  Thread -> id: 1ab4 -> priority: 1 
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+NOTE: New Game is Virtually Identical to Continue
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+UnloadTime: 2.365233 ms
+
+Unloading 165 unused Assets to reduce memory usage. Loaded Objects now: 433.
+Total: 4.494220 ms (FindLiveObjects: 0.020148 ms CreateObjectMapping: 0.022913 ms MarkObjects: 0.122864 ms  DeleteObjects: 4.327504 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.558617 ms
+
+Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 11329.
+Total: 2.603060 ms (FindLiveObjects: 0.442468 ms CreateObjectMapping: 0.144197 ms MarkObjects: 1.083653 ms  DeleteObjects: 0.930370 ms)
+
