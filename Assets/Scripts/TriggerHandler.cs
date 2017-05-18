@@ -227,6 +227,7 @@ public class TriggerHandler : MonoBehaviour
             {
                 _nearestInteractable.GetComponent<Animator>().SetBool("ShouldOpen", true);
                 _nearestInteractable.GetComponent<BoxCollider>().enabled = false;
+                _nearestInteractable.GetComponent<DoorSounds>().PlayDoorOpenSound();
                 interactPopUp.gameObject.SetActive(false);
                 _inDoorRange = false;
                 _nearestInteractable = null;
