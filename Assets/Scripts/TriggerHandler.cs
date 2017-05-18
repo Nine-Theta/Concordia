@@ -8,7 +8,7 @@ public class TriggerHandler : MonoBehaviour
     public KeyCode interactionKey;
     public KeyCode alternateInteractionKey;
 
-    public Text interactPopUp;
+    public Image interactPopUp;
     public Image hidePopUp;
 
     public float damageSpeed = 0.1f;
@@ -239,7 +239,7 @@ public class TriggerHandler : MonoBehaviour
 
         if (_playerStats.GameOver)
         {
-            interactPopUp.gameObject.SetActive(true);
+            //interactPopUp.gameObject.SetActive(true);
             return;
         }
 
