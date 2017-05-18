@@ -15,7 +15,7 @@ public class CameraDelay : MonoBehaviour
         if (delayInSeconds <= 0.0f)
         {
             if (lastCam)
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene(1); //Level
 
             gameObject.GetComponent<Camera>().enabled = false;
             this.enabled = false;

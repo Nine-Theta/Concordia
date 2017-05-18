@@ -171,9 +171,9 @@ public class TriggerHandler : MonoBehaviour
     private void Win()
     {
         if (isLightPlayer)
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(2); //Light Ending (Ending_Comic_Strips)
         else
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(3); //Dark Ending
     }
 
     private void GetInput()

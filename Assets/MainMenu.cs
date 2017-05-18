@@ -70,14 +70,14 @@ public class MainMenu : MonoBehaviour
 
     private void ResumeGame()
     {
-        SceneManager.LoadSceneAsync("Level");
+        SceneManager.LoadSceneAsync(1); //Level
         gameObject.SetActive(false);
         print("NOTE: Continue is Virtually Identical to New Game"); //TODO
     }
 
     private void NewGame()
     {
-        SceneManager.LoadSceneAsync("ComicStrips");
+        SceneManager.LoadSceneAsync(4); //ComicStrips
         gameObject.SetActive(false);
         print("NOTE: New Game is Virtually Identical to Continue"); //TODO
     }

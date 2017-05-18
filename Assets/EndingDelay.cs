@@ -12,7 +12,7 @@ public class EndingDelay : MonoBehaviour
         delayInSeconds -= Time.deltaTime;
         if (delayInSeconds <= 0.0f)
         {
-          SceneManager.LoadSceneAsync(0);
+          SceneManager.LoadSceneAsync(0); //Main Menu
           this.enabled = false;
         }
     }
