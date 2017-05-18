@@ -116,15 +116,10 @@ public class TriggerHandler : MonoBehaviour
         if (other.gameObject.CompareTag("Light"))
         {
             _isInDarkArea = false;
-            //Debug.Log("Burning in the light");
         }
         if (other.gameObject.CompareTag("CarShadow"))
         {
             _inCarShadow = true;
-        }
-        if(other.gameObject.CompareTag("HidingSpot"))
-        {
-            //Debug.Log();
         }
     }
 
