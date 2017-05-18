@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TriggerHandler : MonoBehaviour
 {
@@ -104,6 +105,10 @@ public class TriggerHandler : MonoBehaviour
                 }
             }
         }
+        if(other.gameObject.CompareTag("Artifact"))
+        {
+            Win();
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -166,6 +171,14 @@ public class TriggerHandler : MonoBehaviour
         AffectPlayer();
         GetInput();
         PostUpdate();
+    }
+
+    private void Win()
+    {
+        //if (isLightPlayer)
+        //    SceneManager.LoadScene(0123456789);
+        //else
+        //    SceneManager.LoadScene(9876543210);
     }
 
     private void GetInput()

@@ -11,6 +11,7 @@ public class AudioBoxScript : MonoBehaviour {
 
     private AudioSource _source;
     private bool _shouldIncreaseVolume;
+    private float _maxVolume;
 
     public bool shouldIncreaseVolume
     {
@@ -21,6 +22,7 @@ public class AudioBoxScript : MonoBehaviour {
     // Use this for initialization
     private void Start () {
         _source = gameObject.GetComponent<AudioSource>();
+        _maxVolume = PlayerPrefs.GetFloat("MusicVolume", 1.0f);
 	}
 
     // Update is called once per frame
@@ -34,10 +36,10 @@ public class AudioBoxScript : MonoBehaviour {
         {
             if (!_source.isPlaying)
                 _source.Play();
-            if (_source.volume < 1.0f)
+            if (_source.volume < _maxVolume)
                 _source.volume += incrementVolume;
-            if (_source.volume > 1.0f)
-                _source.volume = 1.0f;
+            if (_source.volume > _maxVolume)
+                _source.volume = _maxVolume;
         }
         else if (_source.volume > 0.0f)
         {
