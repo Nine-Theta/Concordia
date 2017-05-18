@@ -11,14 +11,6 @@ public class ButtonSelect : MonoBehaviour {
 
     public ButtonStates State;
 
-    private bool _selected = false;
-
-    public bool Selected
-    {
-        set { _selected = value; }
-        get { return _selected; }
-    }
-
     private void CheckState()
     {
         switch (State)
