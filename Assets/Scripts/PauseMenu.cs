@@ -73,7 +73,7 @@ public class PauseMenu : MonoBehaviour {
 
     private void OnDisable()
     {
-        Time.timeScale = 0;
+        Time.timeScale = 1;
     }
 
     public KeyCode PauseKey
