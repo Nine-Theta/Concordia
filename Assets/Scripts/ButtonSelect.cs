@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum ButtonStates { Normal, Selected, Pressed, Disabled }
+
 public class ButtonSelect : MonoBehaviour {
 
     public ColorBlock buttonColour;
-
-    public enum ButtonStates { Normal, Selected, Pressed, Disabled }
-
+    
     public ButtonStates State;
 
     private void CheckState()

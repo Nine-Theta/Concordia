@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class SliderSelect : ButtonSelect
 {
-
     public Image targetGraphic;
 
     public RectTransform fillRect;

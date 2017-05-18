@@ -8,8 +8,7 @@ public class PauseMenu : MonoBehaviour {
     public static event MusicVolumeUpdate UpdateMusicVolume;
     public delegate void SFXVolumeUpdate(float volume);
     public static event SFXVolumeUpdate UpdateSFXVolume;
-
-
+    
     public KeyCode interactKeyLP = KeyCode.E; //Default Interaction KeyCode for the Light Player.
     public KeyCode interactKeyDP = KeyCode.Backslash; //Default Interaction KeyCode for the Dark Player.
 
@@ -63,7 +62,7 @@ public class PauseMenu : MonoBehaviour {
             }
         }
 
-        _buttons[0].State = ButtonSelect.ButtonStates.Selected;
+        _buttons[0].State = ButtonStates.Selected;
         _currentSelected = 0;
 
         Time.timeScale = 0;
@@ -86,7 +85,7 @@ public class PauseMenu : MonoBehaviour {
     {
         for (int i = 0; i < 4; i++)
         {
-            _buttons[i].State = ButtonSelect.ButtonStates.Normal;
+            _buttons[i].State = ButtonStates.Normal;
         }
         _lockMenu = false;
         _lockSelection = false;
@@ -106,29 +105,29 @@ public class PauseMenu : MonoBehaviour {
     {
         if (_lockMenu) return;
 
-        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || (Input.GetAxis("CADPY") > 0 && _ctrlCooldown < Time.realtimeSinceStartup))
+        if ((Input.GetAxis("CADPY") > 0 && _ctrlCooldown < Time.realtimeSinceStartup) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            _buttons[_currentSelected].State = ButtonSelect.ButtonStates.Normal;
+            _buttons[_currentSelected].State--;
 
             if (_currentSelected == 3)
                 _currentSelected = 0;
             else
                 _currentSelected += 1;
 
-            _buttons[_currentSelected].State = ButtonSelect.ButtonStates.Selected;
+            _buttons[_currentSelected].State++;
             _ctrlCooldown = Time.realtimeSinceStartup + 0.2f;
         }
 
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || (Input.GetAxis("CADPY") < 0 && _ctrlCooldown < Time.realtimeSinceStartup))
+        if ((Input.GetAxis("CADPY") < 0 && _ctrlCooldown < Time.realtimeSinceStartup) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            _buttons[_currentSelected].State = ButtonSelect.ButtonStates.Normal;
+            _buttons[_currentSelected].State--;
 
             if (_currentSelected == 0)
                 _currentSelected = 3;
             else
                 _currentSelected -= 1;
 
-            _buttons[_currentSelected].State = ButtonSelect.ButtonStates.Selected;
+            _buttons[_currentSelected].State++;
             _ctrlCooldown = Time.realtimeSinceStartup + 0.2f;
         }
     }
@@ -142,13 +141,13 @@ public class PauseMenu : MonoBehaviour {
 
         if (Input.GetKey(interactKeyLP) || Input.GetKey(interactKeyDP) || Input.GetKey(_ctrlInteractKey))
         {
-            _buttons[_currentSelected].State = ButtonSelect.ButtonStates.Pressed;
+            _buttons[_currentSelected].State = ButtonStates.Pressed;
             _lockMenu = true;
         }
 
-        if (Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(interactKeyDP) || Input.GetKeyUp(_ctrlInteractKey))
+        if (Input.GetKeyUp(_ctrlInteractKey) || Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(interactKeyDP))
         {
-            _buttons[_currentSelected].State = ButtonSelect.ButtonStates.Normal;
+            _buttons[_currentSelected].State = ButtonStates.Normal;
 
             switch (_currentSelected)
             {
@@ -160,14 +159,14 @@ public class PauseMenu : MonoBehaviour {
                     _lockSelection = true;
                     controlsScreen.gameObject.SetActive(true);
                     _controlsBack = controlsScreen.gameObject.GetComponentInChildren<ButtonSelect>();
-                    _controlsBack.State = ButtonSelect.ButtonStates.Selected;
+                    _controlsBack.State = ButtonStates.Selected;
                     break;
 
                 case 2: //Music
                     _lockSelection = true;
                     audioScreen.gameObject.SetActive(true);
                     _audioBack = audioScreen.gameObject.GetComponentInChildren<ButtonSelect>();
-                    _audioBack.State = ButtonSelect.ButtonStates.Selected;
+                    _audioBack.State = ButtonStates.Selected;
 
                     foreach(SliderSelect sliderSelect in audioScreen.gameObject.GetComponentsInChildren<SliderSelect>())
                     {
@@ -205,7 +204,7 @@ public class PauseMenu : MonoBehaviour {
                                 break;
                         }
                     }
-                    _exitNo.State = ButtonSelect.ButtonStates.Selected;
+                    _exitNo.State = ButtonStates.Selected;
                     break;
 
                 default:
@@ -233,14 +232,14 @@ public class PauseMenu : MonoBehaviour {
 
     private void ControlsScreenSelection()
     {
-        if (Input.GetKey(interactKeyLP) || Input.GetKey(interactKeyDP) || Input.GetKey(_ctrlInteractKey))
-            _controlsBack.State = ButtonSelect.ButtonStates.Pressed;
+        if (Input.GetKey(_ctrlInteractKey) || Input.GetKey(interactKeyLP) || Input.GetKey(interactKeyDP))
+            _controlsBack.State = ButtonStates.Pressed;
 
-        if ((Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(interactKeyDP) || Input.GetKeyUp(_ctrlInteractKey)) && _controlsBack.State == ButtonSelect.ButtonStates.Pressed)
+        if ((Input.GetKeyUp(_ctrlInteractKey) || Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(interactKeyDP)) && _controlsBack.State == ButtonStates.Pressed)
         {
             _lockMenu = false;
             _lockSelection = false;
-            _buttons[0].State = ButtonSelect.ButtonStates.Selected;
+            _buttons[0].State = ButtonStates.Selected;
             _currentSelected = 0;
             controlsScreen.gameObject.SetActive(false);
         }
@@ -248,83 +247,83 @@ public class PauseMenu : MonoBehaviour {
 
     private void audioScreenSelection()
     {
-        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || (Input.GetAxis("CADPY") > 0 && _ctrlCooldown < Time.realtimeSinceStartup))
+        if ((Input.GetAxis("CADPY") > 0 && _ctrlCooldown < Time.realtimeSinceStartup) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (_audioBack.State == ButtonSelect.ButtonStates.Selected)
+            if (_audioBack.State == ButtonStates.Selected)
             {
-                _audioBack.State = ButtonSelect.ButtonStates.Normal;
-                _soundSlider.State = ButtonSelect.ButtonStates.Selected;
+                _audioBack.State--;
+                _soundSlider.State++;
             }
-            else if (_musicSlider.State == ButtonSelect.ButtonStates.Selected)
+            else if (_musicSlider.State == ButtonStates.Selected)
             {
-                _musicSlider.State = ButtonSelect.ButtonStates.Normal;
-                _audioBack.State = ButtonSelect.ButtonStates.Selected;
+                _musicSlider.State--;
+                _audioBack.State++;
             }
-            else if (_soundSlider.State == ButtonSelect.ButtonStates.Selected)
+            else if (_soundSlider.State == ButtonStates.Selected)
             {
-                _soundSlider.State = ButtonSelect.ButtonStates.Normal;
-                _musicSlider.State = ButtonSelect.ButtonStates.Selected;
+                _soundSlider.State--;
+                _musicSlider.State++;
             }
             _ctrlCooldown = Time.realtimeSinceStartup + 0.2f;
         }
 
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || (Input.GetAxis("CADPY") < 0 && _ctrlCooldown < Time.realtimeSinceStartup))
+        if ((Input.GetAxis("CADPY") < 0 && _ctrlCooldown < Time.realtimeSinceStartup) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if (_audioBack.State == ButtonSelect.ButtonStates.Selected)
+            if (_audioBack.State == ButtonStates.Selected)
             {
-                _audioBack.State = ButtonSelect.ButtonStates.Normal;
-                _musicSlider.State = ButtonSelect.ButtonStates.Selected;
+                _audioBack.State--;
+                _musicSlider.State++;
             }
-            else if (_musicSlider.State == ButtonSelect.ButtonStates.Selected)
+            else if (_musicSlider.State == ButtonStates.Selected)
             {
-                _musicSlider.State = ButtonSelect.ButtonStates.Normal;
-                _soundSlider.State = ButtonSelect.ButtonStates.Selected;
+                _musicSlider.State--;
+                _soundSlider.State++;
             }
-            else if(_soundSlider.State == ButtonSelect.ButtonStates.Selected)
+            else if(_soundSlider.State == ButtonStates.Selected)
             {
-                _soundSlider.State = ButtonSelect.ButtonStates.Normal;
-                _audioBack.State = ButtonSelect.ButtonStates.Selected;
+                _soundSlider.State--;
+                _audioBack.State++;
             }
             _ctrlCooldown = Time.realtimeSinceStartup + 0.2f;
         }
 
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) || Input.GetAxis("CADPX") > 0)
+        if (Input.GetAxis("CADPX") > 0 || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            if (_musicSlider.State == ButtonSelect.ButtonStates.Selected && _musicSlider.value > 0.0f)
+            if (_musicSlider.State == ButtonStates.Selected && _musicSlider.value > 0.0f)
                 _musicSlider.value -= 0.01f;
-            else if (_soundSlider.State == ButtonSelect.ButtonStates.Selected && _soundSlider.value > 0.0f)
+            else if (_soundSlider.State == ButtonStates.Selected && _soundSlider.value > 0.0f)
                 _soundSlider.value -= 0.01f;
         }
         else if (Input.GetAxis("CALSX") > 0)
         {
-            if (_musicSlider.State == ButtonSelect.ButtonStates.Selected && _musicSlider.value > 0.0f)
+            if (_musicSlider.State == ButtonStates.Selected && _musicSlider.value > 0.0f)
                 _musicSlider.value -= (Input.GetAxis("CALSX") * 0.02f);
-            else if (_soundSlider.State == ButtonSelect.ButtonStates.Selected && _soundSlider.value > 0.0f)
+            else if (_soundSlider.State == ButtonStates.Selected && _soundSlider.value > 0.0f)
                 _soundSlider.value -= (Input.GetAxis("CALSX") * 0.02f);
         }
 
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) || Input.GetAxis("CADPX") < 0)
+        if (Input.GetAxis("CADPX") < 0 || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-            if (_musicSlider.State == ButtonSelect.ButtonStates.Selected && _musicSlider.value < 1.0f)
+            if (_musicSlider.State == ButtonStates.Selected && _musicSlider.value < 1.0f)
                 _musicSlider.value += 0.01f;
-            else if (_soundSlider.State == ButtonSelect.ButtonStates.Selected && _soundSlider.value < 1.0f)
+            else if (_soundSlider.State == ButtonStates.Selected && _soundSlider.value < 1.0f)
                 _soundSlider.value += 0.01f;
         }
         else if (Input.GetAxis("CALSX") < 0)
         {
-            if (_musicSlider.State == ButtonSelect.ButtonStates.Selected && _musicSlider.value < 1.0f)
+            if (_musicSlider.State == ButtonStates.Selected && _musicSlider.value < 1.0f)
                 _musicSlider.value -= (Input.GetAxis("CALSX") * 0.02f);
-            else if (_soundSlider.State == ButtonSelect.ButtonStates.Selected && _soundSlider.value < 1.0f)
+            else if (_soundSlider.State == ButtonStates.Selected && _soundSlider.value < 1.0f)
                 _soundSlider.value -= (Input.GetAxis("CALSX") * 0.02f);
         }
 
-        if (Input.GetKey(interactKeyLP) || Input.GetKey(interactKeyDP) || Input.GetKey(_ctrlInteractKey))
-            if (_audioBack.State == ButtonSelect.ButtonStates.Selected)
-                _audioBack.State = ButtonSelect.ButtonStates.Pressed;
+        if (Input.GetKey(_ctrlInteractKey) || Input.GetKey(interactKeyLP) || Input.GetKey(interactKeyDP))
+            if (_audioBack.State == ButtonStates.Selected)
+                _audioBack.State = ButtonStates.Pressed;
 
-        if (Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(interactKeyDP) || Input.GetKeyUp(_ctrlInteractKey))
+        if (Input.GetKeyUp(_ctrlInteractKey) || Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(interactKeyDP))
         {
-            if (_audioBack.State == ButtonSelect.ButtonStates.Pressed)
+            if (_audioBack.State == ButtonStates.Pressed)
             {
                 PlayerPrefs.SetFloat("MusicVolume", _musicSlider.value);
                 PlayerPrefs.SetFloat("SFXVolume", _soundSlider.value);
@@ -333,7 +332,7 @@ public class PauseMenu : MonoBehaviour {
                 UpdateSFXVolume(_soundSlider.value);
                 _lockMenu = false;
                 _lockSelection = false;
-                _buttons[0].State = ButtonSelect.ButtonStates.Selected;
+                _buttons[0].State = ButtonStates.Selected;
                 _currentSelected = 0;
                 audioScreen.gameObject.SetActive(false);
             }
@@ -342,42 +341,42 @@ public class PauseMenu : MonoBehaviour {
 
     private void ExitCheckSelection()
     {
-        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || (Input.GetAxis("CADPY") > 0 && _ctrlCooldown < Time.realtimeSinceStartup))
+        if ((Input.GetAxis("CADPY") > 0 && _ctrlCooldown < Time.realtimeSinceStartup) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            _exitYes.State = ButtonSelect.ButtonStates.Normal;
-            _exitNo.State = ButtonSelect.ButtonStates.Selected;
+            _exitYes.State--;
+            _exitNo.State++;
             _ctrlCooldown = Time.realtimeSinceStartup + 0.2f;
         }
 
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || (Input.GetAxis("CADPY") < 0 && _ctrlCooldown < Time.realtimeSinceStartup))
+        if ((Input.GetAxis("CADPY") < 0 && _ctrlCooldown < Time.realtimeSinceStartup) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            _exitYes.State = ButtonSelect.ButtonStates.Selected;
-            _exitNo.State = ButtonSelect.ButtonStates.Normal;
+            _exitYes.State++;
+            _exitNo.State--;
             _ctrlCooldown = Time.realtimeSinceStartup + 0.2f;
         }
 
-        if (Input.GetKey(interactKeyLP) || Input.GetKey(interactKeyDP) || Input.GetKey(_ctrlInteractKey))
+        if (Input.GetKey(_ctrlInteractKey) || Input.GetKey(interactKeyLP) || Input.GetKey(interactKeyDP))
         {
-            if (_exitYes.State == ButtonSelect.ButtonStates.Selected)
-                _exitYes.State = ButtonSelect.ButtonStates.Pressed;
-            else if (_exitNo.State == ButtonSelect.ButtonStates.Selected)
-                _exitNo.State = ButtonSelect.ButtonStates.Pressed;
+            if (_exitYes.State == ButtonStates.Selected)
+                _exitYes.State = ButtonStates.Pressed;
+            else if (_exitNo.State == ButtonStates.Selected)
+                _exitNo.State = ButtonStates.Pressed;
         }
 
-        if (Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(interactKeyDP) || Input.GetKeyUp(_ctrlInteractKey))
+        if (Input.GetKeyUp(_ctrlInteractKey) || Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(interactKeyDP))
         {
-            if (_exitYes.State == ButtonSelect.ButtonStates.Pressed)
+            if (_exitYes.State == ButtonStates.Pressed)
             {
-                _exitYes.State = ButtonSelect.ButtonStates.Normal;
+                _exitYes.State = ButtonStates.Normal;
                 exitCheck.gameObject.SetActive(false);
                 QuitGame();
             }
-            else if (_exitNo.State == ButtonSelect.ButtonStates.Pressed)
+            else if (_exitNo.State == ButtonStates.Pressed)
             {
-                _exitNo.State = ButtonSelect.ButtonStates.Normal;
+                _exitNo.State = ButtonStates.Normal;
                 _lockMenu = false;
                 _lockSelection = false;
-                _buttons[0].State = ButtonSelect.ButtonStates.Selected;
+                _buttons[0].State = ButtonStates.Selected;
                 _currentSelected = 0;
                 exitCheck.gameObject.SetActive(false);
             }

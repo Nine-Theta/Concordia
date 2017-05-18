@@ -51,7 +51,7 @@ public class MainMenu : MonoBehaviour
             }
         }
 
-        _buttons[0].State = ButtonSelect.ButtonStates.Selected;
+        _buttons[0].State = ButtonStates.Selected;
         _currentSelected = 0;
 
         _ctrlCooldown = Time.time + 0.2f;
@@ -86,27 +86,27 @@ public class MainMenu : MonoBehaviour
 
         if ((Input.GetAxis("CADPY") > 0 && _ctrlCooldown < Time.time) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            _buttons[_currentSelected].State = ButtonSelect.ButtonStates.Normal;
+            _buttons[_currentSelected].State--;
 
             if (_currentSelected == 3)
                 _currentSelected = 0;
             else
                 _currentSelected += 1;
 
-            _buttons[_currentSelected].State = ButtonSelect.ButtonStates.Selected;
+            _buttons[_currentSelected].State++;
             _ctrlCooldown = Time.time + 0.2f;
         }
 
         if ((Input.GetAxis("CADPY") < 0 && _ctrlCooldown < Time.time) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            _buttons[_currentSelected].State = ButtonSelect.ButtonStates.Normal;
+            _buttons[_currentSelected].State--;
 
             if (_currentSelected == 0)
                 _currentSelected = 3;
             else
                 _currentSelected -= 1;
 
-            _buttons[_currentSelected].State = ButtonSelect.ButtonStates.Selected;
+            _buttons[_currentSelected].State++;
             _ctrlCooldown = Time.time + 0.2f;
         }
     }
@@ -120,13 +120,13 @@ public class MainMenu : MonoBehaviour
 
         if (Input.GetKey(_ctrlInteractKey) || Input.GetKey(interactKeyLP) || Input.GetKey(KeyCode.Return))
         {
-            _buttons[_currentSelected].State = ButtonSelect.ButtonStates.Pressed;
+            _buttons[_currentSelected].State = ButtonStates.Pressed;
             _lockMenu = true;
         }
 
         if (Input.GetKeyUp(_ctrlInteractKey) || Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(KeyCode.Return))
         {
-            _buttons[_currentSelected].State = ButtonSelect.ButtonStates.Normal;
+            _buttons[_currentSelected].State = ButtonStates.Normal;
 
             switch (_currentSelected)
             {
@@ -145,7 +145,7 @@ public class MainMenu : MonoBehaviour
                     mainScreen.gameObject.SetActive(false);
                     creditsScreen.gameObject.SetActive(true);
                     _creditsBack = creditsScreen.gameObject.GetComponentInChildren<ButtonSelect>();
-                    _creditsBack.State = ButtonSelect.ButtonStates.Selected;
+                    _creditsBack.State = ButtonStates.Selected;
                     break;
 
                 case 3: //Quit
@@ -167,7 +167,7 @@ public class MainMenu : MonoBehaviour
                                 break;
                         }
                     }
-                    _exitNo.State = ButtonSelect.ButtonStates.Selected;
+                    _exitNo.State = ButtonStates.Selected;
                     break;
 
                 default:
@@ -192,13 +192,13 @@ public class MainMenu : MonoBehaviour
     private void CreditsScreenSelection()
     {
         if (Input.GetKey(_ctrlInteractKey) || Input.GetKey(interactKeyLP) || Input.GetKey(KeyCode.Return))
-            _creditsBack.State = ButtonSelect.ButtonStates.Pressed;
+            _creditsBack.State = ButtonStates.Pressed;
 
-        if ((Input.GetKeyUp(_ctrlInteractKey) || Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(KeyCode.Return)) && _creditsBack.State == ButtonSelect.ButtonStates.Pressed)
+        if ((Input.GetKeyUp(_ctrlInteractKey) || Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(KeyCode.Return)) && _creditsBack.State == ButtonStates.Pressed)
         {
             _lockMenu = false;
             _lockSelection = false;
-            _buttons[0].State = ButtonSelect.ButtonStates.Selected;
+            _buttons[0].State = ButtonStates.Selected;
             _currentSelected = 0;
             creditsScreen.gameObject.SetActive(false);
             mainScreen.gameObject.SetActive(true);
@@ -209,40 +209,40 @@ public class MainMenu : MonoBehaviour
     {
         if ((Input.GetAxis("CADPY") > 0 && _ctrlCooldown < Time.time) && Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            _exitYes.State = ButtonSelect.ButtonStates.Normal;
-            _exitNo.State = ButtonSelect.ButtonStates.Selected;
+            _exitYes.State--;
+            _exitNo.State++;
             _ctrlCooldown = Time.time + 0.2f;
         }
 
         if ((Input.GetAxis("CADPY") < 0 && _ctrlCooldown < Time.time) && Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            _exitYes.State = ButtonSelect.ButtonStates.Selected;
-            _exitNo.State = ButtonSelect.ButtonStates.Normal;
+            _exitYes.State++;
+            _exitNo.State--;
             _ctrlCooldown = Time.time + 0.2f;
         }
 
         if (Input.GetKey(_ctrlInteractKey) || Input.GetKey(interactKeyLP) || Input.GetKey(KeyCode.Return))
         {
-            if (_exitYes.State == ButtonSelect.ButtonStates.Selected)
-                _exitYes.State = ButtonSelect.ButtonStates.Pressed;
-            else if (_exitNo.State == ButtonSelect.ButtonStates.Selected)
-                _exitNo.State = ButtonSelect.ButtonStates.Pressed;
+            if (_exitYes.State == ButtonStates.Selected)
+                _exitYes.State = ButtonStates.Pressed;
+            else if (_exitNo.State == ButtonStates.Selected)
+                _exitNo.State = ButtonStates.Pressed;
         }
 
         if (Input.GetKeyUp(_ctrlInteractKey) || Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(KeyCode.Return))
         {
-            if (_exitYes.State == ButtonSelect.ButtonStates.Pressed)
+            if (_exitYes.State == ButtonStates.Pressed)
             {
-                _exitYes.State = ButtonSelect.ButtonStates.Normal;
+                _exitYes.State = ButtonStates.Normal;
                 exitCheck.gameObject.SetActive(false);
                 QuitGame();
             }
-            else if (_exitNo.State == ButtonSelect.ButtonStates.Pressed)
+            else if (_exitNo.State == ButtonStates.Pressed)
             {
-                _exitNo.State = ButtonSelect.ButtonStates.Normal;
+                _exitNo.State = ButtonStates.Normal;
                 _lockMenu = false;
                 _lockSelection = false;
-                _buttons[0].State = ButtonSelect.ButtonStates.Selected;
+                _buttons[0].State = ButtonStates.Selected;
                 _currentSelected = 0;
                 exitCheck.gameObject.SetActive(false);
             }
