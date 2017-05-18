@@ -13,8 +13,6 @@ public class MainMenu : MonoBehaviour
     public Canvas exitCheck;
     public Canvas creditsScreen;
 
-    private KeyCode _pauseKey = KeyCode.P; //Default KeyCode, should be changed to the correct one by PlayerMovement.
-    private KeyCode _ctrlPauseKey = KeyCode.JoystickButton9; //Options Button on the PS4 controller, won't be changed.
     private KeyCode _ctrlInteractKey = KeyCode.JoystickButton1; //X Button on the PS4 controller, might be changed, but probably not due to unofficial button mapping standardization;
 
     private ButtonSelect[] _buttons = new ButtonSelect[4];
@@ -23,7 +21,6 @@ public class MainMenu : MonoBehaviour
     private ButtonSelect _exitNo;
     private ButtonSelect _creditsBack;
 
-    private float _pauseCooldown;
     private float _ctrlCooldown;
     private int _currentSelected;
 
@@ -34,8 +31,7 @@ public class MainMenu : MonoBehaviour
     {
         foreach (ButtonSelect buttonSelect in mainScreen.gameObject.GetComponentsInChildren<ButtonSelect>())
         {
-            string[] splitName = buttonSelect.gameObject.name.Split(' ');
-            switch (splitName[0])
+            switch (buttonSelect.gameObject.name)
             {
                 case "Continue":
                     _buttons[0] = buttonSelect;
@@ -58,14 +54,7 @@ public class MainMenu : MonoBehaviour
         _buttons[0].State = ButtonSelect.ButtonStates.Selected;
         _currentSelected = 0;
 
-        _pauseCooldown = Time.time + 0.1f;
         _ctrlCooldown = Time.time + 0.2f;
-    }
-
-    public KeyCode PauseKey
-    {
-        set { _pauseKey = value; }
-        get { return _pauseKey; }
     }
 
     private void ResumeGame()
@@ -95,7 +84,7 @@ public class MainMenu : MonoBehaviour
     {
         if (_lockMenu) return;
 
-        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || (Input.GetAxis("CADPY") > 0 && _ctrlCooldown < Time.time))
+        if ((Input.GetAxis("CADPY") > 0 && _ctrlCooldown < Time.time) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             _buttons[_currentSelected].State = ButtonSelect.ButtonStates.Normal;
 
@@ -108,7 +97,7 @@ public class MainMenu : MonoBehaviour
             _ctrlCooldown = Time.time + 0.2f;
         }
 
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || (Input.GetAxis("CADPY") < 0 && _ctrlCooldown < Time.time))
+        if ((Input.GetAxis("CADPY") < 0 && _ctrlCooldown < Time.time) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             _buttons[_currentSelected].State = ButtonSelect.ButtonStates.Normal;
 
@@ -124,28 +113,30 @@ public class MainMenu : MonoBehaviour
 
     private void OptionSelection()
     {
-        if (Input.GetKeyDown(_pauseKey) || Input.GetKeyDown(_ctrlPauseKey))
-            ResumeGame();
-
         if (_lockSelection) return;
+        
+        if (Input.GetKeyDown(KeyCode.Escape))
+            QuitGame();
 
-        if (Input.GetKey(interactKeyLP) || Input.GetKey(interactKeyDP) || Input.GetKey(_ctrlInteractKey))
+        if (Input.GetKey(_ctrlInteractKey) || Input.GetKey(interactKeyLP) || Input.GetKey(KeyCode.Return))
         {
             _buttons[_currentSelected].State = ButtonSelect.ButtonStates.Pressed;
             _lockMenu = true;
         }
 
-        if (Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(interactKeyDP) || Input.GetKeyUp(_ctrlInteractKey))
+        if (Input.GetKeyUp(_ctrlInteractKey) || Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(KeyCode.Return))
         {
             _buttons[_currentSelected].State = ButtonSelect.ButtonStates.Normal;
 
             switch (_currentSelected)
             {
                 case 0: //Continue
+                    _lockSelection = true;
                     ResumeGame();
                     break;
 
                 case 1: //NewGame
+                    _lockSelection = true;
                     NewGame();
                     break;
 
@@ -188,8 +179,6 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
-        if (_pauseCooldown > Time.time) return;
-
         MenuNavigation();
         OptionSelection();
 
@@ -202,10 +191,10 @@ public class MainMenu : MonoBehaviour
 
     private void CreditsScreenSelection()
     {
-        if (Input.GetKey(interactKeyLP) || Input.GetKey(interactKeyDP) || Input.GetKey(_ctrlInteractKey))
+        if (Input.GetKey(_ctrlInteractKey) || Input.GetKey(interactKeyLP) || Input.GetKey(KeyCode.Return))
             _creditsBack.State = ButtonSelect.ButtonStates.Pressed;
 
-        if ((Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(interactKeyDP) || Input.GetKeyUp(_ctrlInteractKey)) && _creditsBack.State == ButtonSelect.ButtonStates.Pressed)
+        if ((Input.GetKeyUp(_ctrlInteractKey) || Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(KeyCode.Return)) && _creditsBack.State == ButtonSelect.ButtonStates.Pressed)
         {
             _lockMenu = false;
             _lockSelection = false;
@@ -218,21 +207,21 @@ public class MainMenu : MonoBehaviour
 
     private void ExitCheckSelection()
     {
-        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || (Input.GetAxis("CADPY") > 0 && _ctrlCooldown < Time.time))
+        if ((Input.GetAxis("CADPY") > 0 && _ctrlCooldown < Time.time) && Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             _exitYes.State = ButtonSelect.ButtonStates.Normal;
             _exitNo.State = ButtonSelect.ButtonStates.Selected;
             _ctrlCooldown = Time.time + 0.2f;
         }
 
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || (Input.GetAxis("CADPY") < 0 && _ctrlCooldown < Time.time))
+        if ((Input.GetAxis("CADPY") < 0 && _ctrlCooldown < Time.time) && Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             _exitYes.State = ButtonSelect.ButtonStates.Selected;
             _exitNo.State = ButtonSelect.ButtonStates.Normal;
             _ctrlCooldown = Time.time + 0.2f;
         }
 
-        if (Input.GetKey(interactKeyLP) || Input.GetKey(interactKeyDP) || Input.GetKey(_ctrlInteractKey))
+        if (Input.GetKey(_ctrlInteractKey) || Input.GetKey(interactKeyLP) || Input.GetKey(KeyCode.Return))
         {
             if (_exitYes.State == ButtonSelect.ButtonStates.Selected)
                 _exitYes.State = ButtonSelect.ButtonStates.Pressed;
@@ -240,7 +229,7 @@ public class MainMenu : MonoBehaviour
                 _exitNo.State = ButtonSelect.ButtonStates.Pressed;
         }
 
-        if (Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(interactKeyDP) || Input.GetKeyUp(_ctrlInteractKey))
+        if (Input.GetKeyUp(_ctrlInteractKey) || Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(KeyCode.Return))
         {
             if (_exitYes.State == ButtonSelect.ButtonStates.Pressed)
             {

@@ -84,6 +84,12 @@ public class PauseMenu : MonoBehaviour {
 
     private void ResumeGame()
     {
+        for (int i = 0; i < 4; i++)
+        {
+            _buttons[i].State = ButtonSelect.ButtonStates.Normal;
+        }
+        _lockMenu = false;
+        _lockSelection = false;
         gameObject.SetActive(false);
     }
 
