@@ -23,13 +23,21 @@ public class LightSwitch : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-        if(gameObject.GetComponent<AudioSource>() != null)
+        if (gameObject.GetComponent<AudioSource>() != null)
+        {
             gameObject.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFXVolume", 1.0f);
+            PauseMenu.UpdateSFXVolume += UpdateVolume;
+        }
     }
 
     private void FixedUpdate()
     {
         CheckTime();
+    }
+
+    public void UpdateVolume(float newVolume)
+    {
+        GetComponent<AudioSource>().volume = newVolume;
     }
 
     private void CheckTime()

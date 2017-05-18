@@ -8,6 +8,7 @@ public class TriggerHandler : MonoBehaviour
 {
     public KeyCode interactionKey;
     public KeyCode alternateInteractionKey;
+    public KeyCode disableHUDKey;
 
     public Image interactPopUp;
     public Image hidePopUp;
@@ -178,6 +179,11 @@ public class TriggerHandler : MonoBehaviour
 
     private void GetInput()
     {
+        if(Input.GetKeyDown(disableHUDKey))
+        {
+            interactPopUp.GetComponentInParent<Canvas>().gameObject.SetActive(!interactPopUp.GetComponentInParent<Canvas>().gameObject.activeSelf);
+        }
+
         if (Input.GetKeyDown(interactionKey) || Input.GetKeyDown(alternateInteractionKey))
         {
             if(_playerStats.GameOver)

@@ -10,11 +10,17 @@ public class DoorSounds : MonoBehaviour {
     private void Start()
     {
         GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFXVolume", 1.0f);
+        PauseMenu.UpdateSFXVolume += UpdateVolume;
     }
 
     public void PlayDoorOpenSound()
     {
         if(doorOpenSound != null)
             GetComponent<AudioSource>().PlayOneShot(doorOpenSound);
+    }
+
+    public void UpdateVolume(float newVolume)
+    {
+        GetComponent<AudioSource>().volume = newVolume;
     }
 }

@@ -23,11 +23,17 @@ public class AudioBoxScript : MonoBehaviour {
     private void Start () {
         _source = gameObject.GetComponent<AudioSource>();
         _maxVolume = PlayerPrefs.GetFloat("MusicVolume", 1.0f);
+        PauseMenu.UpdateMusicVolume += UpdateVolume;
 	}
 
     // Update is called once per frame
     private void FixedUpdate () {
         ChangeVolume();
+    }
+
+    public void UpdateVolume(float newVolume)
+    {
+        GetComponent<AudioSource>().volume = newVolume;
     }
 
     private void ChangeVolume()

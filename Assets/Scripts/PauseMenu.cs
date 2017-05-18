@@ -4,6 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour {
+    public delegate void MusicVolumeUpdate(float volume);
+    public static event MusicVolumeUpdate UpdateMusicVolume;
+    public delegate void SFXVolumeUpdate(float volume);
+    public static event SFXVolumeUpdate UpdateSFXVolume;
+
 
     public KeyCode interactKeyLP = KeyCode.E; //Default Interaction KeyCode for the Light Player.
     public KeyCode interactKeyDP = KeyCode.Backslash; //Default Interaction KeyCode for the Dark Player.
@@ -318,6 +323,8 @@ public class PauseMenu : MonoBehaviour {
                 PlayerPrefs.SetFloat("MusicVolume", _musicSlider.value);
                 PlayerPrefs.SetFloat("SFXVolume", _soundSlider.value);
                 PlayerPrefs.Save();
+                UpdateMusicVolume(_musicSlider.value);
+                UpdateSFXVolume(_soundSlider.value);
                 _lockMenu = false;
                 _lockSelection = false;
                 _buttons[0].State = ButtonSelect.ButtonStates.Selected;
