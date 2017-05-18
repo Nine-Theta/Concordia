@@ -1,19 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraDelay : MonoBehaviour {
     public float delayInSeconds = 1.0f;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
+
+    public bool lastCam = false;
+    
+	private void FixedUpdate () {
         delayInSeconds -= Time.deltaTime;
 		if(delayInSeconds <= 0.0f)
         {
+            if (lastCam)
+                SceneManager.LoadSceneAsync(1);
+
             gameObject.GetComponent<Camera>().enabled = false;
             this.enabled = false;
         }

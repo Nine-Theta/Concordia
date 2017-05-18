@@ -77,7 +77,7 @@ public class MainMenu : MonoBehaviour
 
     private void NewGame()
     {
-        SceneManager.LoadSceneAsync("Level");
+        SceneManager.LoadSceneAsync("ComicStrips");
         gameObject.SetActive(false);
         print("NOTE: New Game is Virtually Identical to Continue"); //TODO
     }
