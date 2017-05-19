@@ -19,30 +19,156 @@ Platform assembly: D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual
 Loading D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
 Loading D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
-- Completed reload, in  0.046 seconds
+- Completed reload, in  0.101 seconds
 Platform assembly: D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: D:\Gebruikers\Gebruiker\Downloads\School\Y1Q4\Project Virtual game\SourceTree\Build\Concordia1.0_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 3.674467 ms
+UnloadTime: 2.317431 ms
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 2c38 -> priority: 1 
-  Thread -> id: 1ab4 -> priority: 1 
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-NOTE: New Game is Virtually Identical to Continue
+  Thread -> id: 2984 -> priority: 1 
+  Thread -> id: 8c -> priority: 1 
+Joystick connected ("Wireless Controller").
+ 
+(Filename:  Line: 1351)
+
+NOTE: Continue is Virtually Identical to New Game
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-UnloadTime: 2.365233 ms
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.535110 ms
 
-Unloading 165 unused Assets to reduce memory usage. Loaded Objects now: 433.
-Total: 4.494220 ms (FindLiveObjects: 0.020148 ms CreateObjectMapping: 0.022913 ms MarkObjects: 0.122864 ms  DeleteObjects: 4.327504 ms)
+Unloading 49 unused Assets to reduce memory usage. Loaded Objects now: 11446.
+Total: 11.775994 ms (FindLiveObjects: 0.590617 ms CreateObjectMapping: 0.142617 ms MarkObjects: 1.381530 ms  DeleteObjects: 9.659650 ms)
 
-Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.558617 ms
+NullReferenceException
+  at (wrapper managed-to-native) UnityEngine.Component:GetComponentFastPath (System.Type,intptr)
+  at UnityEngine.Component.GetComponent[AudioSource] () [0x00000] in <filename unknown>:0 
+  at DoorSounds.UpdateVolume (Single newVolume) [0x00000] in <filename unknown>:0 
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at PauseMenu.audioScreenSelection () [0x00000] in <filename unknown>:0 
+  at PauseMenu.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
 
-Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 11329.
-Total: 2.603060 ms (FindLiveObjects: 0.442468 ms CreateObjectMapping: 0.144197 ms MarkObjects: 1.083653 ms  DeleteObjects: 0.930370 ms)
+NullReferenceException
+  at (wrapper managed-to-native) UnityEngine.Component:GetComponentFastPath (System.Type,intptr)
+  at UnityEngine.Component.GetComponent[AudioSource] () [0x00000] in <filename unknown>:0 
+  at DoorSounds.UpdateVolume (Single newVolume) [0x00000] in <filename unknown>:0 
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at PauseMenu.audioScreenSelection () [0x00000] in <filename unknown>:0 
+  at PauseMenu.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException
+  at (wrapper managed-to-native) UnityEngine.Component:GetComponentFastPath (System.Type,intptr)
+  at UnityEngine.Component.GetComponent[AudioSource] () [0x00000] in <filename unknown>:0 
+  at DoorSounds.UpdateVolume (Single newVolume) [0x00000] in <filename unknown>:0 
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at PauseMenu.audioScreenSelection () [0x00000] in <filename unknown>:0 
+  at PauseMenu.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException
+  at (wrapper managed-to-native) UnityEngine.Component:GetComponentFastPath (System.Type,intptr)
+  at UnityEngine.Component.GetComponent[AudioSource] () [0x00000] in <filename unknown>:0 
+  at DoorSounds.UpdateVolume (Single newVolume) [0x00000] in <filename unknown>:0 
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at (wrapper delegate-invoke) PauseMenu/SFXVolumeUpdate:invoke_void__this___single (single)
+  at PauseMenu.audioScreenSelection () [0x00000] in <filename unknown>:0 
+  at PauseMenu.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
 

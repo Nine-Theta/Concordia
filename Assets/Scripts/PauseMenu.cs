@@ -325,15 +325,16 @@ public class PauseMenu : MonoBehaviour {
         {
             if (_audioBack.State == ButtonStates.Pressed)
             {
+                
+                _lockMenu = false;
+                _lockSelection = false;
+                _buttons[0].State = ButtonStates.Selected;
+                _currentSelected = 0;
                 PlayerPrefs.SetFloat("MusicVolume", _musicSlider.value);
                 PlayerPrefs.SetFloat("SFXVolume", _soundSlider.value);
                 PlayerPrefs.Save();
                 UpdateMusicVolume(_musicSlider.value);
                 UpdateSFXVolume(_soundSlider.value);
-                _lockMenu = false;
-                _lockSelection = false;
-                _buttons[0].State = ButtonStates.Selected;
-                _currentSelected = 0;
                 audioScreen.gameObject.SetActive(false);
             }
         }
@@ -343,15 +344,15 @@ public class PauseMenu : MonoBehaviour {
     {
         if ((Input.GetAxis("CADPY") > 0 && _ctrlCooldown < Time.realtimeSinceStartup) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            _exitYes.State--;
-            _exitNo.State++;
+            _exitYes.State = ButtonStates.Normal;
+            _exitNo.State = ButtonStates.Selected;
             _ctrlCooldown = Time.realtimeSinceStartup + 0.2f;
         }
 
         if ((Input.GetAxis("CADPY") < 0 && _ctrlCooldown < Time.realtimeSinceStartup) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            _exitYes.State++;
-            _exitNo.State--;
+            _exitYes.State = ButtonStates.Selected;
+            _exitNo.State = ButtonStates.Normal;
             _ctrlCooldown = Time.realtimeSinceStartup + 0.2f;
         }
 
