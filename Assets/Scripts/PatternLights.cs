@@ -46,7 +46,6 @@ public class PatternLights : MonoBehaviour
         {
             //reset the light duration for the next time it is called
             lights[_currentLight].duration = lights[_currentLight].maxDuration;
-            //turn off this light and turn on the next
             lights[_currentLight].Toggle();
 
             if (returnState && !_firstTime)
@@ -117,8 +116,8 @@ public class PatternLight
     {
         foreach (Light light in lightObject.GetComponentsInChildren<Light>())
         {
-            if (light == null)
-                Debug.Log("Its name" + light.name + " Parent: " +  light.GetComponentInParent<Transform>().name);
+            //if (light == null)
+                //Debug.Log("Its name" + light.name + " Parent: " +  light.GetComponentInParent<Transform>().name);
             light.enabled = !light.enabled;
             if(light.GetComponent<CapsuleCollider>() != null)
                 light.GetComponent<CapsuleCollider>().enabled = !light.GetComponent<CapsuleCollider>().enabled;
