@@ -23,4 +23,9 @@ public class DoorSounds : MonoBehaviour {
     {
         GetComponent<AudioSource>().volume = newVolume;
     }
+
+    private void OnDestroy()
+    {
+        PauseMenu.UpdateSFXVolume -= UpdateVolume;
+    }
 }

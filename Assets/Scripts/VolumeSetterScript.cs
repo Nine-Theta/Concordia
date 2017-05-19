@@ -13,4 +13,9 @@ public class VolumeSetterScript : MonoBehaviour {
     {
         GetComponent<AudioSource>().volume = newVolume;
     }
+
+    void OnDestroy()
+    {
+        PauseMenu.UpdateMusicVolume -= UpdateVolume;
+    }
 }

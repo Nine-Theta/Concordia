@@ -35,6 +35,11 @@ public class LightSwitch : MonoBehaviour
         CheckTime();
     }
 
+    private void OnDestroy()
+    {
+        PauseMenu.UpdateSFXVolume -= UpdateVolume;
+    }
+
     public void UpdateVolume(float newVolume)
     {
         GetComponent<AudioSource>().volume = newVolume;

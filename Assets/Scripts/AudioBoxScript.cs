@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioBoxScript : MonoBehaviour {
+public class AudioBoxScript : MonoBehaviour
+{
     /// <summary>
     /// The speed with which the volume fades in/out. 0.001f is reeeeaaally slow, 1.0f is instant
     /// </summary>
@@ -20,15 +21,22 @@ public class AudioBoxScript : MonoBehaviour {
     }
 
     // Use this for initialization
-    private void Start () {
+    private void Start()
+    {
         _source = gameObject.GetComponent<AudioSource>();
         _maxVolume = PlayerPrefs.GetFloat("MusicVolume", 1.0f);
         PauseMenu.UpdateMusicVolume += UpdateVolume;
-	}
+    }
 
     // Update is called once per frame
-    private void FixedUpdate () {
+    private void FixedUpdate()
+    {
         ChangeVolume();
+    }
+
+    private void OnDestroy()
+    {
+        PauseMenu.UpdateSFXVolume -= UpdateVolume;
     }
 
     public void UpdateVolume(float newVolume)
