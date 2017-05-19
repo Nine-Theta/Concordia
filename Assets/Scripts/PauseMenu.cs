@@ -333,8 +333,8 @@ public class PauseMenu : MonoBehaviour {
                 PlayerPrefs.SetFloat("MusicVolume", _musicSlider.value);
                 PlayerPrefs.SetFloat("SFXVolume", _soundSlider.value);
                 PlayerPrefs.Save();
-                UpdateMusicVolume(_musicSlider.value);
-                UpdateSFXVolume(_soundSlider.value);
+                UpdateMusicVolume(PlayerPrefs.GetFloat("MusicVolume", 1.0f));
+                UpdateSFXVolume(PlayerPrefs.GetFloat("SFXVolume", 1.0f));
                 audioScreen.gameObject.SetActive(false);
             }
         }
