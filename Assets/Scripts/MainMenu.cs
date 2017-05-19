@@ -207,21 +207,21 @@ public class MainMenu : MonoBehaviour
 
     private void ExitCheckSelection()
     {
-        if ((Input.GetAxis("CADPY") > 0 && _ctrlCooldown < Time.time) && Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+        if ((Input.GetAxis("CADPY") > 0 && _ctrlCooldown < Time.realtimeSinceStartup) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            _exitYes.State--;
-            _exitNo.State++;
-            _ctrlCooldown = Time.time + 0.2f;
+            _exitYes.State = ButtonStates.Normal;
+            _exitNo.State = ButtonStates.Selected;
+            _ctrlCooldown = Time.realtimeSinceStartup + 0.2f;
         }
 
-        if ((Input.GetAxis("CADPY") < 0 && _ctrlCooldown < Time.time) && Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        if ((Input.GetAxis("CADPY") < 0 && _ctrlCooldown < Time.realtimeSinceStartup) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            _exitYes.State++;
-            _exitNo.State--;
-            _ctrlCooldown = Time.time + 0.2f;
+            _exitYes.State = ButtonStates.Selected;
+            _exitNo.State = ButtonStates.Normal;
+            _ctrlCooldown = Time.realtimeSinceStartup + 0.2f;
         }
 
-        if (Input.GetKey(_ctrlInteractKey) || Input.GetKey(interactKeyLP) || Input.GetKey(KeyCode.Return))
+        if (Input.GetKey(_ctrlInteractKey) || Input.GetKey(interactKeyLP) || Input.GetKey(interactKeyDP))
         {
             if (_exitYes.State == ButtonStates.Selected)
                 _exitYes.State = ButtonStates.Pressed;
@@ -229,7 +229,7 @@ public class MainMenu : MonoBehaviour
                 _exitNo.State = ButtonStates.Pressed;
         }
 
-        if (Input.GetKeyUp(_ctrlInteractKey) || Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(KeyCode.Return))
+        if (Input.GetKeyUp(_ctrlInteractKey) || Input.GetKeyUp(interactKeyLP) || Input.GetKeyUp(interactKeyDP))
         {
             if (_exitYes.State == ButtonStates.Pressed)
             {
